@@ -16,6 +16,8 @@
 		3D76CEE72677EE34006E5AB5 /* OhMyGitHubUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76CEE62677EE34006E5AB5 /* OhMyGitHubUITests.swift */; };
 		3D76CEF626788AD4006E5AB5 /* UIView+Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76CEF526788AD4006E5AB5 /* UIView+Constraints.swift */; };
 		3D76CEFD2678A342006E5AB5 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76CEFC2678A342006E5AB5 /* Secrets.swift */; };
+		3D76CEFF2678AD11006E5AB5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76CEFE2678AD11006E5AB5 /* LoginViewController.swift */; };
+		3D76CF042678B017006E5AB5 /* AppUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76CF032678B017006E5AB5 /* AppUI.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +53,8 @@
 		3D76CEE82677EE34006E5AB5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3D76CEF526788AD4006E5AB5 /* UIView+Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Constraints.swift"; sourceTree = "<group>"; };
 		3D76CEFC2678A342006E5AB5 /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
+		3D76CEFE2678AD11006E5AB5 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		3D76CF032678B017006E5AB5 /* AppUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,6 +154,7 @@
 			isa = PBXGroup;
 			children = (
 				3D76CEC82677EE14006E5AB5 /* ViewController.swift */,
+				3D76CEFE2678AD11006E5AB5 /* LoginViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -174,6 +179,7 @@
 		3D76CEFB26789CBF006E5AB5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				3D76CF032678B017006E5AB5 /* AppUI.swift */,
 				3D76CECF2677EE33006E5AB5 /* LaunchScreen.storyboard */,
 			);
 			path = Views;
@@ -308,6 +314,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D76CF042678B017006E5AB5 /* AppUI.swift in Sources */,
+				3D76CEFF2678AD11006E5AB5 /* LoginViewController.swift in Sources */,
 				3D76CEC92677EE14006E5AB5 /* ViewController.swift in Sources */,
 				3D76CEFD2678A342006E5AB5 /* Secrets.swift in Sources */,
 				3D76CEC52677EE14006E5AB5 /* AppDelegate.swift in Sources */,
