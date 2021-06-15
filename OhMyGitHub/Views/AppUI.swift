@@ -13,6 +13,7 @@ struct AppUI {
         let button = UIButton(type: .system)
         button.setTitle(text, for: .normal)
         button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = button.titleLabel?.font.withSize(20)
         button.backgroundColor = .systemRed
         button.heightAnchor.constraint(equalToConstant: buttonHeight).isActive = true
         button.layer.cornerRadius = cornerRadius

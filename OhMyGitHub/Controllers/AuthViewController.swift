@@ -1,11 +1,16 @@
 import UIKit
 import WebKit
 
+protocol AuthViewControllerDelegate: AnyObject {
+    func authViewController(didReceiveAccess data: AccessTokenResponse)
+}
+
 class AuthViewController: UIViewController {
 
     // MARK: - Properties
     
     private var webView = WKWebView()
+    weak var delegate: AuthViewControllerDelegate?
     
     // MARK: - Lifecycle
     
@@ -48,24 +53,37 @@ extension AuthViewController: WKNavigationDelegate {
             return
         }
         
-        // gets tirggered if user presses cancel
-        if let error = getQueryStringParameter(url: requestUrl, param: "error") {
+        // gets triggered if user presses cancel
+        if let error = getQueryStringParameter(url: requestUrl, param: "error"),
+           let errorDescription = getQueryStringParameter(url: requestUrl, param: "error_description")
+           {
             decisionHandler(.cancel)
             print("DEBUG: error -> \(error)")
+            print("DEBUG: error description -> \(errorDescription)")
+            DispatchQueue.main.async { [weak self] in
+                self?.navigationController?.popToRootViewController(animated: true)
+            }
             return
         }
         
         if let token = getQueryStringParameter(url: requestUrl, param: "code") {
             print("DEBUG: token -> \(token)")
             let url = getAccessTokenURL(with: token)
-            NetworkManager.shared.getAccessToken(url) { result in
+            
+            NetworkManager.shared.getAccessToken(url) { [weak self] result in
                 switch result {
-                case .failure(let error): print(error.message)
-                case .success(let data): print(data)
+                case .failure(let error):
+                    print("DEBUG: error -> \(error.message)")
+                case .success(let data):
+                    DispatchQueue.main.async {
+                        self?.delegate?.authViewController(didReceiveAccess: data)
+                    }
+                }
+                DispatchQueue.main.async {
+                    self?.navigationController?.popToRootViewController(animated: true)
                 }
             }
         }
-        
         decisionHandler(.allow)
     }
     

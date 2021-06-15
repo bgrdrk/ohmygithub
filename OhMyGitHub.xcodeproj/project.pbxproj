@@ -21,6 +21,8 @@
 		3D76CF072678DD7F006E5AB5 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76CF062678DD7F006E5AB5 /* NetworkManager.swift */; };
 		3D76CF092678DE5A006E5AB5 /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76CF082678DE5A006E5AB5 /* AppError.swift */; };
 		3D76CF0C2678F5EE006E5AB5 /* AccessTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76CF0B2678F5EE006E5AB5 /* AccessTokenResponse.swift */; };
+		3D76CF0E26790BEA006E5AB5 /* GitHubUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76CF0D26790BEA006E5AB5 /* GitHubUserViewController.swift */; };
+		3D76CF1026790D07006E5AB5 /* GitHubUserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76CF0F26790D07006E5AB5 /* GitHubUserResponse.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +63,8 @@
 		3D76CF062678DD7F006E5AB5 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		3D76CF082678DE5A006E5AB5 /* AppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
 		3D76CF0B2678F5EE006E5AB5 /* AccessTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenResponse.swift; sourceTree = "<group>"; };
+		3D76CF0D26790BEA006E5AB5 /* GitHubUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubUserViewController.swift; sourceTree = "<group>"; };
+		3D76CF0F26790D07006E5AB5 /* GitHubUserResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubUserResponse.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,6 +166,7 @@
 			children = (
 				3D76CEC82677EE14006E5AB5 /* AuthViewController.swift */,
 				3D76CEFE2678AD11006E5AB5 /* LoginViewController.swift */,
+				3D76CF0D26790BEA006E5AB5 /* GitHubUserViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -206,6 +211,7 @@
 			isa = PBXGroup;
 			children = (
 				3D76CF0B2678F5EE006E5AB5 /* AccessTokenResponse.swift */,
+				3D76CF0F26790D07006E5AB5 /* GitHubUserResponse.swift */,
 			);
 			path = "API Responses";
 			sourceTree = "<group>";
@@ -347,8 +353,10 @@
 				3D76CF072678DD7F006E5AB5 /* NetworkManager.swift in Sources */,
 				3D76CEC52677EE14006E5AB5 /* AppDelegate.swift in Sources */,
 				3D76CEC72677EE14006E5AB5 /* SceneDelegate.swift in Sources */,
+				3D76CF1026790D07006E5AB5 /* GitHubUserResponse.swift in Sources */,
 				3D76CEF626788AD4006E5AB5 /* UIView+Constraints.swift in Sources */,
 				3D76CF0C2678F5EE006E5AB5 /* AccessTokenResponse.swift in Sources */,
+				3D76CF0E26790BEA006E5AB5 /* GitHubUserViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
