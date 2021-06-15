@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		3D76CEC52677EE14006E5AB5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76CEC42677EE14006E5AB5 /* AppDelegate.swift */; };
 		3D76CEC72677EE14006E5AB5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76CEC62677EE14006E5AB5 /* SceneDelegate.swift */; };
-		3D76CEC92677EE14006E5AB5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76CEC82677EE14006E5AB5 /* ViewController.swift */; };
+		3D76CEC92677EE14006E5AB5 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76CEC82677EE14006E5AB5 /* AuthViewController.swift */; };
 		3D76CECE2677EE33006E5AB5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3D76CECD2677EE33006E5AB5 /* Assets.xcassets */; };
 		3D76CED12677EE33006E5AB5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D76CECF2677EE33006E5AB5 /* LaunchScreen.storyboard */; };
 		3D76CEDC2677EE34006E5AB5 /* OhMyGitHubTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76CEDB2677EE34006E5AB5 /* OhMyGitHubTests.swift */; };
@@ -41,7 +41,7 @@
 		3D76CEC12677EE14006E5AB5 /* OhMyGitHub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OhMyGitHub.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D76CEC42677EE14006E5AB5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3D76CEC62677EE14006E5AB5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		3D76CEC82677EE14006E5AB5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		3D76CEC82677EE14006E5AB5 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		3D76CECD2677EE33006E5AB5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3D76CED02677EE33006E5AB5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3D76CED22677EE33006E5AB5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -153,7 +153,7 @@
 		3D76CEF826789CA9006E5AB5 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				3D76CEC82677EE14006E5AB5 /* ViewController.swift */,
+				3D76CEC82677EE14006E5AB5 /* AuthViewController.swift */,
 				3D76CEFE2678AD11006E5AB5 /* LoginViewController.swift */,
 			);
 			path = Controllers;
@@ -316,7 +316,7 @@
 			files = (
 				3D76CF042678B017006E5AB5 /* AppUI.swift in Sources */,
 				3D76CEFF2678AD11006E5AB5 /* LoginViewController.swift in Sources */,
-				3D76CEC92677EE14006E5AB5 /* ViewController.swift in Sources */,
+				3D76CEC92677EE14006E5AB5 /* AuthViewController.swift in Sources */,
 				3D76CEFD2678A342006E5AB5 /* Secrets.swift in Sources */,
 				3D76CEC52677EE14006E5AB5 /* AppDelegate.swift in Sources */,
 				3D76CEC72677EE14006E5AB5 /* SceneDelegate.swift in Sources */,

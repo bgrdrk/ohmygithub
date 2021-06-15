@@ -20,9 +20,17 @@ class LoginViewController: UIViewController {
         loginButton.anchor(left: view.leftAnchor, right: view.rightAnchor, paddingLeft: 20, paddingRight: 20)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
     //MARK: - Selectors
     @objc func handleLogin() {
-        print("DEBUG: login touched")
+        let vc = AuthViewController()
+        DispatchQueue.main.async {
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
 }
 
