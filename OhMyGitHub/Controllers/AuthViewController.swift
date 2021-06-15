@@ -57,6 +57,13 @@ extension AuthViewController: WKNavigationDelegate {
         
         if let token = getQueryStringParameter(url: requestUrl, param: "code") {
             print("DEBUG: token -> \(token)")
+            let url = getAccessTokenURL(with: token)
+            NetworkManager.shared.getAccessToken(url) { result in
+                switch result {
+                case .failure(let error): print(error.message)
+                case .success(let data): print(data)
+                }
+            }
         }
         
         decisionHandler(.allow)
@@ -74,6 +81,18 @@ extension AuthViewController: WKNavigationDelegate {
         var queryItems =  urlComponent.queryItems ?? []
         queryItems.append(URLQueryItem(name: "client_id", value: Secrets.clientId))
         queryItems.append(URLQueryItem(name: "redirect_uri", value: Secrets.callback))
+        // This should contain a random string to protect against forgery attacks and could contain any other arbitrary data.
+        queryItems.append(URLQueryItem(name: "state", value: "Random String"))
+        urlComponent.queryItems = queryItems
+        return urlComponent.url!
+    }
+    
+    private func getAccessTokenURL(with code: String) -> URL {
+        var urlComponent = URLComponents(string: "https://github.com/login/oauth/access_token")!
+        var queryItems =  urlComponent.queryItems ?? []
+        queryItems.append(URLQueryItem(name: "client_id", value: Secrets.clientId))
+        queryItems.append(URLQueryItem(name: "client_secret", value: Secrets.clientSecret))
+        queryItems.append(URLQueryItem(name: "code", value: code))
         urlComponent.queryItems = queryItems
         return urlComponent.url!
     }
