@@ -13,18 +13,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.rootViewController = nc
         window?.makeKeyAndVisible()
     }
-    
-    // this works when UIWebView is used
-    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
-        if let urlContext = URLContexts.first {
-            let url = urlContext.url
-            print(url)
-            let vc = ViewController()
-            vc.view.backgroundColor = .red
-//            need a reference to navigationController
-//            nc.pushViewController(vc, animated: true)
-        }
-    }
 
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
