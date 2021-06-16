@@ -3,11 +3,15 @@ import UIKit
 class MainCoordinator: CoordinatorProtocol {
     
     var navigationController: UINavigationController
+    var viewControllersFactory: ViewControllersFactory
     var startWithLoggedInUser = false
     
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
+        self.viewControllersFactory = ViewControllersFactory()
     }
+    
+    // MARK: - Lifecycle
     
     func start() {
         if startWithLoggedInUser {
@@ -18,33 +22,34 @@ class MainCoordinator: CoordinatorProtocol {
     }
     
     func restart() {
-        navigationController.popToRootViewController(animated: false)
+        popToHomeViewControllerWithoutAnimation()
         start()
     }
     
     func startAppSessionWithLoggedInUser() {
-        let vc = GitHubUserViewController()
-        vc.coordinator = self
+        let vc = viewControllersFactory.makeGitHubUserViewController(coordinator: self)
         vc.modalPresentationStyle = .fullScreen
         navigationController.navigationBar.isHidden = false
-        navigationController.present(vc, animated: false)
+        navigationController.show(vc, sender: nil)
     }
     
     // MARK: - Authentication Flow
     
     func startAuthenticationFlow() {
-        let vc = LoginViewController()
-        vc.coordinator = self
-        navigationController.pushViewController(vc, animated: true)
+        let vc = viewControllersFactory.makeLoginViewController(coordinator: self)
+        navigationController.show(vc, sender: nil)
     }
     
     func startAuthViewController() {
-        let vc = AuthViewController()
-        vc.coordinator = self
+        let vc = viewControllersFactory.makeAuthViewController(coordinator: self)
         navigationController.pushViewController(vc, animated: true)
     }
     
     func dismiss() {
         navigationController.popViewController(animated: true)
+    }
+    
+    func popToHomeViewControllerWithoutAnimation() {
+        navigationController.popToRootViewController(animated: false)
     }
 }

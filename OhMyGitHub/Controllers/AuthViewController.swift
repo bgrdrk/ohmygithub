@@ -1,17 +1,22 @@
 import UIKit
 import WebKit
 
-protocol AuthViewControllerDelegate: AnyObject {
-    func authViewController(didReceiveAccess data: AccessTokenResponse)
-}
-
 class AuthViewController: UIViewController {
 
     // MARK: - Properties
     
     private var webView = WKWebView()
-    weak var delegate: AuthViewControllerDelegate?
     weak var coordinator: MainCoordinator?
+    var networkManager: NetworkManager!
+    
+    init(networkManager: NetworkManager) {
+        self.networkManager = networkManager
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: - Lifecycle
     
@@ -39,12 +44,6 @@ class AuthViewController: UIViewController {
 
 // MARK: - WebKit
 extension AuthViewController: WKNavigationDelegate {
-    
-   
-//    func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
-//        print("DEBUG: navigationResponse -> \(navigationResponse.response)")
-//        decisionHandler(.allow)
-//    }
 
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction,
                  decisionHandler: @escaping (WKNavigationActionPolicy) -> Void)
@@ -71,7 +70,7 @@ extension AuthViewController: WKNavigationDelegate {
             print("DEBUG: token -> \(token)")
             let url = getAccessTokenURL(with: token)
             
-            NetworkManager.shared.getAccessToken(url) { [weak self] result in
+            networkManager.getAccessToken(url) { [weak self] result in
                 switch result {
                 case .failure(let error):
                     print("DEBUG: error -> \(error.message)")
