@@ -5,7 +5,7 @@ class ViewControllersFactory: DependencyContainer {
     // MARK: - ViewControllers factories
     
     func makeLoginViewController(coordinator: MainCoordinator) -> LoginViewController {
-        let vc = LoginViewController()
+        let vc = LoginViewController(networkManager: networkManager, appSessionManager: appSessionManager)
         vc.coordinator = coordinator
         return vc
     }
