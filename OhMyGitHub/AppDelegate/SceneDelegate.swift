@@ -3,11 +3,16 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    var coordinator: CoordinatorProtocol?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        let nc = UINavigationController(rootViewController: LoginViewController())
-        
         guard let windowScene = (scene as? UIWindowScene) else { return }
+        
+        let vc = HomeViewController()
+        let nc = UINavigationController(rootViewController: vc)
+        coordinator = MainCoordinator(navigationController: nc)
+        coordinator?.start()
+        
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
         window?.rootViewController = nc

@@ -23,6 +23,9 @@
 		3D76CF0C2678F5EE006E5AB5 /* AccessTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76CF0B2678F5EE006E5AB5 /* AccessTokenResponse.swift */; };
 		3D76CF0E26790BEA006E5AB5 /* GitHubUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76CF0D26790BEA006E5AB5 /* GitHubUserViewController.swift */; };
 		3D76CF1026790D07006E5AB5 /* GitHubUserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76CF0F26790D07006E5AB5 /* GitHubUserResponse.swift */; };
+		3D76CF132679E97E006E5AB5 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76CF122679E97E006E5AB5 /* Coordinator.swift */; };
+		3D76CF152679EA49006E5AB5 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76CF142679EA49006E5AB5 /* MainCoordinator.swift */; };
+		3D76CF172679FD9C006E5AB5 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76CF162679FD9C006E5AB5 /* HomeViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +68,9 @@
 		3D76CF0B2678F5EE006E5AB5 /* AccessTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenResponse.swift; sourceTree = "<group>"; };
 		3D76CF0D26790BEA006E5AB5 /* GitHubUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubUserViewController.swift; sourceTree = "<group>"; };
 		3D76CF0F26790D07006E5AB5 /* GitHubUserResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubUserResponse.swift; sourceTree = "<group>"; };
+		3D76CF122679E97E006E5AB5 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		3D76CF142679EA49006E5AB5 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
+		3D76CF162679FD9C006E5AB5 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,13 +121,14 @@
 		3D76CEC32677EE14006E5AB5 /* OhMyGitHub */ = {
 			isa = PBXGroup;
 			children = (
-				3D76CF052678DD66006E5AB5 /* Managers */,
 				3D76CEF726789C9D006E5AB5 /* AppDelegate */,
-				3D76CEF926789CB1006E5AB5 /* Models */,
-				3D76CEFB26789CBF006E5AB5 /* Views */,
 				3D76CEF826789CA9006E5AB5 /* Controllers */,
-				3D76CEF426788A7E006E5AB5 /* Utils */,
+				3D76CF112679E965006E5AB5 /* Coordinators */,
+				3D76CF052678DD66006E5AB5 /* Managers */,
+				3D76CEF926789CB1006E5AB5 /* Models */,
 				3D76CEFA26789CBA006E5AB5 /* Resources */,
+				3D76CEF426788A7E006E5AB5 /* Utils */,
+				3D76CEFB26789CBF006E5AB5 /* Views */,
 			);
 			path = OhMyGitHub;
 			sourceTree = "<group>";
@@ -167,6 +174,7 @@
 				3D76CEC82677EE14006E5AB5 /* AuthViewController.swift */,
 				3D76CEFE2678AD11006E5AB5 /* LoginViewController.swift */,
 				3D76CF0D26790BEA006E5AB5 /* GitHubUserViewController.swift */,
+				3D76CF162679FD9C006E5AB5 /* HomeViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -214,6 +222,15 @@
 				3D76CF0F26790D07006E5AB5 /* GitHubUserResponse.swift */,
 			);
 			path = "API Responses";
+			sourceTree = "<group>";
+		};
+		3D76CF112679E965006E5AB5 /* Coordinators */ = {
+			isa = PBXGroup;
+			children = (
+				3D76CF122679E97E006E5AB5 /* Coordinator.swift */,
+				3D76CF142679EA49006E5AB5 /* MainCoordinator.swift */,
+			);
+			path = Coordinators;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -346,8 +363,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				3D76CF042678B017006E5AB5 /* AppUI.swift in Sources */,
+				3D76CF152679EA49006E5AB5 /* MainCoordinator.swift in Sources */,
 				3D76CEFF2678AD11006E5AB5 /* LoginViewController.swift in Sources */,
+				3D76CF132679E97E006E5AB5 /* Coordinator.swift in Sources */,
 				3D76CF092678DE5A006E5AB5 /* AppError.swift in Sources */,
+				3D76CF172679FD9C006E5AB5 /* HomeViewController.swift in Sources */,
 				3D76CEC92677EE14006E5AB5 /* AuthViewController.swift in Sources */,
 				3D76CEFD2678A342006E5AB5 /* Secrets.swift in Sources */,
 				3D76CF072678DD7F006E5AB5 /* NetworkManager.swift in Sources */,

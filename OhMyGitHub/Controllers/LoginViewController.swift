@@ -5,6 +5,8 @@ class LoginViewController: UIViewController {
     // MARK: - Properties
     
     private var accessData: AccessTokenResponse?
+    weak var coordinator: MainCoordinator?
+    
     private let loginButton: UIButton = {
         let button = AppUI.actionButton(withText: "Login")
         button.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
@@ -42,11 +44,12 @@ class LoginViewController: UIViewController {
     
     //MARK: - Selectors
     @objc func handleLogin() {
-        let vc = AuthViewController()
-        vc.delegate = self
-        DispatchQueue.main.async {
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
+        // coordinator start AuthViewController()
+        // AuthViewController() needs a way to communicate to NC and let it know about the outcome of authentication
+        // AuthViewController() communicates with coordinator:
+        //      1. on success dissmiss and go back to rootview start() the flow again
+        //      2. on error show alert and then dissmiss?
+        coordinator?.startAuthViewController()
     }
     
     @objc func handleShowUserButtonTap() {

@@ -11,6 +11,7 @@ class AuthViewController: UIViewController {
     
     private var webView = WKWebView()
     weak var delegate: AuthViewControllerDelegate?
+    weak var coordinator: MainCoordinator?
     
     // MARK: - Lifecycle
     
@@ -75,12 +76,11 @@ extension AuthViewController: WKNavigationDelegate {
                 case .failure(let error):
                     print("DEBUG: error -> \(error.message)")
                 case .success(let data):
+                    // perduodam data sessionManager'iui?
                     DispatchQueue.main.async {
-                        self?.delegate?.authViewController(didReceiveAccess: data)
+                        self?.coordinator?.startWithLoggedInUser = true
+                        self?.coordinator?.restart()
                     }
-                }
-                DispatchQueue.main.async {
-                    self?.navigationController?.popToRootViewController(animated: true)
                 }
             }
         }
