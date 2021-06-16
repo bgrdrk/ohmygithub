@@ -71,12 +71,12 @@ extension AuthViewController: WKNavigationDelegate {
         
         if let token = getQueryStringParameter(url: requestUrl, param: "code") {
             let url = makeAccessTokenURL(with: token)
-            fetchAccessTokenAndLoggedInUserData(through: url)
+            fetchAccessTokenData(through: url)
         }
         decisionHandler(.allow)
     }
     
-    private func fetchAccessTokenAndLoggedInUserData(through url: URL) {
+    private func fetchAccessTokenData(through url: URL) {
         networkManager.getAccessToken(url) { [weak self] result in
             guard let self = self else { return }
             switch result {
@@ -84,7 +84,7 @@ extension AuthViewController: WKNavigationDelegate {
                 // TODO: Handle error swiftly
                 print("DEBUG: error -> \(error.message)")
             case .success(let accessTokenData):
-                self.appSessionManager.token = accessTokenData
+                self.appSessionManager.saveTokenData(accessTokenData)
                 self.fetchLoggedInUserData(with: accessTokenData)
             }
         }
@@ -98,7 +98,7 @@ extension AuthViewController: WKNavigationDelegate {
                 // TODO: Handle error swiftly
                 print("DEBUG: error -> \(error.message)")
             case .success(let gitHubUserData):
-                self.appSessionManager.appUser = gitHubUserData
+                self.appSessionManager.saveUserData(gitHubUserData)
                 DispatchQueue.main.async {
                     self.coordinator?.restart()
                 }

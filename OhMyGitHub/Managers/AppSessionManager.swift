@@ -2,11 +2,43 @@ import Foundation
 
 final class AppSessionManager {
     
-    var token: AccessTokenResponse?
-    var appUser: GitHubUser?
-    // appState
-    // persist user token data
-    // persist logged in user data
+    let persistanceManager: PersistanceManager!
     
-    init() {}
+    private(set) var token: AccessTokenResponse?
+    private(set) var appUser: GitHubUser?
+    
+    init(persistanceManager: PersistanceManager) {
+        self.persistanceManager = persistanceManager
+        loadUserData()
+    }
+    
+    // MARK: - Helpers
+    
+    private func loadUserData() {
+        guard let userData: GitHubUser = try? persistanceManager.load(title: "User Data") else {
+            return
+        }
+        appUser = userData
+    }
+    
+    func saveUserData(_ userData: GitHubUser) {
+        try! persistanceManager.save(userData, title: "User Data")
+        appUser = userData
+    }
+    
+    private func loadTokenData() {
+        guard let tokenData: AccessTokenResponse = try? persistanceManager.load(title: "Token Data") else {
+            return
+        }
+        token = tokenData
+    }
+    
+    func saveTokenData(_ tokenData: AccessTokenResponse) {
+        try! persistanceManager.save(tokenData, title: "Token Data")
+        token = tokenData
+    }
+    
+    func userIsPersisted() -> Bool {
+        appUser != nil
+    }
 }

@@ -14,7 +14,7 @@ class MainCoordinator: CoordinatorProtocol {
     // MARK: - Lifecycle
     
     func start() {
-        if viewControllersFactory.appSessionManager.appUser != nil {
+        if viewControllersFactory.appSessionManager.userIsPersisted() {
             startAppSessionWithLoggedInUser()
         } else {
             startAuthenticationFlow()
@@ -30,7 +30,7 @@ class MainCoordinator: CoordinatorProtocol {
         let vc = viewControllersFactory.makeGitHubUserViewController(coordinator: self)
         vc.modalPresentationStyle = .fullScreen
         navigationController.navigationBar.isHidden = false
-        navigationController.present(vc, animated: false, completion: nil)
+        navigationController.pushViewController(vc, animated: false)
     }
     
     // MARK: - Authentication Flow

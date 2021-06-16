@@ -29,6 +29,7 @@
 		3D76CF19267A0076006E5AB5 /* DependencyContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76CF18267A0076006E5AB5 /* DependencyContainer.swift */; };
 		3D76CF1C267A073F006E5AB5 /* ViewControllersFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76CF1B267A073F006E5AB5 /* ViewControllersFactory.swift */; };
 		3D76CF1E267A4F2F006E5AB5 /* AppSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76CF1D267A4F2F006E5AB5 /* AppSessionManager.swift */; };
+		3D76CF20267A670B006E5AB5 /* PersistanceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76CF1F267A670B006E5AB5 /* PersistanceManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +78,7 @@
 		3D76CF18267A0076006E5AB5 /* DependencyContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyContainer.swift; sourceTree = "<group>"; };
 		3D76CF1B267A073F006E5AB5 /* ViewControllersFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllersFactory.swift; sourceTree = "<group>"; };
 		3D76CF1D267A4F2F006E5AB5 /* AppSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSessionManager.swift; sourceTree = "<group>"; };
+		3D76CF1F267A670B006E5AB5 /* PersistanceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistanceManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -217,9 +219,10 @@
 		3D76CF052678DD66006E5AB5 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				3D76CF062678DD7F006E5AB5 /* NetworkManager.swift */,
 				3D76CF18267A0076006E5AB5 /* DependencyContainer.swift */,
+				3D76CF062678DD7F006E5AB5 /* NetworkManager.swift */,
 				3D76CF1D267A4F2F006E5AB5 /* AppSessionManager.swift */,
+				3D76CF1F267A670B006E5AB5 /* PersistanceManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -393,6 +396,7 @@
 				3D76CF072678DD7F006E5AB5 /* NetworkManager.swift in Sources */,
 				3D76CEC52677EE14006E5AB5 /* AppDelegate.swift in Sources */,
 				3D76CEC72677EE14006E5AB5 /* SceneDelegate.swift in Sources */,
+				3D76CF20267A670B006E5AB5 /* PersistanceManager.swift in Sources */,
 				3D76CF1026790D07006E5AB5 /* GitHubUserResponse.swift in Sources */,
 				3D76CEF626788AD4006E5AB5 /* UIView+Constraints.swift in Sources */,
 				3D76CF0C2678F5EE006E5AB5 /* AccessTokenResponse.swift in Sources */,
