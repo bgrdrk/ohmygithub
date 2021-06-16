@@ -30,14 +30,14 @@ class MainCoordinator: CoordinatorProtocol {
         let vc = viewControllersFactory.makeGitHubUserViewController(coordinator: self)
         vc.modalPresentationStyle = .fullScreen
         navigationController.navigationBar.isHidden = false
-        navigationController.show(vc, sender: nil)
+        navigationController.present(vc, animated: false, completion: nil)
     }
     
     // MARK: - Authentication Flow
     
     func startAuthenticationFlow() {
         let vc = viewControllersFactory.makeLoginViewController(coordinator: self)
-        navigationController.show(vc, sender: nil)
+        navigationController.pushViewController(vc, animated: true)
     }
     
     func startAuthViewController() {

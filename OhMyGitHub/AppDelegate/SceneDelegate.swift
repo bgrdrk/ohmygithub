@@ -9,7 +9,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         let vc = HomeViewController()
-        let nc = UINavigationController(rootViewController: vc)
+//        let nc = UINavigationController(rootViewController: vc)
+        let nc = UINavigationController()
         coordinator = MainCoordinator(navigationController: nc)
         coordinator?.start()
         
