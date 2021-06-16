@@ -14,7 +14,7 @@ class MainCoordinator: CoordinatorProtocol {
     // MARK: - Lifecycle
     
     func start() {
-        if startWithLoggedInUser {
+        if viewControllersFactory.appSessionManager.appUser != nil {
             startAppSessionWithLoggedInUser()
         } else {
             startAuthenticationFlow()

@@ -1,5 +1,7 @@
 import Foundation
 
 class DependencyContainer {
-    lazy var networkManager = NetworkManager.shared
+    let networkManager = NetworkManager.shared
+    let appSessionManager = AppSessionManager()
+    // storageManager
 }

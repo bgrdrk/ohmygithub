@@ -19,4 +19,14 @@ struct AppUI {
         button.layer.cornerRadius = cornerRadius
         return button
     }
+    
+    // MARK: - Labels
+    
+    static func h1Label(withText text: String, and fontSize: CGFloat) -> UILabel {
+        let label = UILabel()
+        label.font = label.font.withSize(20)
+        label.text = text
+        label.textColor = .systemBlue
+        return label
+    }
 }

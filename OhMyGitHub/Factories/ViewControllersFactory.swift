@@ -11,13 +11,13 @@ class ViewControllersFactory: DependencyContainer {
     }
     
     func makeAuthViewController(coordinator: MainCoordinator) -> AuthViewController {
-        let vc = AuthViewController(networkManager: networkManager)
+        let vc = AuthViewController(networkManager: networkManager, appSessionManager: appSessionManager)
         vc.coordinator = coordinator
         return vc
     }
     
     func makeGitHubUserViewController(coordinator: MainCoordinator) -> GitHubUserViewController {
-        let vc = GitHubUserViewController()
+        let vc = GitHubUserViewController(appSessionManager: appSessionManager)
         vc.coordinator = coordinator
         return vc
     }

@@ -8,9 +8,11 @@ class AuthViewController: UIViewController {
     private var webView = WKWebView()
     weak var coordinator: MainCoordinator?
     var networkManager: NetworkManager!
+    var appSessionManager: AppSessionManager!
     
-    init(networkManager: NetworkManager) {
+    init(networkManager: NetworkManager, appSessionManager: AppSessionManager) {
         self.networkManager = networkManager
+        self.appSessionManager = appSessionManager
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -58,6 +60,7 @@ extension AuthViewController: WKNavigationDelegate {
            let errorDescription = getQueryStringParameter(url: requestUrl, param: "error_description")
            {
             decisionHandler(.cancel)
+            // TODO: Show the alert with information and handle navigation
             print("DEBUG: error -> \(error)")
             print("DEBUG: error description -> \(errorDescription)")
             DispatchQueue.main.async { [weak self] in
@@ -67,44 +70,61 @@ extension AuthViewController: WKNavigationDelegate {
         }
         
         if let token = getQueryStringParameter(url: requestUrl, param: "code") {
-            print("DEBUG: token -> \(token)")
-            let url = getAccessTokenURL(with: token)
-            
-            networkManager.getAccessToken(url) { [weak self] result in
-                switch result {
-                case .failure(let error):
-                    print("DEBUG: error -> \(error.message)")
-                case .success(let data):
-                    // perduodam data sessionManager'iui?
-                    DispatchQueue.main.async {
-                        self?.coordinator?.startWithLoggedInUser = true
-                        self?.coordinator?.restart()
-                    }
-                }
-            }
+            let url = makeAccessTokenURL(with: token)
+            fetchAccessTokenAndLoggedInUserData(through: url)
         }
         decisionHandler(.allow)
     }
     
+    private func fetchAccessTokenAndLoggedInUserData(through url: URL) {
+        networkManager.getAccessToken(url) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .failure(let error):
+                // TODO: Handle error swiftly
+                print("DEBUG: error -> \(error.message)")
+            case .success(let accessTokenData):
+                self.appSessionManager.token = accessTokenData
+                self.fetchLoggedInUserData(with: accessTokenData)
+            }
+        }
+    }
+    
+    private func fetchLoggedInUserData(with accessData: AccessTokenResponse) {
+        networkManager.getGitHubUser(token: accessData.accessToken) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .failure(let error):
+                // TODO: Handle error swiftly
+                print("DEBUG: error -> \(error.message)")
+            case .success(let gitHubUserData):
+                self.appSessionManager.appUser = gitHubUserData
+                DispatchQueue.main.async {
+                    self.coordinator?.restart()
+                }
+            }
+        }
+    }
+    
     private func configureWebViewAndOpenURL() {
         webView.navigationDelegate = self
-        let url = getAuthenticateURL()
+        let url = makeAuthenticationURL()
         let request = URLRequest(url: url)
         webView.load(request)
     }
     
-    private func getAuthenticateURL() -> URL {
+    private func makeAuthenticationURL() -> URL {
         var urlComponent = URLComponents(string: "https://github.com/login/oauth/authorize")!
         var queryItems =  urlComponent.queryItems ?? []
         queryItems.append(URLQueryItem(name: "client_id", value: Secrets.clientId))
         queryItems.append(URLQueryItem(name: "redirect_uri", value: Secrets.callback))
-        // This should contain a random string to protect against forgery attacks and could contain any other arbitrary data.
-        queryItems.append(URLQueryItem(name: "state", value: "Random String"))
+//        TODO: This should contain a random string to protect against forgery attacks and could contain any other arbitrary data.
+//        queryItems.append(URLQueryItem(name: "state", value: "Random String"))
         urlComponent.queryItems = queryItems
         return urlComponent.url!
     }
     
-    private func getAccessTokenURL(with code: String) -> URL {
+    private func makeAccessTokenURL(with code: String) -> URL {
         var urlComponent = URLComponents(string: "https://github.com/login/oauth/access_token")!
         var queryItems =  urlComponent.queryItems ?? []
         queryItems.append(URLQueryItem(name: "client_id", value: Secrets.clientId))
