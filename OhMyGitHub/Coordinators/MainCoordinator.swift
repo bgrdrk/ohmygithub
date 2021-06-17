@@ -4,7 +4,6 @@ class MainCoordinator: CoordinatorProtocol {
     
     var navigationController: UINavigationController
     var viewControllersFactory: ViewControllersFactory
-    var startWithLoggedInUser = false
     
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
@@ -37,11 +36,6 @@ class MainCoordinator: CoordinatorProtocol {
     
     func startAuthenticationFlow() {
         let vc = viewControllersFactory.makeLoginViewController(coordinator: self)
-        navigationController.pushViewController(vc, animated: true)
-    }
-    
-    func startAuthViewController() {
-        let vc = viewControllersFactory.makeAuthViewController(coordinator: self)
         navigationController.pushViewController(vc, animated: true)
     }
     

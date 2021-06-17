@@ -39,6 +39,7 @@ final class AppSessionManager {
     }
     
     func userIsPersisted() -> Bool {
+        // TODO: is token still valid? using different method for that might be better idea
         appUser != nil
     }
 }
