@@ -76,7 +76,7 @@ class LoginViewController: UIViewController {
         }
         
         authenticationSession.presentationContextProvider = self
-//        authenticationSession.prefersEphemeralWebBrowserSession = true
+        authenticationSession.prefersEphemeralWebBrowserSession = true
 
         if !authenticationSession.start() {
             // TODO: Handle error swiftly
@@ -126,9 +126,9 @@ class LoginViewController: UIViewController {
                 print("DEBUG: error -> \(error.message)")
             case .success(let gitHubUserData):
                 self.appSessionManager.saveUserData(gitHubUserData)
-//                DispatchQueue.main.async {
-//                    self.coordinator?.restart()
-//                }
+                DispatchQueue.main.async {
+                    self.coordinator?.restart()
+                }
             }
         }
     }
