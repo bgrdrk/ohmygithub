@@ -20,6 +20,11 @@ final class PersistanceManager {
         return decodedData
     }
     
+    public func deletePersistedUserData() {
+        userDefaults.removeObject(forKey: "User Data")
+        userDefaults.removeObject(forKey: "Token Data")
+    }
+    
     enum Error: Swift.Error {
         case dataNotFound
     }

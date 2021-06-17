@@ -46,8 +46,11 @@ class GitHubUserViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         view.backgroundColor = .systemGray2
         navigationItem.title = "GitHub User Home"
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(handleLogout))
+        
         fillTheUserData()
         configureUI()
     }
@@ -68,6 +71,11 @@ class GitHubUserViewController: UIViewController {
     
     @objc private func handleButtonPress() {
         print("DEBUG: Button just got pressed")
+    }
+    
+    @objc private func handleLogout() {
+        appSessionManager.logUserOut()
+        coordinator?.restart()
     }
     
     // MARK: - UI Configuration

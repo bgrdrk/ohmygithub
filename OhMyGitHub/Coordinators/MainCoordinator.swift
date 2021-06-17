@@ -25,6 +25,11 @@ class MainCoordinator: CoordinatorProtocol {
         start()
     }
     
+    func restartFromUserVC() {
+        dissmisCurrentVC()
+        start()
+    }
+    
     func startAppSessionWithLoggedInUser() {
         let vc = viewControllersFactory.makeGitHubUserViewController(coordinator: self)
         vc.modalPresentationStyle = .fullScreen
@@ -35,15 +40,20 @@ class MainCoordinator: CoordinatorProtocol {
     // MARK: - Authentication Flow
     
     func startAuthenticationFlow() {
-        let vc = viewControllersFactory.makeLoginViewController(coordinator: self)
-        navigationController.pushViewController(vc, animated: true)
+        guard navigationController.viewControllers.first is LoginViewController else {
+            let vc = viewControllersFactory.makeLoginViewController(coordinator: self)
+            navigationController.pushViewController(vc, animated: true)
+            return
+        }
     }
     
-    func dismiss() {
-        navigationController.popViewController(animated: true)
-    }
+    // MARK: - Controlling the Navigation Stack
     
     func popToHomeViewControllerWithoutAnimation() {
         navigationController.popToRootViewController(animated: false)
+    }
+    
+    func dissmisCurrentVC() {
+        navigationController.popViewController(animated: true)
     }
 }

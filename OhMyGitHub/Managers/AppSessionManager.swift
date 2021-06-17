@@ -42,4 +42,10 @@ final class AppSessionManager {
         // TODO: is token still valid? using different method for that might be better idea
         appUser != nil
     }
+    
+    func logUserOut() {
+        persistanceManager.deletePersistedUserData()
+        token = nil
+        appUser = nil
+    }
 }
