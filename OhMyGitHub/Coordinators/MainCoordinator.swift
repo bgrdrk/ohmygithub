@@ -39,11 +39,6 @@ class MainCoordinator: CoordinatorProtocol {
         navigationController.pushViewController(vc, animated: true)
     }
     
-    func startAuthViewController() {
-        let vc = viewControllersFactory.makeAuthViewController(coordinator: self)
-        navigationController.pushViewController(vc, animated: true)
-    }
-    
     func dismiss() {
         navigationController.popViewController(animated: true)
     }

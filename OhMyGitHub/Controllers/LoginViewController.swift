@@ -45,7 +45,6 @@ class LoginViewController: UIViewController {
     
     //MARK: - Selectors
     @objc func handleLogin() {
-        //        coordinator?.startAuthViewController()
         handleGitHubAuth()
     }
     
@@ -57,28 +56,23 @@ class LoginViewController: UIViewController {
             url: signInURL,
             callbackURLScheme: callbackURLScheme) { [weak self] callbackURL, error in
             guard let self = self else { return }
+            
+            if let error = error {
+                // TODO: Handle error swiftly
+                print("DEBUG: error -> \(error.localizedDescription)")
+                return
+            }
+            
             guard
-                error == nil,
                 let callbackURL = callbackURL,
                 let code = self.getQueryStringParameter(url: callbackURL, param: "code")
             else {
                 // TODO: Handle error swiftly
-                print("DEBUG: error -> \(#function)")
+                print("DEBUG: error, callbackURL is nil or has no code? -> \(#function)")
                 return
             }
             
-            let url = self.makeAccessTokenURL(with: code)
-            self.networkManager.getAccessToken(url) { [weak self] result in
-                guard let self = self else { return }
-                switch result {
-                case .failure(let error):
-                    // TODO: Handle error swiftly
-                    print("DEBUG: error -> \(error.message)")
-                case .success(let accessTokenData):
-                    self.appSessionManager.saveTokenData(accessTokenData)
-                    self.fetchLoggedInUserData(with: accessTokenData)
-                }
-            }
+            self.getAccessTokenAndContinueAuth(using: code)
         }
         
         authenticationSession.presentationContextProvider = self
@@ -89,7 +83,21 @@ class LoginViewController: UIViewController {
             print("DEBUG: error -> Failed to start ASWebAuthenticationSession")
         }
     }
-
+    
+    private func getAccessTokenAndContinueAuth(using code: String) {
+        let url = self.makeAccessTokenURL(with: code)
+        self.networkManager.getAccessToken(url) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .failure(let error):
+                // TODO: Handle error swiftly
+                print("DEBUG: error -> \(error.message)")
+            case .success(let accessTokenData):
+                self.appSessionManager.saveTokenData(accessTokenData)
+                self.fetchLoggedInUserData(with: accessTokenData)
+            }
+        }
+    }
     
     private func makeAuthenticationURL() -> URL {
         var urlComponent = URLComponents(string: "https://github.com/login/oauth/authorize")!
