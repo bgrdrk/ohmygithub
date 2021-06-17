@@ -21,7 +21,7 @@ class MainCoordinator: CoordinatorProtocol {
     }
     
     func restart() {
-        popToHomeViewControllerWithoutAnimation()
+        popToHomeViewController()
         start()
     }
     
@@ -34,7 +34,7 @@ class MainCoordinator: CoordinatorProtocol {
         let vc = viewControllersFactory.makeGitHubUserViewController(coordinator: self)
         vc.modalPresentationStyle = .fullScreen
         navigationController.navigationBar.isHidden = false
-        navigationController.pushViewController(vc, animated: false)
+        navigationController.pushViewController(vc, animated: true)
     }
     
     // MARK: - Authentication Flow
@@ -49,8 +49,8 @@ class MainCoordinator: CoordinatorProtocol {
     
     // MARK: - Controlling the Navigation Stack
     
-    func popToHomeViewControllerWithoutAnimation() {
-        navigationController.popToRootViewController(animated: false)
+    func popToHomeViewController() {
+        navigationController.popToRootViewController(animated: true)
     }
     
     func dissmisCurrentVC() {
