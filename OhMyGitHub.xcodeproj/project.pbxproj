@@ -30,6 +30,8 @@
 		3D76CF1E267A4F2F006E5AB5 /* AppSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76CF1D267A4F2F006E5AB5 /* AppSessionManager.swift */; };
 		3D76CF20267A670B006E5AB5 /* PersistanceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76CF1F267A670B006E5AB5 /* PersistanceManager.swift */; };
 		3D76CF22267B403F006E5AB5 /* KeychainSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76CF21267B403F006E5AB5 /* KeychainSwift.swift */; };
+		3D76CF242681271D006E5AB5 /* RepositoryResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76CF232681271A006E5AB5 /* RepositoryResponse.swift */; };
+		3D76CF2626813204006E5AB5 /* Owner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76CF2526813204006E5AB5 /* Owner.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +81,8 @@
 		3D76CF1D267A4F2F006E5AB5 /* AppSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSessionManager.swift; sourceTree = "<group>"; };
 		3D76CF1F267A670B006E5AB5 /* PersistanceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistanceManager.swift; sourceTree = "<group>"; };
 		3D76CF21267B403F006E5AB5 /* KeychainSwift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainSwift.swift; sourceTree = "<group>"; };
+		3D76CF232681271A006E5AB5 /* RepositoryResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryResponse.swift; sourceTree = "<group>"; };
+		3D76CF2526813204006E5AB5 /* Owner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Owner.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -232,6 +236,8 @@
 			children = (
 				3D76CF0B2678F5EE006E5AB5 /* AccessTokenResponse.swift */,
 				3D76CF0F26790D07006E5AB5 /* GitHubUserResponse.swift */,
+				3D76CF232681271A006E5AB5 /* RepositoryResponse.swift */,
+				3D76CF2526813204006E5AB5 /* Owner.swift */,
 			);
 			path = "API Responses";
 			sourceTree = "<group>";
@@ -392,11 +398,13 @@
 				3D76CF172679FD9C006E5AB5 /* HomeViewController.swift in Sources */,
 				3D76CF19267A0076006E5AB5 /* DependencyContainer.swift in Sources */,
 				3D76CEFD2678A342006E5AB5 /* Secrets.swift in Sources */,
+				3D76CF242681271D006E5AB5 /* RepositoryResponse.swift in Sources */,
 				3D76CF072678DD7F006E5AB5 /* NetworkManager.swift in Sources */,
 				3D76CEC52677EE14006E5AB5 /* AppDelegate.swift in Sources */,
 				3D76CEC72677EE14006E5AB5 /* SceneDelegate.swift in Sources */,
 				3D76CF20267A670B006E5AB5 /* PersistanceManager.swift in Sources */,
 				3D76CF22267B403F006E5AB5 /* KeychainSwift.swift in Sources */,
+				3D76CF2626813204006E5AB5 /* Owner.swift in Sources */,
 				3D76CF1026790D07006E5AB5 /* GitHubUserResponse.swift in Sources */,
 				3D76CEF626788AD4006E5AB5 /* UIView+Constraints.swift in Sources */,
 				3D76CF0C2678F5EE006E5AB5 /* AccessTokenResponse.swift in Sources */,

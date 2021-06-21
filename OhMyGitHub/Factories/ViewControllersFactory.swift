@@ -11,7 +11,7 @@ class ViewControllersFactory: DependencyContainer {
     }
     
     func makeGitHubUserViewController(coordinator: MainCoordinator) -> GitHubUserViewController {
-        let vc = GitHubUserViewController(appSessionManager: appSessionManager)
+        let vc = GitHubUserViewController(networkManager: networkManager, appSessionManager: appSessionManager)
         vc.coordinator = coordinator
         return vc
     }

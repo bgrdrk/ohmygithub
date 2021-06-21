@@ -69,4 +69,10 @@ final class NetworkManager {
         let dataTask = makeDataTask(with: request, completion: completion)
         dataTask.resume()
     }
+    
+    func getUsersStaredRepos(token: String, url: URL, _ completion: @escaping (Result<[Repository], AppError>) -> ()) {
+        let request = makeGetRequest(with: url, token: token)
+        let dataTask = makeDataTask(with: request, completion: completion)
+        dataTask.resume()
+    }
 }

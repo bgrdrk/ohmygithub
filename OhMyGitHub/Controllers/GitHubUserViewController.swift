@@ -6,9 +6,11 @@ class GitHubUserViewController: UIViewController {
     
     weak var coordinator: MainCoordinator?
     var appSessionManager: AppSessionManager!
+    var networkManager: NetworkManager!
     
-    init(appSessionManager: AppSessionManager) {
+    init(networkManager: NetworkManager, appSessionManager: AppSessionManager) {
         self.appSessionManager = appSessionManager
+        self.networkManager = networkManager
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -76,6 +78,11 @@ class GitHubUserViewController: UIViewController {
         configureUI()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        fetchStarredRepos()
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: true)
@@ -89,7 +96,26 @@ class GitHubUserViewController: UIViewController {
         followersLabel.text = "Number of followers: \(appSessionManager.appUser!.followers)"
         followingLabel.text = "Number of following: \(appSessionManager.appUser!.following)"
         personalRepositories.text = "Number of personal repos: \(appSessionManager.appUser!.publicRepos)"
-//        staredRepositories
+    }
+    
+    private func fetchStarredRepos() {
+        // TODO: There must be better way to format this string
+        let urlString = appSessionManager.appUser!.starredUrl.split(separator: "{")
+        guard let url = URL(string: String(urlString[0])) else { return }
+        
+        networkManager.getUsersStaredRepos(token: appSessionManager.token!.accessToken,
+                                           url: url) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .failure(let error):
+                // TODO: Handle error swiftly
+                print("DEBUG: error -> \(error.message)")
+            case .success(let repos):
+                DispatchQueue.main.async {
+                    self.staredRepositories.text = "Starred repositories: \(repos.count)"
+                }
+            }
+        }
     }
     
     // MARK: - Selectors

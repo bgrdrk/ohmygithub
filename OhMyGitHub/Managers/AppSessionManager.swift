@@ -10,6 +10,7 @@ final class AppSessionManager {
     init(persistanceManager: PersistanceManager) {
         self.persistanceManager = persistanceManager
         loadUserData()
+        loadTokenData()
     }
     
     // MARK: - Helpers
