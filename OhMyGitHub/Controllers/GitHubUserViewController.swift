@@ -23,22 +23,42 @@ class GitHubUserViewController: UIViewController {
         let imageView = UIImageView(image: image)
         imageView.layer.cornerRadius = 16
         imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
     private let userFullName: UILabel = {
-        let label = AppUI.h1Label(withText: "userFullName", and: 15)
+        let label = AppUI.h1Label(withText: "userFullName")
         return label
     }()
     
     private let userName: UILabel = {
-        let label = AppUI.h1Label(withText: "username", and: 15)
+        let label = AppUI.h1Label(withText: "username")
         return label
     }()
     
-    private let temporaryButton: UIButton = {
-        let button = AppUI.actionButton(withText: "Press me please")
-        button.addTarget(self, action: #selector(handleButtonPress), for: .touchUpInside)
+    private let followersLabel: UILabel = {
+        let label = AppUI.h2Label(withText: "Number of followers")
+        return label
+    }()
+    
+    private let followingLabel: UILabel = {
+        let label = AppUI.h2Label(withText: "Number of following")
+        return label
+    }()
+    
+    private let personalRepositories: UILabel = {
+        let label = AppUI.h2Label(withText: "Personal repositories")
+        return label
+    }()
+    
+    private let staredRepositories: UILabel = {
+        let label = AppUI.h2Label(withText: "Starred repositories: **")
+        return label
+    }()
+    
+    private let followButton: UIButton = {
+        let button = AppUI.actionButton(withText: "FollowUnfollow")
         return button
     }()
     
@@ -50,6 +70,7 @@ class GitHubUserViewController: UIViewController {
         view.backgroundColor = .systemGray2
         navigationItem.title = "GitHub User Home"
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(handleLogout))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(handleEdit))
         
         fillTheUserData()
         configureUI()
@@ -65,6 +86,10 @@ class GitHubUserViewController: UIViewController {
     private func fillTheUserData() {
         userFullName.text = appSessionManager.appUser?.name
         userName.text = appSessionManager.appUser?.login
+        followersLabel.text = "Number of followers: \(appSessionManager.appUser!.followers)"
+        followingLabel.text = "Number of following: \(appSessionManager.appUser!.following)"
+        personalRepositories.text = "Number of personal repos: \(appSessionManager.appUser!.publicRepos)"
+//        staredRepositories
     }
     
     // MARK: - Selectors
@@ -78,14 +103,22 @@ class GitHubUserViewController: UIViewController {
         coordinator?.restart()
     }
     
+    @objc private func handleEdit() {
+        print("DEBUG: Will edit profile from here")
+    }
+    
     // MARK: - UI Configuration
     
     private func configureUI() {
         
-        let stack = UIStackView(arrangedSubviews: [userProfileImage, userFullName, userName, temporaryButton])
+        userProfileImage.anchor(width: 120, height: 120)
+        
+        let stack = UIStackView(arrangedSubviews:
+                                [userProfileImage, userFullName, userName, followButton,
+                                 followersLabel, followingLabel, personalRepositories, staredRepositories])
         stack.axis = .vertical
         stack.spacing = 20
-        stack.distribution = .fillProportionally
+//        stack.distribution = .fill
         
         view.addSubview(stack)
         stack.anchor(left: view.leftAnchor, right: view.rightAnchor,
