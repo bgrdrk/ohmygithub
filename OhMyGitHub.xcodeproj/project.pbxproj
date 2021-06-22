@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		3D607C2E26824B9900340CC3 /* UsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D607C2D26824B9800340CC3 /* UsersViewController.swift */; };
+		3D607C3026827DB100340CC3 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D607C2F26827DB100340CC3 /* Endpoint.swift */; };
+		3D607C3326827E1700340CC3 /* EndpointCases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D607C3226827E1700340CC3 /* EndpointCases.swift */; };
 		3D76CEC52677EE14006E5AB5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76CEC42677EE14006E5AB5 /* AppDelegate.swift */; };
 		3D76CEC72677EE14006E5AB5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76CEC62677EE14006E5AB5 /* SceneDelegate.swift */; };
 		3D76CECE2677EE33006E5AB5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3D76CECD2677EE33006E5AB5 /* Assets.xcassets */; };
@@ -54,6 +56,8 @@
 
 /* Begin PBXFileReference section */
 		3D607C2D26824B9800340CC3 /* UsersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersViewController.swift; sourceTree = "<group>"; };
+		3D607C2F26827DB100340CC3 /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
+		3D607C3226827E1700340CC3 /* EndpointCases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndpointCases.swift; sourceTree = "<group>"; };
 		3D76CEC12677EE14006E5AB5 /* OhMyGitHub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OhMyGitHub.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D76CEC42677EE14006E5AB5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3D76CEC62677EE14006E5AB5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -112,6 +116,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3D607C3126827DFD00340CC3 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				3D76CF0A2678F5CF006E5AB5 /* API Responses */,
+				3D607C2F26827DB100340CC3 /* Endpoint.swift */,
+				3D607C3226827E1700340CC3 /* EndpointCases.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
 		3D76CEB82677EE14006E5AB5 = {
 			isa = PBXGroup;
 			children = (
@@ -197,7 +211,7 @@
 		3D76CEF926789CB1006E5AB5 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				3D76CF0A2678F5CF006E5AB5 /* API Responses */,
+				3D607C3126827DFD00340CC3 /* API */,
 				3D76CEFC2678A342006E5AB5 /* Secrets.swift */,
 				3D76CF082678DE5A006E5AB5 /* AppError.swift */,
 			);
@@ -408,10 +422,12 @@
 				3D76CEC72677EE14006E5AB5 /* SceneDelegate.swift in Sources */,
 				3D76CF20267A670B006E5AB5 /* PersistanceManager.swift in Sources */,
 				3D76CF22267B403F006E5AB5 /* KeychainSwift.swift in Sources */,
+				3D607C3026827DB100340CC3 /* Endpoint.swift in Sources */,
 				3D76CF2626813204006E5AB5 /* Owner.swift in Sources */,
 				3D76CF1026790D07006E5AB5 /* GitHubUserResponse.swift in Sources */,
 				3D76CEF626788AD4006E5AB5 /* UIView+Constraints.swift in Sources */,
 				3D76CF0C2678F5EE006E5AB5 /* AccessTokenResponse.swift in Sources */,
+				3D607C3326827E1700340CC3 /* EndpointCases.swift in Sources */,
 				3D76CF0E26790BEA006E5AB5 /* GitHubUserViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

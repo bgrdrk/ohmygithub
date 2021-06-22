@@ -18,7 +18,7 @@ final class NetworkManager {
     // MARK: - Helpers
     
     private func makeDataTask<T: Codable>(with request: URLRequest,
-                                  completion: @escaping (Result<T, AppError>) -> ()
+                                          completion: @escaping (Result<T, AppError>) -> ()
     ) -> URLSessionDataTask {
         
         let dataTask = session.dataTask(with: request) { data, response, error in
@@ -27,13 +27,13 @@ final class NetworkManager {
                 completion(.failure(.firstError))
                 return
             }
-
+            
             self.decoder.keyDecodingStrategy = .convertFromSnakeCase
             guard let decodedData = try? self.decoder.decode(T.self, from: data) else {
                 completion(.failure(.decodingFailed))
                 return
             }
-
+            
             completion(.success(decodedData))
         }
         return dataTask
@@ -54,10 +54,31 @@ final class NetworkManager {
         return request
     }
     
+    private func makeRequest(_ endpoint: Endpoint) -> URLRequest {
+        
+        var urlComponent = URLComponents(string: endpoint.url)!
+        var queryItems =  urlComponent.queryItems ?? []
+        
+        endpoint.body?.forEach({ body in
+            queryItems.append(URLQueryItem(name: body.key, value: body.value))
+        })
+        
+        urlComponent.queryItems = queryItems
+        var urlRequest = URLRequest(url: urlComponent.url!)
+        urlRequest.httpMethod = endpoint.httpMethod
+        
+        endpoint.headers?.forEach({ header in
+            urlRequest.setValue(header.value,
+                                forHTTPHeaderField: header.key)
+        })
+
+        return urlRequest
+    }
+    
     // MARK: - GET tasks
     
-    func getAccessToken(_ url: URL, _ completion: @escaping (Result<AccessTokenResponse, AppError>) -> ()) {
-        let request = makePostRequest(with: url)
+    func getAccessToken(endpoint: Endpoint, _ completion: @escaping (Result<AccessTokenResponse, AppError>) -> ()) {
+        let request = makeRequest(endpoint)
         let dataTask = makeDataTask(with: request, completion: completion)
         dataTask.resume()
     }

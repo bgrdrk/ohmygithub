@@ -49,11 +49,11 @@ class LoginViewController: UIViewController {
     }
     
     private func handleGitHubAuth() {
-        let signInURL = makeAuthenticationURL()
+        let authorizeUrl = EndpointCases.authorization.urlWithHeaders
         let callbackURLScheme = Secrets.callback
         
         let authenticationSession = ASWebAuthenticationSession(
-            url: signInURL,
+            url: authorizeUrl,
             callbackURLScheme: callbackURLScheme) { [weak self] callbackURL, error in
             guard let self = self else { return }
             
@@ -85,8 +85,8 @@ class LoginViewController: UIViewController {
     }
     
     private func getAccessTokenAndContinueAuth(using code: String) {
-        let url = self.makeAccessTokenURL(with: code)
-        self.networkManager.getAccessToken(url) { [weak self] result in
+        let getAccessEndpoint = EndpointCases.getAccessToken(code: code)
+        self.networkManager.getAccessToken(endpoint: getAccessEndpoint) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .failure(let error):
@@ -97,24 +97,6 @@ class LoginViewController: UIViewController {
                 self.fetchLoggedInUserData(with: accessTokenData)
             }
         }
-    }
-    
-    private func makeAuthenticationURL() -> URL {
-        var urlComponent = URLComponents(string: "https://github.com/login/oauth/authorize")!
-        var queryItems =  urlComponent.queryItems ?? []
-        queryItems.append(URLQueryItem(name: "client_id", value: Secrets.clientId))
-        urlComponent.queryItems = queryItems
-        return urlComponent.url!
-    }
-    
-    private func makeAccessTokenURL(with code: String) -> URL {
-        var urlComponent = URLComponents(string: "https://github.com/login/oauth/access_token")!
-        var queryItems =  urlComponent.queryItems ?? []
-        queryItems.append(URLQueryItem(name: "client_id", value: Secrets.clientId))
-        queryItems.append(URLQueryItem(name: "client_secret", value: Secrets.clientSecret))
-        queryItems.append(URLQueryItem(name: "code", value: code))
-        urlComponent.queryItems = queryItems
-        return urlComponent.url!
     }
     
     private func fetchLoggedInUserData(with accessData: AccessTokenResponse) {
