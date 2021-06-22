@@ -6,6 +6,7 @@ final class AppSessionManager {
     
     private(set) var token: AccessTokenResponse?
     private(set) var appUser: GitHubUser?
+    var usersFollowedAccounts: [Owner] = []
     
     init(persistanceManager: PersistanceManager) {
         self.persistanceManager = persistanceManager

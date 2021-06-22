@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3D607C2E26824B9900340CC3 /* UsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D607C2D26824B9800340CC3 /* UsersViewController.swift */; };
 		3D76CEC52677EE14006E5AB5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76CEC42677EE14006E5AB5 /* AppDelegate.swift */; };
 		3D76CEC72677EE14006E5AB5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76CEC62677EE14006E5AB5 /* SceneDelegate.swift */; };
 		3D76CECE2677EE33006E5AB5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3D76CECD2677EE33006E5AB5 /* Assets.xcassets */; };
@@ -52,6 +53,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3D607C2D26824B9800340CC3 /* UsersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersViewController.swift; sourceTree = "<group>"; };
 		3D76CEC12677EE14006E5AB5 /* OhMyGitHub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OhMyGitHub.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D76CEC42677EE14006E5AB5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3D76CEC62677EE14006E5AB5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -187,6 +189,7 @@
 				3D76CEFE2678AD11006E5AB5 /* LoginViewController.swift */,
 				3D76CF0D26790BEA006E5AB5 /* GitHubUserViewController.swift */,
 				3D76CF162679FD9C006E5AB5 /* HomeViewController.swift */,
+				3D607C2D26824B9800340CC3 /* UsersViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -391,6 +394,7 @@
 				3D76CF042678B017006E5AB5 /* AppUI.swift in Sources */,
 				3D76CF152679EA49006E5AB5 /* MainCoordinator.swift in Sources */,
 				3D76CF1E267A4F2F006E5AB5 /* AppSessionManager.swift in Sources */,
+				3D607C2E26824B9900340CC3 /* UsersViewController.swift in Sources */,
 				3D76CF1C267A073F006E5AB5 /* ViewControllersFactory.swift in Sources */,
 				3D76CEFF2678AD11006E5AB5 /* LoginViewController.swift in Sources */,
 				3D76CF132679E97E006E5AB5 /* CoordinatorProtocol.swift in Sources */,

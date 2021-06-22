@@ -49,6 +49,11 @@ class MainCoordinator: CoordinatorProtocol {
     
     // MARK: - Controlling the Navigation Stack
     
+    func presentUsersViewController() {
+        let vc = viewControllersFactory.makeUsersViewController(coordinator: self)
+        navigationController.pushViewController(vc, animated: true)
+    }
+    
     func popToHomeViewController() {
         navigationController.popToRootViewController(animated: true)
     }

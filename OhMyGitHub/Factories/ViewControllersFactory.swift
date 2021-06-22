@@ -15,4 +15,10 @@ class ViewControllersFactory: DependencyContainer {
         vc.coordinator = coordinator
         return vc
     }
+    
+    func makeUsersViewController(coordinator: MainCoordinator) -> UsersViewController {
+        let vc = UsersViewController(networkManager: networkManager, appSessionManager: appSessionManager)
+        vc.coordinator = coordinator
+        return vc
+    }
 }

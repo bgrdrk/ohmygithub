@@ -4,6 +4,8 @@ class GitHubUserViewController: UIViewController {
 
     // MARK: - Properties
     
+    var starredRepos: [Repository] = []
+    
     weak var coordinator: MainCoordinator?
     var appSessionManager: AppSessionManager!
     var networkManager: NetworkManager!
@@ -61,6 +63,7 @@ class GitHubUserViewController: UIViewController {
     
     private let followButton: UIButton = {
         let button = AppUI.actionButton(withText: "FollowUnfollow")
+        button.addTarget(self, action: #selector(handleButtonTap), for: .touchUpInside)
         return button
     }()
     
@@ -69,18 +72,19 @@ class GitHubUserViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .systemGray2
+        view.backgroundColor = .white
         navigationItem.title = "GitHub User Home"
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(handleLogout))
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(handleEdit))
         
-        fillTheUserData()
+        fillUIWithUserData()
         configureUI()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         fetchStarredRepos()
+        fetchFollowedAccounts()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -90,12 +94,13 @@ class GitHubUserViewController: UIViewController {
     
     // MARK: - Helpers
     
-    private func fillTheUserData() {
+    private func fillUIWithUserData() {
         userFullName.text = appSessionManager.appUser?.name
         userName.text = appSessionManager.appUser?.login
         followersLabel.text = "Number of followers: \(appSessionManager.appUser!.followers)"
         followingLabel.text = "Number of following: \(appSessionManager.appUser!.following)"
         personalRepositories.text = "Number of personal repos: \(appSessionManager.appUser!.publicRepos)"
+        staredRepositories.text = "Starred repositories: \(starredRepos.count)"
     }
     
     private func fetchStarredRepos() {
@@ -112,7 +117,28 @@ class GitHubUserViewController: UIViewController {
                 print("DEBUG: error -> \(error.message)")
             case .success(let repos):
                 DispatchQueue.main.async {
-                    self.staredRepositories.text = "Starred repositories: \(repos.count)"
+                    self.starredRepos = repos
+                    self.fillUIWithUserData()
+                }
+            }
+        }
+    }
+    
+    private func fetchFollowedAccounts() {
+        // TODO: There must be better way to format this string
+        let urlString = appSessionManager.appUser!.followingUrl.split(separator: "{")
+        guard let url = URL(string: String(urlString[0])) else { return }
+        
+        networkManager.getFollowedAccounts(token: appSessionManager.token!.accessToken,
+                                           url: url) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .failure(let error):
+                // TODO: Handle error swiftly
+                print("DEBUG: error -> \(error.message)")
+            case .success(let followedAccounts):
+                DispatchQueue.main.async {
+                    self.appSessionManager.usersFollowedAccounts = followedAccounts
                 }
             }
         }
@@ -133,11 +159,15 @@ class GitHubUserViewController: UIViewController {
         print("DEBUG: Will edit profile from here")
     }
     
+    @objc private func handleButtonTap() {
+        coordinator?.presentUsersViewController()
+    }
+    
     // MARK: - UI Configuration
     
     private func configureUI() {
         
-        userProfileImage.anchor(width: 120, height: 120)
+        userProfileImage.anchor(width: 100, height: 100)
         
         let stack = UIStackView(arrangedSubviews:
                                 [userProfileImage, userFullName, userName, followButton,

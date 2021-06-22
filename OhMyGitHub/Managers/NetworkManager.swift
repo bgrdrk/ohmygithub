@@ -75,4 +75,10 @@ final class NetworkManager {
         let dataTask = makeDataTask(with: request, completion: completion)
         dataTask.resume()
     }
+    
+    func getFollowedAccounts(token: String, url: URL, _ completion: @escaping (Result<[Owner], AppError>) -> ()) {
+        let request = makeGetRequest(with: url, token: token)
+        let dataTask = makeDataTask(with: request, completion: completion)
+        dataTask.resume()
+    }
 }
