@@ -7,6 +7,7 @@ class GitHubUserViewController: UIViewController {
     var starredRepos: [Repository] = []
     
     weak var coordinator: MainCoordinator?
+    // viewModel
     var appSessionManager: AppSessionManager!
     var networkManager: NetworkManager!
     
@@ -108,6 +109,8 @@ class GitHubUserViewController: UIViewController {
         let urlString = appSessionManager.appUser!.starredUrl.split(separator: "{")
         guard let url = URL(string: String(urlString[0])) else { return }
         
+        // https://api.github.com/users/bgrdrk/starred{/owner}{/repo}
+        // try to build it with URL Builder instead of using data from back-end
         networkManager.getUsersStaredRepos(token: appSessionManager.token!.accessToken,
                                            url: url) { [weak self] result in
             guard let self = self else { return }

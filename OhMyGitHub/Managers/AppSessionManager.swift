@@ -6,6 +6,7 @@ final class AppSessionManager {
     
     private(set) var token: AccessTokenResponse?
     private(set) var appUser: GitHubUser?
+    // viewModel will hold data about this below. Will fetch it also.
     var usersFollowedAccounts: [Owner] = []
     
     init(persistanceManager: PersistanceManager) {
