@@ -5,20 +5,21 @@ protocol Endpoint {
     var baseURLString: String { get }
     var path: String { get }
     var headers: [String: String]? { get }
+    var query: [String: String]? { get }
     var body: [String: String]? { get }
 }
 
 extension Endpoint {
     
-    var url: String {
+    var urlString: String {
         return baseURLString + path
     }
     
-    var urlWithHeaders: URL {
-        var urlComponent = URLComponents(string: url)!
+    var urlWithComponents: URL {
+        var urlComponent = URLComponents(string: urlString)!
         var queryItems = urlComponent.queryItems ?? []
-        self.headers?.forEach({ header in
-            queryItems.append(URLQueryItem(name: header.key, value: header.value))
+        self.query?.forEach({ item in
+            queryItems.append(URLQueryItem(name: item.key, value: item.value))
         })
         urlComponent.queryItems = queryItems
         return urlComponent.url!

@@ -3,7 +3,7 @@ enum AppError: Error {
     case firstError
     case decodingFailed
     
-    var message: String {
+    var description: String {
         switch self {
         case .firstError:
             return "First error delivered."

@@ -49,7 +49,7 @@ class LoginViewController: UIViewController {
     }
     
     private func handleGitHubAuth() {
-        let authorizeUrl = EndpointCases.authorization.urlWithHeaders
+        let authorizeUrl = EndpointCases.authorization.urlWithComponents
         let callbackURLScheme = Secrets.callback
         
         let authenticationSession = ASWebAuthenticationSession(
@@ -91,7 +91,7 @@ class LoginViewController: UIViewController {
             switch result {
             case .failure(let error):
                 // TODO: Handle error swiftly
-                print("DEBUG: error -> \(error.message)")
+                print("DEBUG: error -> \(error.description)")
             case .success(let accessTokenData):
                 self.appSessionManager.saveTokenData(accessTokenData)
                 self.fetchLoggedInUserData(with: accessTokenData)
@@ -105,7 +105,7 @@ class LoginViewController: UIViewController {
             switch result {
             case .failure(let error):
                 // TODO: Handle error swiftly
-                print("DEBUG: error -> \(error.message)")
+                print("DEBUG: error -> \(error.description)")
             case .success(let gitHubUserData):
                 self.appSessionManager.saveUserData(gitHubUserData)
                 DispatchQueue.main.async {

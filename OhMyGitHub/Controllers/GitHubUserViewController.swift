@@ -117,7 +117,7 @@ class GitHubUserViewController: UIViewController {
             switch result {
             case .failure(let error):
                 // TODO: Handle error swiftly
-                print("DEBUG: error -> \(error.message)")
+                print("DEBUG: error -> \(error.description)")
             case .success(let repos):
                 DispatchQueue.main.async {
                     self.starredRepos = repos
@@ -138,7 +138,7 @@ class GitHubUserViewController: UIViewController {
             switch result {
             case .failure(let error):
                 // TODO: Handle error swiftly
-                print("DEBUG: error -> \(error.message)")
+                print("DEBUG: error -> \(error.description)")
             case .success(let followedAccounts):
                 DispatchQueue.main.async {
                     self.appSessionManager.usersFollowedAccounts = followedAccounts

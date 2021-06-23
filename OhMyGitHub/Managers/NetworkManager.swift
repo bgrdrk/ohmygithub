@@ -56,15 +56,8 @@ final class NetworkManager {
     
     private func makeRequest(_ endpoint: Endpoint) -> URLRequest {
         
-        var urlComponent = URLComponents(string: endpoint.url)!
-        var queryItems =  urlComponent.queryItems ?? []
-        
-        endpoint.body?.forEach({ body in
-            queryItems.append(URLQueryItem(name: body.key, value: body.value))
-        })
-        
-        urlComponent.queryItems = queryItems
-        var urlRequest = URLRequest(url: urlComponent.url!)
+        let url = endpoint.urlWithComponents
+        var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = endpoint.httpMethod
         
         endpoint.headers?.forEach({ header in
