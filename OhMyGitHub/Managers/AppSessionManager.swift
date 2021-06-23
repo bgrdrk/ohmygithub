@@ -5,10 +5,10 @@ final class AppSessionManager {
     let persistanceManager: PersistanceManager!
     
     private(set) var token: AccessTokenResponse?
-    private(set) var appUser: GitHubUser?
+    private(set) var appUser: PublicGitHubUser?
     // viewModel will hold data about this below. Will fetch it also.
-    var usersFollowedAccounts: [Owner] = []
-    var usersFollowers: [Owner] = []
+    var usersFollowedAccounts: [GitHubAccount] = []
+    var usersFollowers: [GitHubAccount] = []
     
     init(persistanceManager: PersistanceManager) {
         self.persistanceManager = persistanceManager
@@ -19,13 +19,13 @@ final class AppSessionManager {
     // MARK: - Helpers
     
     private func loadUserData() {
-        guard let userData: GitHubUser = try? persistanceManager.load(title: "User Data") else {
+        guard let userData: PublicGitHubUser = try? persistanceManager.load(title: "User Data") else {
             return
         }
         appUser = userData
     }
     
-    func saveUserData(_ userData: GitHubUser) {
+    func saveUserData(_ userData: PublicGitHubUser) {
         try! persistanceManager.save(userData, title: "User Data")
         appUser = userData
     }

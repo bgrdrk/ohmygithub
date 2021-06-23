@@ -55,7 +55,7 @@ final class NetworkManager {
         dataTask.resume()
     }
     
-    func getGitHubUser(_ endpoint: Endpoint, _ completion: @escaping (Result<GitHubUser, AppError>) -> ()) {
+    func getGitHubUser(_ endpoint: Endpoint, _ completion: @escaping (Result<PublicGitHubUser, AppError>) -> ()) {
         let request = makeRequest(endpoint)
         let dataTask = makeDataTask(with: request, completion: completion)
         dataTask.resume()
@@ -67,13 +67,13 @@ final class NetworkManager {
         dataTask.resume()
     }
     
-    func getFollowedAccounts(_ endpoint: Endpoint, _ completion: @escaping (Result<[Owner], AppError>) -> ()) {
+    func getFollowedAccounts(_ endpoint: Endpoint, _ completion: @escaping (Result<[GitHubAccount], AppError>) -> ()) {
         let request = makeRequest(endpoint)
         let dataTask = makeDataTask(with: request, completion: completion)
         dataTask.resume()
     }
     
-    func getFollowers(_ endpoint: Endpoint, _ completion: @escaping (Result<[Owner], AppError>) -> ()) {
+    func getFollowers(_ endpoint: Endpoint, _ completion: @escaping (Result<[GitHubAccount], AppError>) -> ()) {
         let request = makeRequest(endpoint)
         let dataTask = makeDataTask(with: request, completion: completion)
         dataTask.resume()

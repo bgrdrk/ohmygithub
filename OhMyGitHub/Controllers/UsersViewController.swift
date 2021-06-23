@@ -6,11 +6,11 @@ class UsersViewController: UIViewController {
 
     weak var coordinator: MainCoordinator?
     
-    var users: [Owner] = []
+    var users: [GitHubAccount] = []
     
     private let tableView = UITableView()
     
-    init(users: [Owner]) {
+    init(users: [GitHubAccount]) {
         self.users = users
         super.init(nibName: nil, bundle: nil)
     }
