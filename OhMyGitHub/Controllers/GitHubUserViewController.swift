@@ -105,14 +105,9 @@ class GitHubUserViewController: UIViewController {
     }
     
     private func fetchStarredRepos() {
-        // TODO: There must be better way to format this string
-        let urlString = appSessionManager.appUser!.starredUrl.split(separator: "{")
-        guard let url = URL(string: String(urlString[0])) else { return }
-        
-        // https://api.github.com/users/bgrdrk/starred{/owner}{/repo}
-        // try to build it with URL Builder instead of using data from back-end
-        networkManager.getUsersStaredRepos(token: appSessionManager.token!.accessToken,
-                                           url: url) { [weak self] result in
+        let userLogin = appSessionManager.appUser?.login
+        let endpoint = EndpointCases.getUsersStarredRepos(login: userLogin!)
+        networkManager.getUsersStaredRepos(endpoint) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .failure(let error):
@@ -128,12 +123,9 @@ class GitHubUserViewController: UIViewController {
     }
     
     private func fetchFollowedAccounts() {
-        // TODO: There must be better way to format this string
-        let urlString = appSessionManager.appUser!.followingUrl.split(separator: "{")
-        guard let url = URL(string: String(urlString[0])) else { return }
-        
-        networkManager.getFollowedAccounts(token: appSessionManager.token!.accessToken,
-                                           url: url) { [weak self] result in
+        let userLogin = appSessionManager.appUser?.login
+        let endpoint = EndpointCases.getUsersFollowedAccounts(login: userLogin!)
+        networkManager.getFollowedAccounts(endpoint) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .failure(let error):

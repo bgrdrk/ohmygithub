@@ -3,10 +3,15 @@ enum EndpointCases: Endpoint {
     case authorization
     case getAccessToken(code: String)
     case getUser(token: String)
+    case getUsersStarredRepos(login: String)
+    case getUsersFollowedAccounts(login: String)
     
     var httpMethod: String {
         switch self {
-        case .authorization, .getUser:
+        case .authorization,
+             .getUser,
+             .getUsersStarredRepos,
+             .getUsersFollowedAccounts:
             return "GET"
         case .getAccessToken:
             return "POST"
@@ -17,7 +22,9 @@ enum EndpointCases: Endpoint {
         switch self {
         case .authorization, .getAccessToken:
             return "https://github.com/login/oauth/"
-        case .getUser:
+        case .getUser,
+             .getUsersStarredRepos,
+             .getUsersFollowedAccounts:
             return "https://api.github.com/"
         }
     }
@@ -30,12 +37,19 @@ enum EndpointCases: Endpoint {
             return "access_token"
         case .getUser:
             return "user"
+        case .getUsersStarredRepos(let login):
+            return "users/\(login)/starred"
+        case .getUsersFollowedAccounts(let login):
+            return "users/\(login)/following"
         }
     }
     
     var headers: [String: String]? {
         switch self {
-        case .authorization, .getAccessToken:
+        case .authorization,
+             .getAccessToken,
+             .getUsersStarredRepos,
+             .getUsersFollowedAccounts:
             return ["Accept": "application/vnd.github.v3+json"]
         case .getUser(let token):
             return ["Accept": "application/vnd.github.v3+json",
@@ -51,14 +65,20 @@ enum EndpointCases: Endpoint {
             return ["client_id": Secrets.clientId,
                     "client_secret": Secrets.clientSecret,
                     "code": code]
-        case .getUser:
+        case .getUser,
+             .getUsersStarredRepos,
+             .getUsersFollowedAccounts:
             return nil
         }
     }
     
     var body: [String : String]? {
         switch self {
-        case .authorization, .getAccessToken, .getUser:
+        case .authorization,
+             .getAccessToken,
+             .getUser,
+             .getUsersStarredRepos,
+             .getUsersFollowedAccounts:
             return nil
         }
     }

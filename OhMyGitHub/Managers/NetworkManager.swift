@@ -61,15 +61,15 @@ final class NetworkManager {
         dataTask.resume()
     }
     
-    func getUsersStaredRepos(token: String, url: URL, _ completion: @escaping (Result<[Repository], AppError>) -> ()) {
-//        let request = makeGetRequest(with: url, token: token)
-//        let dataTask = makeDataTask(with: request, completion: completion)
-//        dataTask.resume()
+    func getUsersStaredRepos(_ endpoint: Endpoint, _ completion: @escaping (Result<[Repository], AppError>) -> ()) {
+        let request = makeRequest(endpoint)
+        let dataTask = makeDataTask(with: request, completion: completion)
+        dataTask.resume()
     }
     
-    func getFollowedAccounts(token: String, url: URL, _ completion: @escaping (Result<[Owner], AppError>) -> ()) {
-//        let request = makeGetRequest(with: url, token: token)
-//        let dataTask = makeDataTask(with: request, completion: completion)
-//        dataTask.resume()
+    func getFollowedAccounts(_ endpoint: Endpoint, _ completion: @escaping (Result<[Owner], AppError>) -> ()) {
+        let request = makeRequest(endpoint)
+        let dataTask = makeDataTask(with: request, completion: completion)
+        dataTask.resume()
     }
 }
