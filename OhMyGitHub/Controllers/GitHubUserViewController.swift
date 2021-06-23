@@ -42,29 +42,35 @@ class GitHubUserViewController: UIViewController {
         return label
     }()
     
-    private let followersLabel: UILabel = {
-        let label = AppUI.h2Label(withText: "Number of followers")
-        return label
-    }()
-    
-    private let followingLabel: UILabel = {
-        let label = AppUI.h2Label(withText: "Number of following")
-        return label
-    }()
-    
-    private let personalRepositories: UILabel = {
-        let label = AppUI.h2Label(withText: "Personal repositories")
-        return label
-    }()
-    
-    private let staredRepositories: UILabel = {
-        let label = AppUI.h2Label(withText: "Starred repositories: **")
-        return label
-    }()
-    
     private let followButton: UIButton = {
         let button = AppUI.actionButton(withText: "FollowUnfollow")
         button.addTarget(self, action: #selector(handleButtonTap), for: .touchUpInside)
+        return button
+    }()
+    
+    private let followersButton: UIButton = {
+        let button = AppUI.attributedButton("Number of followers:", "0")
+        button.addTarget(self, action: #selector(handleFollowersTap), for: .touchUpInside)
+        return button
+    }()
+    
+    private let followingButton: UIButton = {
+        let button = AppUI.attributedButton("Following:", "0")
+        button.addTarget(self, action: #selector(handleFollowingTap), for: .touchUpInside)
+        return button
+    }()
+    
+    private let personalReposButton: UIButton = {
+        let button = AppUI.attributedButton("Personal repositories:", "0")
+        button.addTarget(self, action: #selector(handlePersonalReposTap), for: .touchUpInside)
+        button.backgroundColor = .systemGreen
+        return button
+    }()
+    
+    private let starredReposButton: UIButton = {
+        let button = AppUI.attributedButton("Starred repositories:", "0")
+        button.addTarget(self, action: #selector(handleStarredReposTap), for: .touchUpInside)
+        button.backgroundColor = .systemGreen
         return button
     }()
     
@@ -78,15 +84,16 @@ class GitHubUserViewController: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(handleLogout))
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(handleEdit))
         
-        fillUIWithUserData()
         configureUI()
+        
+        fetchStarredRepos()
+        fetchFollowedAccounts()
+        fetchFollowers()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        fetchStarredRepos()
-        fetchFollowedAccounts()
-        fetchFollowers()
+        fillUIWithUserData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -99,10 +106,10 @@ class GitHubUserViewController: UIViewController {
     private func fillUIWithUserData() {
         userFullName.text = appSessionManager.appUser?.name
         userName.text = appSessionManager.appUser?.login
-        followersLabel.text = "Number of followers: \(appSessionManager.appUser!.followers)"
-        followingLabel.text = "Number of following: \(appSessionManager.appUser!.following)"
-        personalRepositories.text = "Number of personal repos: \(appSessionManager.appUser!.publicRepos)"
-        staredRepositories.text = "Starred repositories: \(starredRepos.count)"
+        followersButton.updateAttributtedTitle("Followers:", "\(appSessionManager.appUser!.followers)")
+        followingButton.updateAttributtedTitle("Following:", "\(appSessionManager.appUser!.following)")
+        personalReposButton.updateAttributtedTitle("Personal repos:", "\(appSessionManager.appUser!.publicRepos)")
+        starredReposButton.updateAttributtedTitle("Starred repositories:", "\(starredRepos.count)")
     }
     
     private func fetchStarredRepos() {
@@ -134,6 +141,9 @@ class GitHubUserViewController: UIViewController {
                 print("DEBUG: error -> \(error.description)")
             case .success(let followedAccounts):
                 self.appSessionManager.usersFollowedAccounts = followedAccounts
+                DispatchQueue.main.async {
+                    self.fillUIWithUserData()
+                }
             }
         }
     }
@@ -149,6 +159,9 @@ class GitHubUserViewController: UIViewController {
                 print("DEBUG: error -> \(error.description)")
             case .success(let followers):
                 self.appSessionManager.usersFollowers = followers
+                DispatchQueue.main.async {
+                    self.fillUIWithUserData()
+                }
             }
         }
     }
@@ -169,18 +182,35 @@ class GitHubUserViewController: UIViewController {
     }
     
     @objc private func handleButtonTap() {
+        print((#function))
+    }
+    
+    @objc private func handleFollowersTap() {
+        print((#function))
+    }
+    
+    @objc private func handleFollowingTap() {
         coordinator?.presentUsersViewController()
     }
+    
+    @objc private func handlePersonalReposTap() {
+        print((#function))
+    }
+    
+    @objc private func handleStarredReposTap() {
+        print((#function))
+    }
+    
     
     // MARK: - UI Configuration
     
     private func configureUI() {
         
-        userProfileImage.anchor(width: 100, height: 100)
+        userProfileImage.setDimensions(width: 100, height: 100)
         
         let stack = UIStackView(arrangedSubviews:
                                 [userProfileImage, userFullName, userName, followButton,
-                                 followersLabel, followingLabel, personalRepositories, staredRepositories])
+                                 followersButton, followingButton, personalReposButton, starredReposButton])
         stack.axis = .vertical
         stack.spacing = 20
 //        stack.distribution = .fill

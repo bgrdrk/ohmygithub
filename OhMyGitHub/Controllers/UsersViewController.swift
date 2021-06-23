@@ -38,10 +38,7 @@ class UsersViewController: UIViewController {
     
     private func configureUI() {
         view.addSubview(tableView)
-        tableView.anchor(top: view.safeAreaLayoutGuide.topAnchor,
-                         left: view.safeAreaLayoutGuide.leftAnchor,
-                         bottom: view.safeAreaLayoutGuide.bottomAnchor,
-                         right: view.safeAreaLayoutGuide.rightAnchor)
+        tableView.addConstraintsToFillView(view)
     }
 }
 

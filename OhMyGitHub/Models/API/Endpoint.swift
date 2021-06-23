@@ -17,8 +17,9 @@ extension Endpoint {
     
     var urlWithComponents: URL {
         var urlComponent = URLComponents(string: urlString)!
+        guard let query = self.query else { return urlComponent.url! }
         var queryItems = urlComponent.queryItems ?? []
-        self.query?.forEach({ item in
+        query.forEach({ item in
             queryItems.append(URLQueryItem(name: item.key, value: item.value))
         })
         urlComponent.queryItems = queryItems

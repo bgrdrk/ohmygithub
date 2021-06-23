@@ -1,6 +1,6 @@
 import Foundation
 
-// TODO: GitHubUser should be a an Owner probably. Just like Organization.
+// TODO: GitHubUser should be an Owner probably. Just like Organization.
 struct GitHubUser: Codable {
     let name: String
     let login: String
