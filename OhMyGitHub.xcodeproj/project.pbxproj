@@ -10,6 +10,9 @@
 		3D607C2E26824B9900340CC3 /* UsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D607C2D26824B9800340CC3 /* UsersViewController.swift */; };
 		3D607C3026827DB100340CC3 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D607C2F26827DB100340CC3 /* Endpoint.swift */; };
 		3D607C3326827E1700340CC3 /* EndpointCases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D607C3226827E1700340CC3 /* EndpointCases.swift */; };
+		3D607C372683D6FF00340CC3 /* PublicGitHubUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D607C362683D6FF00340CC3 /* PublicGitHubUserViewController.swift */; };
+		3D607C3A2683D89A00340CC3 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D607C392683D89A00340CC3 /* Observable.swift */; };
+		3D607C3C2683D9B300340CC3 /* PublicGitHubUserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D607C3B2683D9B300340CC3 /* PublicGitHubUserViewModel.swift */; };
 		3D76CEC52677EE14006E5AB5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76CEC42677EE14006E5AB5 /* AppDelegate.swift */; };
 		3D76CEC72677EE14006E5AB5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76CEC62677EE14006E5AB5 /* SceneDelegate.swift */; };
 		3D76CECE2677EE33006E5AB5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3D76CECD2677EE33006E5AB5 /* Assets.xcassets */; };
@@ -58,6 +61,9 @@
 		3D607C2D26824B9800340CC3 /* UsersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersViewController.swift; sourceTree = "<group>"; };
 		3D607C2F26827DB100340CC3 /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
 		3D607C3226827E1700340CC3 /* EndpointCases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndpointCases.swift; sourceTree = "<group>"; };
+		3D607C362683D6FF00340CC3 /* PublicGitHubUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicGitHubUserViewController.swift; sourceTree = "<group>"; };
+		3D607C392683D89A00340CC3 /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
+		3D607C3B2683D9B300340CC3 /* PublicGitHubUserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicGitHubUserViewModel.swift; sourceTree = "<group>"; };
 		3D76CEC12677EE14006E5AB5 /* OhMyGitHub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OhMyGitHub.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D76CEC42677EE14006E5AB5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3D76CEC62677EE14006E5AB5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -126,6 +132,15 @@
 			path = API;
 			sourceTree = "<group>";
 		};
+		3D607C382683D88D00340CC3 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				3D607C392683D89A00340CC3 /* Observable.swift */,
+				3D607C3B2683D9B300340CC3 /* PublicGitHubUserViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		3D76CEB82677EE14006E5AB5 = {
 			isa = PBXGroup;
 			children = (
@@ -149,6 +164,7 @@
 		3D76CEC32677EE14006E5AB5 /* OhMyGitHub */ = {
 			isa = PBXGroup;
 			children = (
+				3D607C382683D88D00340CC3 /* ViewModels */,
 				3D76CF1A267A0674006E5AB5 /* Factories */,
 				3D76CEF726789C9D006E5AB5 /* AppDelegate */,
 				3D76CEF826789CA9006E5AB5 /* Controllers */,
@@ -200,9 +216,10 @@
 		3D76CEF826789CA9006E5AB5 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				3D76CEFE2678AD11006E5AB5 /* LoginViewController.swift */,
 				3D76CF0D26790BEA006E5AB5 /* GitHubUserViewController.swift */,
 				3D76CF162679FD9C006E5AB5 /* HomeViewController.swift */,
+				3D76CEFE2678AD11006E5AB5 /* LoginViewController.swift */,
+				3D607C362683D6FF00340CC3 /* PublicGitHubUserViewController.swift */,
 				3D607C2D26824B9800340CC3 /* UsersViewController.swift */,
 			);
 			path = Controllers;
@@ -405,13 +422,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D607C3A2683D89A00340CC3 /* Observable.swift in Sources */,
 				3D76CF042678B017006E5AB5 /* AppUI.swift in Sources */,
 				3D76CF152679EA49006E5AB5 /* MainCoordinator.swift in Sources */,
+				3D607C372683D6FF00340CC3 /* PublicGitHubUserViewController.swift in Sources */,
 				3D76CF1E267A4F2F006E5AB5 /* AppSessionManager.swift in Sources */,
 				3D607C2E26824B9900340CC3 /* UsersViewController.swift in Sources */,
 				3D76CF1C267A073F006E5AB5 /* ViewControllersFactory.swift in Sources */,
 				3D76CEFF2678AD11006E5AB5 /* LoginViewController.swift in Sources */,
 				3D76CF132679E97E006E5AB5 /* CoordinatorProtocol.swift in Sources */,
+				3D607C3C2683D9B300340CC3 /* PublicGitHubUserViewModel.swift in Sources */,
 				3D76CF092678DE5A006E5AB5 /* AppError.swift in Sources */,
 				3D76CF172679FD9C006E5AB5 /* HomeViewController.swift in Sources */,
 				3D76CF19267A0076006E5AB5 /* DependencyContainer.swift in Sources */,

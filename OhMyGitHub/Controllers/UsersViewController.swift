@@ -6,12 +6,12 @@ class UsersViewController: UIViewController {
 
     weak var coordinator: MainCoordinator?
     
-    var users: [GitHubAccount] = []
+    var accounts: [GitHubAccount] = []
     
     private let tableView = UITableView()
     
     init(users: [GitHubAccount]) {
-        self.users = users
+        self.accounts = users
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -45,12 +45,17 @@ class UsersViewController: UIViewController {
 extension UsersViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        users.count
+        accounts.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as UITableViewCell? else { return UITableViewCell() }
-        cell.textLabel?.text = users[indexPath.row].login
+        cell.textLabel?.text = accounts[indexPath.row].login
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.tableView.deselectRow(at: indexPath, animated: true)
+        coordinator?.presentPublicGitHubUserViewController(for: accounts[indexPath.row])
     }
 }

@@ -3,6 +3,7 @@ enum EndpointCases: Endpoint {
     case authorization
     case getAccessToken(code: String)
     case getUser(token: String)
+    case getPublicUser(login: String)
     case getUsersStarredRepos(login: String)
     case getUsersFollowers(login: String)
     case getUsersFollowedAccounts(login: String)
@@ -11,6 +12,7 @@ enum EndpointCases: Endpoint {
         switch self {
         case .authorization,
              .getUser,
+             .getPublicUser,
              .getUsersStarredRepos,
              .getUsersFollowers,
              .getUsersFollowedAccounts:
@@ -25,6 +27,7 @@ enum EndpointCases: Endpoint {
         case .authorization, .getAccessToken:
             return "https://github.com/login/oauth/"
         case .getUser,
+             .getPublicUser,
              .getUsersStarredRepos,
              .getUsersFollowers,
              .getUsersFollowedAccounts:
@@ -40,6 +43,8 @@ enum EndpointCases: Endpoint {
             return "access_token"
         case .getUser:
             return "user"
+        case .getPublicUser(let login):
+            return "users/\(login)"
         case .getUsersStarredRepos(let login):
             return "users/\(login)/starred"
         case .getUsersFollowers(let login):
@@ -53,6 +58,7 @@ enum EndpointCases: Endpoint {
         switch self {
         case .authorization,
              .getAccessToken,
+             .getPublicUser,
              .getUsersStarredRepos,
              .getUsersFollowers,
              .getUsersFollowedAccounts:
@@ -72,6 +78,7 @@ enum EndpointCases: Endpoint {
                     "client_secret": Secrets.clientSecret,
                     "code": code]
         case .getUser,
+             .getPublicUser,
              .getUsersStarredRepos,
              .getUsersFollowedAccounts,
              .getUsersFollowers:
@@ -84,6 +91,7 @@ enum EndpointCases: Endpoint {
         case .authorization,
              .getAccessToken,
              .getUser,
+             .getPublicUser,
              .getUsersStarredRepos,
              .getUsersFollowers,
              .getUsersFollowedAccounts:
