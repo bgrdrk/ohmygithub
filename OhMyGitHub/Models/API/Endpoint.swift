@@ -24,4 +24,13 @@ extension Endpoint {
         urlComponent.queryItems = queryItems
         return urlComponent.url!
     }
+    
+    func setHeaders(_ urlRequest: URLRequest) -> URLRequest {
+        var urlRequest = urlRequest
+        self.headers?.forEach({ header in
+            urlRequest.setValue(header.value,
+                                forHTTPHeaderField: header.key)
+        })
+        return urlRequest
+    }
 }

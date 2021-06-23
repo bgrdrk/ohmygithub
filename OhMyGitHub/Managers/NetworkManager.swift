@@ -55,16 +55,10 @@ final class NetworkManager {
     }
     
     private func makeRequest(_ endpoint: Endpoint) -> URLRequest {
-        
         let url = endpoint.urlWithComponents
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = endpoint.httpMethod
-        
-        endpoint.headers?.forEach({ header in
-            urlRequest.setValue(header.value,
-                                forHTTPHeaderField: header.key)
-        })
-
+        urlRequest = endpoint.setHeaders(urlRequest)
         return urlRequest
     }
     
