@@ -72,4 +72,10 @@ final class NetworkManager {
         let dataTask = makeDataTask(with: request, completion: completion)
         dataTask.resume()
     }
+    
+    func getFollowers(_ endpoint: Endpoint, _ completion: @escaping (Result<[Owner], AppError>) -> ()) {
+        let request = makeRequest(endpoint)
+        let dataTask = makeDataTask(with: request, completion: completion)
+        dataTask.resume()
+    }
 }

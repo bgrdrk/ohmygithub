@@ -4,6 +4,7 @@ enum EndpointCases: Endpoint {
     case getAccessToken(code: String)
     case getUser(token: String)
     case getUsersStarredRepos(login: String)
+    case getUsersFollowers(login: String)
     case getUsersFollowedAccounts(login: String)
     
     var httpMethod: String {
@@ -11,6 +12,7 @@ enum EndpointCases: Endpoint {
         case .authorization,
              .getUser,
              .getUsersStarredRepos,
+             .getUsersFollowers,
              .getUsersFollowedAccounts:
             return "GET"
         case .getAccessToken:
@@ -24,6 +26,7 @@ enum EndpointCases: Endpoint {
             return "https://github.com/login/oauth/"
         case .getUser,
              .getUsersStarredRepos,
+             .getUsersFollowers,
              .getUsersFollowedAccounts:
             return "https://api.github.com/"
         }
@@ -39,6 +42,8 @@ enum EndpointCases: Endpoint {
             return "user"
         case .getUsersStarredRepos(let login):
             return "users/\(login)/starred"
+        case .getUsersFollowers(let login):
+            return "users/\(login)/followers"
         case .getUsersFollowedAccounts(let login):
             return "users/\(login)/following"
         }
@@ -49,6 +54,7 @@ enum EndpointCases: Endpoint {
         case .authorization,
              .getAccessToken,
              .getUsersStarredRepos,
+             .getUsersFollowers,
              .getUsersFollowedAccounts:
             return ["Accept": "application/vnd.github.v3+json"]
         case .getUser(let token):
@@ -67,7 +73,8 @@ enum EndpointCases: Endpoint {
                     "code": code]
         case .getUser,
              .getUsersStarredRepos,
-             .getUsersFollowedAccounts:
+             .getUsersFollowedAccounts,
+             .getUsersFollowers:
             return nil
         }
     }
@@ -78,6 +85,7 @@ enum EndpointCases: Endpoint {
              .getAccessToken,
              .getUser,
              .getUsersStarredRepos,
+             .getUsersFollowers,
              .getUsersFollowedAccounts:
             return nil
         }

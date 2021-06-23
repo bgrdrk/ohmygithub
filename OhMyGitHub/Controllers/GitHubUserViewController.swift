@@ -86,6 +86,7 @@ class GitHubUserViewController: UIViewController {
         super.viewDidAppear(animated)
         fetchStarredRepos()
         fetchFollowedAccounts()
+        fetchFollowers()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -132,9 +133,22 @@ class GitHubUserViewController: UIViewController {
                 // TODO: Handle error swiftly
                 print("DEBUG: error -> \(error.description)")
             case .success(let followedAccounts):
-                DispatchQueue.main.async {
-                    self.appSessionManager.usersFollowedAccounts = followedAccounts
-                }
+                self.appSessionManager.usersFollowedAccounts = followedAccounts
+            }
+        }
+    }
+    
+    private func fetchFollowers() {
+        let userLogin = appSessionManager.appUser?.login
+        let endpoint = EndpointCases.getUsersFollowers(login: userLogin!)
+        networkManager.getFollowers(endpoint) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .failure(let error):
+                // TODO: Handle error swiftly
+                print("DEBUG: error -> \(error.description)")
+            case .success(let followers):
+                self.appSessionManager.usersFollowers = followers
             }
         }
     }
