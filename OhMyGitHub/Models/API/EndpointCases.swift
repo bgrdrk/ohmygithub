@@ -2,10 +2,11 @@ enum EndpointCases: Endpoint {
     
     case authorization
     case getAccessToken(code: String)
+    case getUser(token: String)
     
     var httpMethod: String {
         switch self {
-        case .authorization:
+        case .authorization, .getUser:
             return "GET"
         case .getAccessToken:
             return "POST"
@@ -16,6 +17,8 @@ enum EndpointCases: Endpoint {
         switch self {
         case .authorization, .getAccessToken:
             return "https://github.com/login/oauth/"
+        case .getUser:
+            return "https://api.github.com/"
         }
     }
     
@@ -25,6 +28,8 @@ enum EndpointCases: Endpoint {
             return "authorize"
         case .getAccessToken:
             return "access_token"
+        case .getUser:
+            return "user"
         }
     }
     
@@ -32,6 +37,9 @@ enum EndpointCases: Endpoint {
         switch self {
         case .authorization, .getAccessToken:
             return ["Accept": "application/vnd.github.v3+json"]
+        case .getUser(let token):
+            return ["Accept": "application/vnd.github.v3+json",
+                    "Authorization": "token \(token)"]
         }
     }
     
@@ -43,12 +51,14 @@ enum EndpointCases: Endpoint {
             return ["client_id": Secrets.clientId,
                     "client_secret": Secrets.clientSecret,
                     "code": code]
+        case .getUser:
+            return nil
         }
     }
     
     var body: [String : String]? {
         switch self {
-        case .authorization, .getAccessToken:
+        case .authorization, .getAccessToken, .getUser:
             return nil
         }
     }

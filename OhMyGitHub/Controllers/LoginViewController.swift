@@ -94,13 +94,14 @@ class LoginViewController: UIViewController {
                 print("DEBUG: error -> \(error.description)")
             case .success(let accessTokenData):
                 self.appSessionManager.saveTokenData(accessTokenData)
-                self.fetchLoggedInUserData(with: accessTokenData)
+                self.fetchLoggedInUserData()
             }
         }
     }
     
-    private func fetchLoggedInUserData(with accessData: AccessTokenResponse) {
-        networkManager.getGitHubUser(token: accessData.accessToken) { [weak self] result in
+    private func fetchLoggedInUserData() {
+        let endpoint = EndpointCases.getUser(token: appSessionManager.token!.accessToken)
+        networkManager.getGitHubUser(endpoint) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .failure(let error):
