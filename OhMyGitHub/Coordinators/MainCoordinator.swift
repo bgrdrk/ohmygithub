@@ -49,8 +49,13 @@ class MainCoordinator: CoordinatorProtocol {
     
     // MARK: - Controlling the Navigation Stack
     
-    func presentUsersViewController() {
-        let vc = viewControllersFactory.makeUsersViewController(coordinator: self)
+    func presentFollowersViewController() {
+        let vc = viewControllersFactory.makeFollowersViewController(coordinator: self)
+        navigationController.pushViewController(vc, animated: true)
+    }
+    
+    func presentFollowingAccountsViewController() {
+        let vc = viewControllersFactory.makeFollowingAccountsViewController(coordinator: self)
         navigationController.pushViewController(vc, animated: true)
     }
     

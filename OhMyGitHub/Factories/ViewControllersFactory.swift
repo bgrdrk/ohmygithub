@@ -16,8 +16,14 @@ class ViewControllersFactory: DependencyContainer {
         return vc
     }
     
-    func makeUsersViewController(coordinator: MainCoordinator) -> UsersViewController {
-        let vc = UsersViewController(networkManager: networkManager, appSessionManager: appSessionManager)
+    func makeFollowersViewController(coordinator: MainCoordinator) -> UsersViewController {
+        let vc = UsersViewController(users: appSessionManager.usersFollowers)
+        vc.coordinator = coordinator
+        return vc
+    }
+    
+    func makeFollowingAccountsViewController(coordinator: MainCoordinator) -> UsersViewController {
+        let vc = UsersViewController(users: appSessionManager.usersFollowedAccounts)
         vc.coordinator = coordinator
         return vc
     }

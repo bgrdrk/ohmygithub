@@ -5,14 +5,13 @@ class UsersViewController: UIViewController {
     // MARK: - Properties
 
     weak var coordinator: MainCoordinator?
-    var networkManager: NetworkManager!
-    var appSessionManager: AppSessionManager!
+    
+    var users: [Owner] = []
     
     private let tableView = UITableView()
     
-    init(networkManager: NetworkManager, appSessionManager: AppSessionManager) {
-        self.networkManager = networkManager
-        self.appSessionManager = appSessionManager
+    init(users: [Owner]) {
+        self.users = users
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -46,12 +45,12 @@ class UsersViewController: UIViewController {
 extension UsersViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        appSessionManager.usersFollowedAccounts.count
+        users.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as UITableViewCell? else { return UITableViewCell() }
-        cell.textLabel?.text = appSessionManager.usersFollowedAccounts[indexPath.row].login
+        cell.textLabel?.text = users[indexPath.row].login
         return cell
     }
 }

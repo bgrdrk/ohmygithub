@@ -186,11 +186,11 @@ class GitHubUserViewController: UIViewController {
     }
     
     @objc private func handleFollowersTap() {
-        print((#function))
+        coordinator?.presentFollowersViewController()
     }
     
     @objc private func handleFollowingTap() {
-        coordinator?.presentUsersViewController()
+        coordinator?.presentFollowingAccountsViewController()
     }
     
     @objc private func handlePersonalReposTap() {
