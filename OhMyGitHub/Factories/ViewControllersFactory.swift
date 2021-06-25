@@ -24,6 +24,12 @@ class ViewControllersFactory: DependencyContainer {
         return vc
     }
     
+    func makeRepositoriesViewController(coordinator: MainCoordinator, repositories: [Repository]) -> RepositoriesViewController {
+        let vc = RepositoriesViewController(repositories: repositories)
+        vc.coordinator = coordinator
+        return vc
+    }
+    
     func makePublicGitHubUserViewController(coordinator: MainCoordinator, account: GitHubAccount) -> PublicUserViewController {
         let viewModel = PublicUserViewModel(account: account, networkManager: networkManager)
         let vc = PublicUserViewController(viewModel: viewModel)

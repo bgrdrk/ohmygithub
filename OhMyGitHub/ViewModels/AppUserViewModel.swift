@@ -1,5 +1,3 @@
-//
-//  .swift
 import Foundation
 
 class AppUserViewModel {
@@ -35,10 +33,9 @@ class AppUserViewModel {
     func logUserOut() {
         appSessionManager.logUserOut()
     }
-
 }
 
-    // MARK: - Netwark calls
+    // MARK: - Network calls
 
 private extension AppUserViewModel {
     

@@ -137,11 +137,11 @@ class AppUserViewController: UIViewController {
     }
     
     @objc private func handlePersonalReposTap() {
-        print((#function))
+        coordinator?.presentRepositoriesViewController(repositories: viewModel.publicRepos.value)
     }
     
     @objc private func handleStarredReposTap() {
-        print((#function))
+        coordinator?.presentRepositoriesViewController(repositories: viewModel.starredRepos.value)
     }
     
     
