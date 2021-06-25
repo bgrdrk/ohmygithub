@@ -67,7 +67,7 @@ final class NetworkManager {
         dataTask.resume()
     }
     
-    func getUsersStaredRepos(_ endpoint: Endpoint, _ completion: @escaping (Result<[Repository], AppError>) -> ()) {
+    func getUsersStarredRepos(_ endpoint: Endpoint, _ completion: @escaping (Result<[Repository], AppError>) -> ()) {
         let request = makeRequest(endpoint)
         let dataTask = makeDataTask(with: request, completion: completion)
         dataTask.resume()

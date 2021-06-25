@@ -1,48 +1,52 @@
-//
-//  .swift
 import Foundation
 
-class AppUserViewModel {
-    private let appSessionManager: AppSessionManager!
+class PublicUserViewModel {
     private let networkManager: NetworkManager!
+    private let account: GitHubAccount!
     
-    var appUser = Observable<PublicGitHubUser?>(nil)
-    var followers = Observable([GitHubAccount]())
-    var following = Observable([GitHubAccount]())
-    var starredRepos = Observable([Repository]())
+    private(set) var user = Observable<PublicGitHubUser?>(nil)
+    private(set) var followers = Observable([GitHubAccount]())
+    private(set) var following = Observable([GitHubAccount]())
+    private(set) var starredRepos = Observable([Repository]())
     
     var onError: ((String?) -> Void)?
     var onShowLogin: (() -> Void)?
     var onDismiss: (() -> Void)?
     
-    init(appSessionManager: AppSessionManager, networkManager: NetworkManager)
+    init(account: GitHubAccount, networkManager: NetworkManager)
     {
-        self.appSessionManager = appSessionManager
+        self.account = account
         self.networkManager = networkManager
     }
     
     func start() {
-        appUser.value = appSessionManager.appUser
+        fetchUserData()
         fetchFollowers()
         fetchFollowedAccounts()
         fetchStarredRepos()
     }
-    
-    // MARK: - Helpers
-    
-    func logUserOut() {
-        appSessionManager.logUserOut()
-    }
-
 }
 
     // MARK: - Netwark calls
 
-private extension AppUserViewModel {
+private extension PublicUserViewModel {
+    
+    func fetchUserData() {
+        let endpoint = EndpointCases.getPublicUser(login: account.login)
+        networkManager.getPublicGitHubUser(endpoint) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .failure(let error):
+                // TODO: Handle error swiftly
+                print("DEBUG: error -> \(error.description)")
+            case .success(let user):
+                self.user.value = user
+            }
+        }
+    }
     
     func fetchFollowers() {
-        let userLogin = appSessionManager.appUser?.login
-        let endpoint = EndpointCases.getUsersFollowers(login: userLogin!)
+        let endpoint = EndpointCases.getUsersFollowers(login: account.login)
         networkManager.getFollowers(endpoint) { [weak self] result in
             guard let self = self else { return }
             switch result {
@@ -56,8 +60,7 @@ private extension AppUserViewModel {
     }
     
     private func fetchFollowedAccounts() {
-        let userLogin = appSessionManager.appUser?.login
-        let endpoint = EndpointCases.getUsersFollowedAccounts(login: userLogin!)
+        let endpoint = EndpointCases.getUsersFollowedAccounts(login: account.login)
         networkManager.getFollowedAccounts(endpoint) { [weak self] result in
             guard let self = self else { return }
             switch result {
@@ -71,8 +74,7 @@ private extension AppUserViewModel {
     }
     
     private func fetchStarredRepos() {
-        let userLogin = appSessionManager.appUser?.login
-        let endpoint = EndpointCases.getUsersStarredRepos(login: userLogin!)
+        let endpoint = EndpointCases.getUsersStarredRepos(login: account.login)
         networkManager.getUsersStarredRepos(endpoint) { [weak self] result in
             guard let self = self else { return }
             switch result {
@@ -85,4 +87,3 @@ private extension AppUserViewModel {
         }
     }
 }
-

@@ -102,6 +102,11 @@ class AppUserViewController: UIViewController {
             self.followingButton.updateAttributtedTitle("Following:", "\(user.following)")
             self.personalReposButton.updateAttributtedTitle("Personal repos:", "\(user.publicRepos)")
         }
+        
+        viewModel.starredRepos.bind { [weak self] starred in
+            self?.starredReposButton.updateAttributtedTitle("Starred repositories:", "\(starred.count)")
+        }
+
     }
     
     // MARK: - Selectors

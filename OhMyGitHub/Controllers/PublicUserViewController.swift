@@ -1,14 +1,14 @@
 import UIKit
 
-class PublicGitHubUserViewController: UIViewController {
+class PublicUserViewController: UIViewController {
 
     // MARK: - Properties
     
-    private let viewModel: PublicGitHubUserViewModel
+    private let viewModel: PublicUserViewModel
     
     weak var coordinator: MainCoordinator?
     
-    init(viewModel: PublicGitHubUserViewModel) {
+    init(viewModel: PublicUserViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -77,8 +77,6 @@ class PublicGitHubUserViewController: UIViewController {
         
         view.backgroundColor = .white
         navigationItem.title = "Public GitHub User"
-//        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(handleLogout))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(handleEdit))
         
         configureUI()
         bindViewModel()
@@ -109,36 +107,24 @@ class PublicGitHubUserViewController: UIViewController {
             self.personalReposButton.updateAttributtedTitle("Personal repos:", "\(user.publicRepos)")
         }
         
-        viewModel.followers.bind { [weak self] followers in
-            self?.followersButton.updateAttributtedTitle("Followers:", "\(followers.count)")
+        viewModel.starredRepos.bind { [weak self] starred in
+            self?.starredReposButton.updateAttributtedTitle("Starred repositories:", "\(starred.count)")
         }
 
     }
 
     // MARK: - Selectors
-    
-    @objc private func handleButtonPress() {
-        print((#function))
-    }
-    
-    @objc private func handleLogout() {
-        print((#function))
-    }
-    
-    @objc private func handleEdit() {
-        print((#function))
-    }
-    
+        
     @objc private func handleButtonTap() {
         print((#function))
     }
     
     @objc private func handleFollowersTap() {
-        print((#function))
+        coordinator?.presentAccountsViewController(accounts: viewModel.followers.value)
     }
     
     @objc private func handleFollowingTap() {
-        print((#function))
+        coordinator?.presentAccountsViewController(accounts: viewModel.following.value)
     }
     
     @objc private func handlePersonalReposTap() {
