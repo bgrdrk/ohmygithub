@@ -24,7 +24,7 @@ class PublicUserViewModel {
         fetchUserData()
         fetchFollowers()
         fetchFollowedAccounts()
-        fetchStarredRepos()
+        fetchUsersPublicRepos()
         fetchStarredRepos()
     }
 }
