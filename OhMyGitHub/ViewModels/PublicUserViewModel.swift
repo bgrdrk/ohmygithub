@@ -7,6 +7,7 @@ class PublicUserViewModel {
     private(set) var user = Observable<PublicGitHubUser?>(nil)
     private(set) var followers = Observable([GitHubAccount]())
     private(set) var following = Observable([GitHubAccount]())
+    private(set) var publicRepos = Observable([Repository]())
     private(set) var starredRepos = Observable([Repository]())
     
     var onError: ((String?) -> Void)?
@@ -23,6 +24,7 @@ class PublicUserViewModel {
         fetchUserData()
         fetchFollowers()
         fetchFollowedAccounts()
+        fetchStarredRepos()
         fetchStarredRepos()
     }
 }
@@ -73,9 +75,23 @@ private extension PublicUserViewModel {
         }
     }
     
+    private func fetchUsersPublicRepos() {
+        let endpoint = EndpointCases.getUsersPublicRepos(login: account.login)
+        networkManager.getUsersRepos(endpoint) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .failure(let error):
+                // TODO: Handle error swiftly
+                print("DEBUG: error -> \(error.description)")
+            case .success(let repos):
+                self.publicRepos.value = repos
+            }
+        }
+    }
+    
     private func fetchStarredRepos() {
         let endpoint = EndpointCases.getUsersStarredRepos(login: account.login)
-        networkManager.getUsersStarredRepos(endpoint) { [weak self] result in
+        networkManager.getUsersRepos(endpoint) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .failure(let error):

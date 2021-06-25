@@ -9,6 +9,7 @@ class AppUserViewModel {
     var appUser = Observable<PublicGitHubUser?>(nil)
     var followers = Observable([GitHubAccount]())
     var following = Observable([GitHubAccount]())
+    var publicRepos = Observable([Repository]())
     var starredRepos = Observable([Repository]())
     
     var onError: ((String?) -> Void)?
@@ -25,6 +26,7 @@ class AppUserViewModel {
         appUser.value = appSessionManager.appUser
         fetchFollowers()
         fetchFollowedAccounts()
+        fetchUsersPublicRepos()
         fetchStarredRepos()
     }
     
@@ -41,8 +43,12 @@ class AppUserViewModel {
 private extension AppUserViewModel {
     
     func fetchFollowers() {
-        let userLogin = appSessionManager.appUser?.login
-        let endpoint = EndpointCases.getUsersFollowers(login: userLogin!)
+        guard let userLogin = appSessionManager.appUser?.login else {
+            // TODO: Handle error swiftly
+            print("DEBUG: appUser in session manager is nil. This must not happen here")
+            return
+        }
+        let endpoint = EndpointCases.getUsersFollowers(login: userLogin)
         networkManager.getFollowers(endpoint) { [weak self] result in
             guard let self = self else { return }
             switch result {
@@ -56,8 +62,12 @@ private extension AppUserViewModel {
     }
     
     private func fetchFollowedAccounts() {
-        let userLogin = appSessionManager.appUser?.login
-        let endpoint = EndpointCases.getUsersFollowedAccounts(login: userLogin!)
+        guard let userLogin = appSessionManager.appUser?.login else {
+            // TODO: Handle error swiftly
+            print("DEBUG: appUser in session manager is nil. This must not happen here")
+            return
+        }
+        let endpoint = EndpointCases.getUsersFollowedAccounts(login: userLogin)
         networkManager.getFollowedAccounts(endpoint) { [weak self] result in
             guard let self = self else { return }
             switch result {
@@ -70,10 +80,29 @@ private extension AppUserViewModel {
         }
     }
     
+    private func fetchUsersPublicRepos() {
+        guard let userLogin = appSessionManager.appUser?.login else {
+            // TODO: Handle error swiftly
+            print("DEBUG: appUser in session manager is nil. This must not happen here")
+            return
+        }
+        let endpoint = EndpointCases.getUsersPublicRepos(login: userLogin)
+        networkManager.getUsersRepos(endpoint) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .failure(let error):
+                // TODO: Handle error swiftly
+                print("DEBUG: error -> \(error.description)")
+            case .success(let repos):
+                self.publicRepos.value = repos
+            }
+        }
+    }
+    
     private func fetchStarredRepos() {
         let userLogin = appSessionManager.appUser?.login
         let endpoint = EndpointCases.getUsersStarredRepos(login: userLogin!)
-        networkManager.getUsersStarredRepos(endpoint) { [weak self] result in
+        networkManager.getUsersRepos(endpoint) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .failure(let error):

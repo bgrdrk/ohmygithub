@@ -4,15 +4,17 @@ enum EndpointCases: Endpoint {
     case getAccessToken(code: String)
     case getUser(token: String)
     case getPublicUser(login: String)
+    case getUsersPublicRepos(login: String)
     case getUsersStarredRepos(login: String)
     case getUsersFollowers(login: String)
     case getUsersFollowedAccounts(login: String)
-    
+
     var httpMethod: String {
         switch self {
         case .authorization,
              .getUser,
              .getPublicUser,
+             .getUsersPublicRepos,
              .getUsersStarredRepos,
              .getUsersFollowers,
              .getUsersFollowedAccounts:
@@ -28,6 +30,7 @@ enum EndpointCases: Endpoint {
             return "https://github.com/login/oauth/"
         case .getUser,
              .getPublicUser,
+             .getUsersPublicRepos,
              .getUsersStarredRepos,
              .getUsersFollowers,
              .getUsersFollowedAccounts:
@@ -45,6 +48,8 @@ enum EndpointCases: Endpoint {
             return "user"
         case .getPublicUser(let login):
             return "users/\(login)"
+        case .getUsersPublicRepos(let login):
+            return "users/\(login)/repos"
         case .getUsersStarredRepos(let login):
             return "users/\(login)/starred"
         case .getUsersFollowers(let login):
@@ -59,6 +64,7 @@ enum EndpointCases: Endpoint {
         case .authorization,
              .getAccessToken,
              .getPublicUser,
+             .getUsersPublicRepos,
              .getUsersStarredRepos,
              .getUsersFollowers,
              .getUsersFollowedAccounts:
@@ -79,6 +85,7 @@ enum EndpointCases: Endpoint {
                     "code": code]
         case .getUser,
              .getPublicUser,
+             .getUsersPublicRepos,
              .getUsersStarredRepos,
              .getUsersFollowedAccounts,
              .getUsersFollowers:
@@ -92,6 +99,7 @@ enum EndpointCases: Endpoint {
              .getAccessToken,
              .getUser,
              .getPublicUser,
+             .getUsersPublicRepos,
              .getUsersStarredRepos,
              .getUsersFollowers,
              .getUsersFollowedAccounts:
