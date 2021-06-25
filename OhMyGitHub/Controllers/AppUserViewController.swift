@@ -1,6 +1,6 @@
 import UIKit
 
-class GitHubUserViewController: UIViewController {
+class AppUserViewController: UIViewController {
 
     // MARK: - Properties
     

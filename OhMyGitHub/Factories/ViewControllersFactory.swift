@@ -5,13 +5,14 @@ class ViewControllersFactory: DependencyContainer {
     // MARK: - ViewControllers factories
     
     func makeLoginViewController(coordinator: MainCoordinator) -> LoginViewController {
-        let vc = LoginViewController(networkManager: networkManager, appSessionManager: appSessionManager)
+        let viewModel = LoginViewModel(appSessionManager: appSessionManager, networkManager: networkManager)
+        let vc = LoginViewController(viewModel: viewModel)
         vc.coordinator = coordinator
         return vc
     }
     
-    func makeGitHubUserViewController(coordinator: MainCoordinator) -> GitHubUserViewController {
-        let vc = GitHubUserViewController(networkManager: networkManager, appSessionManager: appSessionManager)
+    func makeGitHubUserViewController(coordinator: MainCoordinator) -> AppUserViewController {
+        let vc = AppUserViewController(networkManager: networkManager, appSessionManager: appSessionManager)
         vc.coordinator = coordinator
         return vc
     }

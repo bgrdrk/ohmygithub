@@ -5,10 +5,8 @@ class LoginViewController: UIViewController {
     
     // MARK: - Properties
     
-    private var accessData: AccessTokenResponse?
+    private let viewModel: LoginViewModel!
     weak var coordinator: MainCoordinator?
-    var networkManager: NetworkManager!
-    var appSessionManager: AppSessionManager!
     
     private let loginButton: UIButton = {
         let button = AppUI.actionButton(withText: "Login")
@@ -16,9 +14,8 @@ class LoginViewController: UIViewController {
         return button
     }()
     
-    init(networkManager: NetworkManager, appSessionManager: AppSessionManager) {
-        self.networkManager = networkManager
-        self.appSessionManager = appSessionManager
+    init(viewModel: LoginViewModel) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -27,8 +24,22 @@ class LoginViewController: UIViewController {
     }
     
     // MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureUI()
+        bindViewModel()
+    }
+    
+    //MARK: - Selectors
+    
+    @objc func handleLogin() {
+        handleGitHubAuth()
+    }
+    
+    //MARK: - Helpers
+    
+    private func configureUI() {
         view.backgroundColor = .systemTeal
         navigationController?.navigationBar.isHidden = true
         
@@ -38,15 +49,14 @@ class LoginViewController: UIViewController {
         loginButton.anchor(left: view.leftAnchor, right: view.rightAnchor, paddingLeft: 20, paddingRight: 20)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.setNavigationBarHidden(true, animated: true)
+    private func bindViewModel() {
+        viewModel.onLogin = { [weak self] in
+            guard let self = self else { return }
+            self.coordinator?.restart()
+        }
     }
     
-    //MARK: - Selectors
-    @objc func handleLogin() {
-        handleGitHubAuth()
-    }
+    //MARK: - Authentication Session
     
     private func handleGitHubAuth() {
         let authorizeUrl = EndpointCases.authorization.urlWithComponents
@@ -65,14 +75,14 @@ class LoginViewController: UIViewController {
             
             guard
                 let callbackURL = callbackURL,
-                let code = self.getQueryStringParameter(url: callbackURL, param: "code")
+                let code = self.viewModel.getQueryStringParameter(url: callbackURL, param: "code")
             else {
                 // TODO: Handle error swiftly
                 print("DEBUG: error, callbackURL is nil or has no code? -> \(#function)")
                 return
             }
             
-            self.getAccessTokenAndContinueAuth(using: code)
+            self.viewModel.getAccessTokenAndContinueAuth(using: code)
         }
         
         authenticationSession.presentationContextProvider = self
@@ -82,43 +92,6 @@ class LoginViewController: UIViewController {
             // TODO: Handle error swiftly
             print("DEBUG: error -> Failed to start ASWebAuthenticationSession")
         }
-    }
-    
-    private func getAccessTokenAndContinueAuth(using code: String) {
-        let getAccessEndpoint = EndpointCases.getAccessToken(code: code)
-        self.networkManager.getAccessToken(endpoint: getAccessEndpoint) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .failure(let error):
-                // TODO: Handle error swiftly
-                print("DEBUG: error -> \(error.description)")
-            case .success(let accessTokenData):
-                self.appSessionManager.saveTokenData(accessTokenData)
-                self.fetchLoggedInUserData()
-            }
-        }
-    }
-    
-    private func fetchLoggedInUserData() {
-        let endpoint = EndpointCases.getUser(token: appSessionManager.token!.accessToken)
-        networkManager.getGitHubUser(endpoint) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .failure(let error):
-                // TODO: Handle error swiftly
-                print("DEBUG: error -> \(error.description)")
-            case .success(let gitHubUserData):
-                self.appSessionManager.saveUserData(gitHubUserData)
-                DispatchQueue.main.async {
-                    self.coordinator?.restart()
-                }
-            }
-        }
-    }
-    
-    private func getQueryStringParameter(url: URL, param: String) -> String? {
-        guard let url = URLComponents(string: url.absoluteString) else { return nil }
-        return url.queryItems?.first(where: { $0.name == param })?.value
     }
 }
 
