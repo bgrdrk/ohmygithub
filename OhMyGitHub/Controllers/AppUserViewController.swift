@@ -4,16 +4,11 @@ class AppUserViewController: UIViewController {
 
     // MARK: - Properties
     
-    var starredRepos: [Repository] = []
-    
+    private let viewModel: AppUserViewModel
     weak var coordinator: MainCoordinator?
-    // viewModel
-    var appSessionManager: AppSessionManager!
-    var networkManager: NetworkManager!
     
-    init(networkManager: NetworkManager, appSessionManager: AppSessionManager) {
-        self.appSessionManager = appSessionManager
-        self.networkManager = networkManager
+    init(viewModel: AppUserViewModel) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -78,22 +73,14 @@ class AppUserViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        view.backgroundColor = .white
-        navigationItem.title = "GitHub User Home"
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(handleLogout))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(handleEdit))
-        
         configureUI()
-        
-        fetchStarredRepos()
-        fetchFollowedAccounts()
-        fetchFollowers()
+        configureNavigationBar()
+        bindViewModel()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        fillUIWithUserData()
+        viewModel.start()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -103,66 +90,17 @@ class AppUserViewController: UIViewController {
     
     // MARK: - Helpers
     
-    private func fillUIWithUserData() {
-        userFullName.text = appSessionManager.appUser?.name
-        userName.text = appSessionManager.appUser?.login
-        followersButton.updateAttributtedTitle("Followers:", "\(appSessionManager.appUser!.followers)")
-        followingButton.updateAttributtedTitle("Following:", "\(appSessionManager.appUser!.following)")
-        personalReposButton.updateAttributtedTitle("Personal repos:", "\(appSessionManager.appUser!.publicRepos)")
-        starredReposButton.updateAttributtedTitle("Starred repositories:", "\(starredRepos.count)")
-    }
-    
-    private func fetchStarredRepos() {
-        let userLogin = appSessionManager.appUser?.login
-        let endpoint = EndpointCases.getUsersStarredRepos(login: userLogin!)
-        networkManager.getUsersStaredRepos(endpoint) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .failure(let error):
-                // TODO: Handle error swiftly
-                print("DEBUG: error -> \(error.description)")
-            case .success(let repos):
-                DispatchQueue.main.async {
-                    self.starredRepos = repos
-                    self.fillUIWithUserData()
-                }
-            }
-        }
-    }
-    
-    private func fetchFollowedAccounts() {
-        let userLogin = appSessionManager.appUser?.login
-        let endpoint = EndpointCases.getUsersFollowedAccounts(login: userLogin!)
-        networkManager.getFollowedAccounts(endpoint) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .failure(let error):
-                // TODO: Handle error swiftly
-                print("DEBUG: error -> \(error.description)")
-            case .success(let followedAccounts):
-                self.appSessionManager.usersFollowedAccounts = followedAccounts
-                DispatchQueue.main.async {
-                    self.fillUIWithUserData()
-                }
-            }
-        }
-    }
-    
-    private func fetchFollowers() {
-        let userLogin = appSessionManager.appUser?.login
-        let endpoint = EndpointCases.getUsersFollowers(login: userLogin!)
-        networkManager.getFollowers(endpoint) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .failure(let error):
-                // TODO: Handle error swiftly
-                print("DEBUG: error -> \(error.description)")
-            case .success(let followers):
-                self.appSessionManager.usersFollowers = followers
-                DispatchQueue.main.async {
-                    self.fillUIWithUserData()
-                }
-            }
+    private func bindViewModel() {
+        
+        viewModel.appUser.bind { [weak self] user in
+            guard let user = user,
+                  let self = self
+            else { return }
+            self.userFullName.text = user.name ?? ""
+            self.userName.text = user.login
+            self.followersButton.updateAttributtedTitle("Followers:", "\(user.followers)")
+            self.followingButton.updateAttributtedTitle("Following:", "\(user.following)")
+            self.personalReposButton.updateAttributtedTitle("Personal repos:", "\(user.publicRepos)")
         }
     }
     
@@ -173,7 +111,7 @@ class AppUserViewController: UIViewController {
     }
     
     @objc private func handleLogout() {
-        appSessionManager.logUserOut()
+        viewModel.logUserOut()
         coordinator?.restart()
     }
     
@@ -186,11 +124,11 @@ class AppUserViewController: UIViewController {
     }
     
     @objc private func handleFollowersTap() {
-        coordinator?.presentFollowersViewController()
+        coordinator?.presentAccountsViewController(accounts: viewModel.followers.value)
     }
     
     @objc private func handleFollowingTap() {
-        coordinator?.presentFollowingAccountsViewController()
+        coordinator?.presentAccountsViewController(accounts: viewModel.following.value)
     }
     
     @objc private func handlePersonalReposTap() {
@@ -204,10 +142,15 @@ class AppUserViewController: UIViewController {
     
     // MARK: - UI Configuration
     
+    private func configureNavigationBar() {
+        view.backgroundColor = .white
+        navigationItem.title = "GitHub User Home"
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(handleLogout))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(handleEdit))
+    }
+    
     private func configureUI() {
-        
         userProfileImage.setDimensions(width: 100, height: 100)
-        
         let stack = UIStackView(arrangedSubviews:
                                 [userProfileImage, userFullName, userName, followButton,
                                  followersButton, followingButton, personalReposButton, starredReposButton])

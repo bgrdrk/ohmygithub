@@ -31,7 +31,7 @@ class MainCoordinator: CoordinatorProtocol {
     }
     
     func startAppSessionWithLoggedInUser() {
-        let vc = viewControllersFactory.makeGitHubUserViewController(coordinator: self)
+        let vc = viewControllersFactory.makeAppUserViewController(coordinator: self)
         vc.modalPresentationStyle = .fullScreen
         navigationController.navigationBar.isHidden = false
         navigationController.pushViewController(vc, animated: true)
@@ -49,13 +49,8 @@ class MainCoordinator: CoordinatorProtocol {
     
     // MARK: - Controlling the Navigation Stack
     
-    func presentFollowersViewController() {
-        let vc = viewControllersFactory.makeFollowersViewController(coordinator: self)
-        navigationController.pushViewController(vc, animated: true)
-    }
-    
-    func presentFollowingAccountsViewController() {
-        let vc = viewControllersFactory.makeFollowingAccountsViewController(coordinator: self)
+    func presentAccountsViewController(accounts: [GitHubAccount]) {
+        let vc = viewControllersFactory.makeAccountsViewController(coordinator: self, accounts: accounts)
         navigationController.pushViewController(vc, animated: true)
     }
     

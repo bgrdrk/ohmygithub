@@ -10,8 +10,8 @@ class UsersViewController: UIViewController {
     
     private let tableView = UITableView()
     
-    init(users: [GitHubAccount]) {
-        self.accounts = users
+    init(accounts: [GitHubAccount]) {
+        self.accounts = accounts
         super.init(nibName: nil, bundle: nil)
     }
     

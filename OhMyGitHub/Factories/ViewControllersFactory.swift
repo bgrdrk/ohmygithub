@@ -11,20 +11,15 @@ class ViewControllersFactory: DependencyContainer {
         return vc
     }
     
-    func makeGitHubUserViewController(coordinator: MainCoordinator) -> AppUserViewController {
-        let vc = AppUserViewController(networkManager: networkManager, appSessionManager: appSessionManager)
+    func makeAppUserViewController(coordinator: MainCoordinator) -> AppUserViewController {
+        let viewModel = AppUserViewModel(appSessionManager: appSessionManager, networkManager: networkManager)
+        let vc = AppUserViewController(viewModel: viewModel)
         vc.coordinator = coordinator
         return vc
     }
     
-    func makeFollowersViewController(coordinator: MainCoordinator) -> UsersViewController {
-        let vc = UsersViewController(users: appSessionManager.usersFollowers)
-        vc.coordinator = coordinator
-        return vc
-    }
-    
-    func makeFollowingAccountsViewController(coordinator: MainCoordinator) -> UsersViewController {
-        let vc = UsersViewController(users: appSessionManager.usersFollowedAccounts)
+    func makeAccountsViewController(coordinator: MainCoordinator, accounts: [GitHubAccount]) -> UsersViewController {
+        let vc = UsersViewController(accounts: accounts)
         vc.coordinator = coordinator
         return vc
     }
