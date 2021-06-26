@@ -62,7 +62,7 @@ class RepositoryViewController: UIViewController {
         
         configureUI()
         bindViewModel()
-//        viewModel.start()
+        viewModel.start()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -74,7 +74,19 @@ class RepositoryViewController: UIViewController {
     // MARK: - Helpers
     
     private func bindViewModel() {
+        viewModel.contributors.bind { [weak self] contributors in
+            self?.contributorsButton.updateAttributtedTitle("Contributors", "\(contributors.count)")
+        }
         
+        viewModel.repository02.bind { [weak self] repository in
+            guard let repository = repository,
+                  let self = self else { return }
+            self.ownerNameButton.updateAttributtedTitle((repository.owner.login), "")
+            self.repositoryName.text = repository.name
+            self.repositoryDescription.text = repository.description ?? "No description"
+            self.programmingLanguage.text = repository.language ?? "No language specified"
+            self.starsButton.updateAttributtedTitle("Stars count", "\(repository.stargazersCount)")
+        }
     }
 
     // MARK: - Selectors
@@ -84,7 +96,7 @@ class RepositoryViewController: UIViewController {
     }
     
     @objc private func handleContributorsTap() {
-//        coordinator?.presentAccountsViewController(accounts: viewModel.following.value)
+        coordinator?.presentAccountsViewController(accounts: viewModel.contributors.value)
     }
     
     @objc private func handleStarTap() {

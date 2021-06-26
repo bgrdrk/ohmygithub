@@ -8,6 +8,8 @@ enum EndpointCases: Endpoint {
     case getUsersStarredRepos(login: String)
     case getUsersFollowers(login: String)
     case getUsersFollowedAccounts(login: String)
+    case getRepositoryContributors(userName: String,
+                                   repoName: String)
 
     var httpMethod: String {
         switch self {
@@ -17,7 +19,8 @@ enum EndpointCases: Endpoint {
              .getUsersPublicRepos,
              .getUsersStarredRepos,
              .getUsersFollowers,
-             .getUsersFollowedAccounts:
+             .getUsersFollowedAccounts,
+             .getRepositoryContributors:
             return "GET"
         case .getAccessToken:
             return "POST"
@@ -33,7 +36,8 @@ enum EndpointCases: Endpoint {
              .getUsersPublicRepos,
              .getUsersStarredRepos,
              .getUsersFollowers,
-             .getUsersFollowedAccounts:
+             .getUsersFollowedAccounts,
+             .getRepositoryContributors:
             return "https://api.github.com/"
         }
     }
@@ -56,6 +60,9 @@ enum EndpointCases: Endpoint {
             return "users/\(login)/followers"
         case .getUsersFollowedAccounts(let login):
             return "users/\(login)/following"
+            case .getRepositoryContributors(let userName,
+                                            let repoName):
+            return "repos/\(userName)/\(repoName)/contributors"
         }
     }
     
@@ -67,7 +74,8 @@ enum EndpointCases: Endpoint {
              .getUsersPublicRepos,
              .getUsersStarredRepos,
              .getUsersFollowers,
-             .getUsersFollowedAccounts:
+             .getUsersFollowedAccounts,
+             .getRepositoryContributors:
             return ["Accept": "application/vnd.github.v3+json"]
         case .getUser(let token):
             return ["Accept": "application/vnd.github.v3+json",
@@ -87,8 +95,9 @@ enum EndpointCases: Endpoint {
              .getPublicUser,
              .getUsersPublicRepos,
              .getUsersStarredRepos,
+             .getUsersFollowers,
              .getUsersFollowedAccounts,
-             .getUsersFollowers:
+             .getRepositoryContributors:
             return nil
         }
     }
@@ -102,7 +111,8 @@ enum EndpointCases: Endpoint {
              .getUsersPublicRepos,
              .getUsersStarredRepos,
              .getUsersFollowers,
-             .getUsersFollowedAccounts:
+             .getUsersFollowedAccounts,
+             .getRepositoryContributors:
             return nil
         }
     }

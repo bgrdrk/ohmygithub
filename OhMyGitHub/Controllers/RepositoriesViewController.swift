@@ -24,7 +24,7 @@ class RepositoriesViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .white
-        navigationItem.title = "Users List"
+        navigationItem.title = "Repositories List"
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -41,7 +41,6 @@ class RepositoriesViewController: UIViewController {
     }
 }
 
-
 extension RepositoriesViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -56,7 +55,7 @@ extension RepositoriesViewController: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView.deselectRow(at: indexPath, animated: true)
-//        coordinator?.presentPublicGitHubUserViewController(for: repositories[indexPath.row])
+        coordinator?.presentRepositoryViewController(for: repositories[indexPath.row])
     }
 }
 

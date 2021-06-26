@@ -84,4 +84,10 @@ final class NetworkManager {
         let dataTask = makeDataTask(with: request, completion: completion)
         dataTask.resume()
     }
+    
+    func getRepositoryContributors(_ endpoint: Endpoint, _ completion: @escaping (Result<[GitHubAccount], AppError>) -> ()) {
+        let request = makeRequest(endpoint)
+        let dataTask = makeDataTask(with: request, completion: completion)
+        dataTask.resume()
+    }
 }

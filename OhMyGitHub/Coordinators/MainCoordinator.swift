@@ -59,6 +59,11 @@ class MainCoordinator: CoordinatorProtocol {
         navigationController.pushViewController(vc, animated: true)
     }
     
+    func presentRepositoryViewController(for repository: Repository) {
+        let vc = viewControllersFactory.makeRepositoryViewController(coordinator: self, repository: repository)
+        navigationController.pushViewController(vc, animated: true)
+    }
+    
     func presentPublicGitHubUserViewController(for account: GitHubAccount) {
         let vc = viewControllersFactory.makePublicGitHubUserViewController(coordinator: self, account: account)
         navigationController.pushViewController(vc, animated: true)
