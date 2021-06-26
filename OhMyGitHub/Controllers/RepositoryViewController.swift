@@ -5,7 +5,6 @@ class RepositoryViewController: UIViewController {
     // MARK: - Properties
     
     private let viewModel: RepositoryViewModel
-    
     weak var coordinator: MainCoordinator?
     
     init(viewModel: RepositoryViewModel) {
@@ -78,7 +77,7 @@ class RepositoryViewController: UIViewController {
             self?.contributorsButton.updateAttributtedTitle("Contributors", "\(contributors.count)")
         }
         
-        viewModel.repository02.bind { [weak self] repository in
+        viewModel.repository.bind { [weak self] repository in
             guard let repository = repository,
                   let self = self else { return }
             self.ownerNameButton.updateAttributtedTitle((repository.owner.login), "")

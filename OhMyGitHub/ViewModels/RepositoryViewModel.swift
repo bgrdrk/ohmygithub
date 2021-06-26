@@ -1,24 +1,21 @@
 import Foundation
 
 class RepositoryViewModel {
-    private let networkManager: NetworkManager!
-//    private let repository: Repository!
     
+    private let networkManager: NetworkManager!
+    private(set) var repository = Observable<Repository?>(nil)
     private(set) var contributors = Observable([GitHubAccount]())
-    private(set) var repository02 = Observable<Repository?>(nil)
     
     var onError: ((String?) -> Void)?
-    var didInit: (() -> Void)?
     
     init(repository: Repository, networkManager: NetworkManager)
     {
-        self.repository02.value = repository
+        self.repository.value = repository
         self.networkManager = networkManager
     }
     
     func start() {
         fetchContributors()
-        didInit?()
     }
 }
 
@@ -27,7 +24,12 @@ class RepositoryViewModel {
 private extension RepositoryViewModel {
     
     func fetchContributors() {
-        let endpoint = EndpointCases.getRepositoryContributors(userName: repository02.value!.owner.login, repoName: repository02.value!.name)
+        guard let repository  = repository.value else {
+            // TODO: Handle error swiftly
+            print("DEBUG: Repository must not be nil here")
+            return
+        }
+        let endpoint = EndpointCases.getRepositoryContributors(userName: repository.owner.login, repoName: repository.name)
         networkManager.getRepositoryContributors(endpoint) { [weak self] result in
             guard let self = self else { return }
             switch result {
