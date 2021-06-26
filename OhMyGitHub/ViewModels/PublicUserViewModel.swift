@@ -2,8 +2,8 @@ import Foundation
 
 class PublicUserViewModel {
     private let networkManager: NetworkManager!
-    private let account: GitHubAccount!
     
+    private(set) var account = Observable<GitHubAccount?>(nil)
     private(set) var user = Observable<PublicGitHubUser?>(nil)
     private(set) var followers = Observable([GitHubAccount]())
     private(set) var following = Observable([GitHubAccount]())
@@ -16,7 +16,7 @@ class PublicUserViewModel {
     
     init(account: GitHubAccount, networkManager: NetworkManager)
     {
-        self.account = account
+        self.account.value = account
         self.networkManager = networkManager
     }
     
@@ -34,6 +34,11 @@ class PublicUserViewModel {
 private extension PublicUserViewModel {
     
     func fetchUserData() {
+        guard let account  = account.value else {
+            // TODO: Handle error swiftly
+            print("DEBUG: Account must not be nil here")
+            return
+        }
         let endpoint = EndpointCases.getPublicUser(login: account.login)
         networkManager.getPublicGitHubUser(endpoint) { [weak self] result in
             guard let self = self else { return }
@@ -48,6 +53,11 @@ private extension PublicUserViewModel {
     }
     
     func fetchFollowers() {
+        guard let account  = account.value else {
+            // TODO: Handle error swiftly
+            print("DEBUG: Account must not be nil here")
+            return
+        }
         let endpoint = EndpointCases.getUsersFollowers(login: account.login)
         networkManager.getFollowers(endpoint) { [weak self] result in
             guard let self = self else { return }
@@ -62,6 +72,11 @@ private extension PublicUserViewModel {
     }
     
     private func fetchFollowedAccounts() {
+        guard let account  = account.value else {
+            // TODO: Handle error swiftly
+            print("DEBUG: Account must not be nil here")
+            return
+        }
         let endpoint = EndpointCases.getUsersFollowedAccounts(login: account.login)
         networkManager.getFollowedAccounts(endpoint) { [weak self] result in
             guard let self = self else { return }
@@ -76,6 +91,11 @@ private extension PublicUserViewModel {
     }
     
     private func fetchUsersPublicRepos() {
+        guard let account  = account.value else {
+            // TODO: Handle error swiftly
+            print("DEBUG: Account must not be nil here")
+            return
+        }
         let endpoint = EndpointCases.getUsersPublicRepos(login: account.login)
         networkManager.getUsersRepos(endpoint) { [weak self] result in
             guard let self = self else { return }
@@ -90,6 +110,11 @@ private extension PublicUserViewModel {
     }
     
     private func fetchStarredRepos() {
+        guard let account  = account.value else {
+            // TODO: Handle error swiftly
+            print("DEBUG: Account must not be nil here")
+            return
+        }
         let endpoint = EndpointCases.getUsersStarredRepos(login: account.login)
         networkManager.getUsersRepos(endpoint) { [weak self] result in
             guard let self = self else { return }

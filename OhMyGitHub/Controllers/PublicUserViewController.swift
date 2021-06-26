@@ -96,6 +96,13 @@ class PublicUserViewController: UIViewController {
     
     private func bindViewModel() {
         
+        viewModel.account.bind { [weak self] account in
+            guard let account = account,
+                  let self = self
+            else { return }
+            self.userName.text = account.login
+        }
+        
         viewModel.user.bind { [weak self] user in
             guard let user = user,
                   let self = self
