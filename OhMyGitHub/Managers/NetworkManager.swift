@@ -47,6 +47,31 @@ final class NetworkManager {
         return dataTask
     }
     
+    private func makeDataTaskWithNoBodyComingBack(with request: URLRequest,
+                                                  completion: @escaping (Result<Int, AppError>) -> ()
+    ) -> URLSessionDataTask {
+        
+        let dataTask = session.dataTask(with: request) { data, response, error in
+            
+            guard let _ = data else {
+                // TODO: Handle error which comes back with data.
+                // it happens when token is expired, etc...
+                completion(.failure(.firstError))
+                print("Error, there should be no data...")
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse else {
+                completion(.failure(.firstError))
+                print("There must always be a response...")
+                return
+            }
+            
+            completion(.success(httpResponse.statusCode))
+        }
+        return dataTask
+    }
+    
     // MARK: - GET tasks
     
     func getAccessToken(endpoint: Endpoint, _ completion: @escaping (Result<AccessTokenResponse, AppError>) -> ()) {
@@ -88,6 +113,37 @@ final class NetworkManager {
     func getRepositoryContributors(_ endpoint: Endpoint, _ completion: @escaping (Result<[GitHubAccount], AppError>) -> ()) {
         let request = makeRequest(endpoint)
         let dataTask = makeDataTask(with: request, completion: completion)
+        dataTask.resume()
+    }
+    
+    func toggleFollowingUser(_ endpoint: Endpoint, _ completion: @escaping (Result<Int, AppError>) -> ()) {
+        let request = makeRequest(endpoint)
+        let dataTask = makeDataTaskWithNoBodyComingBack(with: request, completion: completion)
+        dataTask.resume()
+    }
+    
+    func checkIfAppUserFollowsAnotherUser(_ endpoint: Endpoint, _ completion: @escaping (Result<Int, AppError>) -> ()) {
+        let request = makeRequest(endpoint)
+        
+        let dataTask = session.dataTask(with: request) { data, response, error in
+            
+            guard let _ = data else {
+                // TODO: Handle error which comes back with data.
+                // it happens when token is expired, etc...
+                completion(.failure(.firstError))
+                print("Error, there should be no data...")
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse else {
+                completion(.failure(.firstError))
+                print("There must always be a response...")
+                return
+            }
+            
+            completion(.success(httpResponse.statusCode))
+            print(httpResponse.statusCode)
+        }
         dataTask.resume()
     }
 }

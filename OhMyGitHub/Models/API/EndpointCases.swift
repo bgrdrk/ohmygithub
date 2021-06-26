@@ -10,6 +10,10 @@ enum EndpointCases: Endpoint {
     case getUsersFollowedAccounts(login: String)
     case getRepositoryContributors(userName: String,
                                    repoName: String)
+    
+    case followUser(login: String, token: String)
+    case unfollowUser(login: String, token: String)
+    case checkIfAppUserFollowsUserWith(login: String, appUser: String)
 
     var httpMethod: String {
         switch self {
@@ -20,10 +24,15 @@ enum EndpointCases: Endpoint {
              .getUsersStarredRepos,
              .getUsersFollowers,
              .getUsersFollowedAccounts,
-             .getRepositoryContributors:
+             .getRepositoryContributors,
+             .checkIfAppUserFollowsUserWith:
             return "GET"
         case .getAccessToken:
             return "POST"
+        case .followUser:
+            return "PUT"
+        case .unfollowUser:
+            return "DELETE"
         }
     }
     
@@ -37,7 +46,10 @@ enum EndpointCases: Endpoint {
              .getUsersStarredRepos,
              .getUsersFollowers,
              .getUsersFollowedAccounts,
-             .getRepositoryContributors:
+             .getRepositoryContributors,
+             .followUser,
+             .unfollowUser,
+             .checkIfAppUserFollowsUserWith:
             return "https://api.github.com/"
         }
     }
@@ -60,9 +72,13 @@ enum EndpointCases: Endpoint {
             return "users/\(login)/followers"
         case .getUsersFollowedAccounts(let login):
             return "users/\(login)/following"
-            case .getRepositoryContributors(let userName,
-                                            let repoName):
+        case .getRepositoryContributors(let userName, let repoName):
             return "repos/\(userName)/\(repoName)/contributors"
+        case .followUser(let login, _),
+             .unfollowUser(let login, _):
+            return "user/following/\(login)"
+        case .checkIfAppUserFollowsUserWith(let login, let appUser):
+            return "users/\(appUser)/following/\(login)"
         }
     }
     
@@ -75,8 +91,13 @@ enum EndpointCases: Endpoint {
              .getUsersStarredRepos,
              .getUsersFollowers,
              .getUsersFollowedAccounts,
-             .getRepositoryContributors:
+             .getRepositoryContributors,
+             .checkIfAppUserFollowsUserWith:
             return ["Accept": "application/vnd.github.v3+json"]
+        case .followUser(_, let token),
+             .unfollowUser(_, let token):
+            return ["Accept": "application/vnd.github.v3+json",
+                    "Authorization": "token \(token)"]
         case .getUser(let token):
             return ["Accept": "application/vnd.github.v3+json",
                     "Authorization": "token \(token)"]
@@ -97,7 +118,10 @@ enum EndpointCases: Endpoint {
              .getUsersStarredRepos,
              .getUsersFollowers,
              .getUsersFollowedAccounts,
-             .getRepositoryContributors:
+             .getRepositoryContributors,
+             .followUser,
+             .unfollowUser,
+             .checkIfAppUserFollowsUserWith:
             return nil
         }
     }
@@ -112,7 +136,10 @@ enum EndpointCases: Endpoint {
              .getUsersStarredRepos,
              .getUsersFollowers,
              .getUsersFollowedAccounts,
-             .getRepositoryContributors:
+             .getRepositoryContributors,
+             .followUser,
+             .unfollowUser,
+             .checkIfAppUserFollowsUserWith:
             return nil
         }
     }

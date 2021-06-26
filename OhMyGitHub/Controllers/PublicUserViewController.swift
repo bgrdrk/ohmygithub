@@ -40,7 +40,7 @@ class PublicUserViewController: UIViewController {
     
     private let followButton: UIButton = {
         let button = AppUI.actionButton(withText: "FollowUnfollow")
-        button.addTarget(self, action: #selector(handleButtonTap), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleFollowTap), for: .touchUpInside)
         return button
     }()
     
@@ -117,13 +117,17 @@ class PublicUserViewController: UIViewController {
         viewModel.starredRepos.bind { [weak self] starred in
             self?.starredReposButton.updateAttributtedTitle("Starred repositories:", "\(starred.count)")
         }
-
+        
+        viewModel.presentedUserIsFolloweByAppUser.bind { [weak self] isFollowed in
+            let buttonName = isFollowed ? "Unfollow" : "Follow"
+            self?.followButton.updateAttributtedTitle(buttonName, "")
+        }
     }
 
     // MARK: - Selectors
         
-    @objc private func handleButtonTap() {
-        print((#function))
+    @objc private func handleFollowTap() {
+        viewModel.followUnfollowUser()
     }
     
     @objc private func handleFollowersTap() {

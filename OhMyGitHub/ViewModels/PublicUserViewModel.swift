@@ -2,6 +2,7 @@ import Foundation
 
 class PublicUserViewModel {
     private let networkManager: NetworkManager!
+    private let appSessionManager: AppSessionManager!
     
     private(set) var account = Observable<GitHubAccount?>(nil)
     private(set) var user = Observable<PublicGitHubUser?>(nil)
@@ -9,15 +10,17 @@ class PublicUserViewModel {
     private(set) var following = Observable([GitHubAccount]())
     private(set) var publicRepos = Observable([Repository]())
     private(set) var starredRepos = Observable([Repository]())
+    private(set) var presentedUserIsFolloweByAppUser = Observable(false)
     
     var onError: ((String?) -> Void)?
     var onShowLogin: (() -> Void)?
     var onDismiss: (() -> Void)?
     
-    init(account: GitHubAccount, networkManager: NetworkManager)
+    init(account: GitHubAccount, networkManager: NetworkManager, appSessionManager: AppSessionManager)
     {
         self.account.value = account
         self.networkManager = networkManager
+        self.appSessionManager = appSessionManager
     }
     
     func start() {
@@ -26,14 +29,15 @@ class PublicUserViewModel {
         fetchFollowedAccounts()
         fetchUsersPublicRepos()
         fetchStarredRepos()
+        checkIfAppUserFollowsPresentedUser()
     }
 }
 
     // MARK: - Netwark calls
 
-private extension PublicUserViewModel {
+extension PublicUserViewModel {
     
-    func fetchUserData() {
+    private func fetchUserData() {
         guard let account  = account.value else {
             // TODO: Handle error swiftly
             print("DEBUG: Account must not be nil here")
@@ -52,7 +56,7 @@ private extension PublicUserViewModel {
         }
     }
     
-    func fetchFollowers() {
+    private func fetchFollowers() {
         guard let account  = account.value else {
             // TODO: Handle error swiftly
             print("DEBUG: Account must not be nil here")
@@ -124,6 +128,47 @@ private extension PublicUserViewModel {
                 print("DEBUG: error -> \(error.description)")
             case .success(let repos):
                 self.starredRepos.value = repos
+            }
+        }
+    }
+    
+    func followUnfollowUser() {
+        guard let userLogin = account.value?.login.lowercased(),
+              let token = appSessionManager.token?.accessToken else { return }
+        
+        let endpoint: Endpoint
+        
+        if presentedUserIsFolloweByAppUser.value {
+            endpoint = EndpointCases.unfollowUser(login: userLogin, token: token)
+        } else {
+            endpoint = EndpointCases.followUser(login: userLogin, token: token)
+        }
+        
+        networkManager.toggleFollowingUser(endpoint) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .failure(let error):
+                // TODO: Handle error swiftly
+                print("DEBUG: error -> \(error.description)")
+            case .success(let statusCode):
+                print(statusCode)
+                self.checkIfAppUserFollowsPresentedUser()
+            }
+        }
+    }
+    
+    private func checkIfAppUserFollowsPresentedUser() {
+        guard let userLogin = account.value?.login.lowercased(),
+              let appUserLogin = appSessionManager.appUser?.login.lowercased() else { return }
+        let endpoint = EndpointCases.checkIfAppUserFollowsUserWith(login: userLogin, appUser: appUserLogin)
+        networkManager.checkIfAppUserFollowsAnotherUser(endpoint) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .failure(let error):
+                // TODO: Handle error swiftly
+                print("DEBUG: error -> \(error.description)")
+            case .success(let statusCode):
+                self.presentedUserIsFolloweByAppUser.value = statusCode == 204
             }
         }
     }
