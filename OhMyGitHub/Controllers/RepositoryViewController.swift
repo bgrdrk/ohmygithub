@@ -91,7 +91,12 @@ class RepositoryViewController: UIViewController {
     // MARK: - Selectors
         
     @objc private func handleOwnerTap() {
-        print((#function))
+        guard let repoOwnerAccount  = viewModel.repository.value?.owner else {
+            // TODO: Handle error swiftly
+            print("DEBUG: Repository must not be nil here")
+            return
+        }
+            coordinator?.presentPublicGitHubUserViewController(for: repoOwnerAccount)
     }
     
     @objc private func handleContributorsTap() {
@@ -99,7 +104,7 @@ class RepositoryViewController: UIViewController {
     }
     
     @objc private func handleStarTap() {
-
+        print((#function))
     }
    
     
