@@ -13,7 +13,7 @@ class PublicUserViewModel {
     private(set) var presentedUserIsFolloweByAppUser = Observable(false)
     
     var onError: ((String?) -> Void)?
-    var onShowLogin: (() -> Void)?
+    var onUserIsAppUser: ((Bool) -> Void)?
     var onDismiss: (() -> Void)?
     
     init(account: GitHubAccount, networkManager: NetworkManager, appSessionManager: AppSessionManager)
@@ -24,12 +24,21 @@ class PublicUserViewModel {
     }
     
     func start() {
+        checkIfPresentedUserIsAppUser()
         fetchUserData()
         fetchFollowers()
         fetchFollowedAccounts()
         fetchUsersPublicRepos()
         fetchStarredRepos()
         checkIfAppUserFollowsPresentedUser()
+    }
+    
+    // MARK: - Helpers
+    
+    private func checkIfPresentedUserIsAppUser() {
+        if account.value?.login == appSessionManager.appUser?.login {
+            onUserIsAppUser?(true)            
+        }
     }
 }
 

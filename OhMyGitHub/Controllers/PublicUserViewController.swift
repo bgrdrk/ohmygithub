@@ -96,6 +96,10 @@ class PublicUserViewController: UIViewController {
     
     private func bindViewModel() {
         
+        viewModel.onUserIsAppUser = { isAppUser in
+            self.followButton.isHidden = isAppUser
+        }
+        
         viewModel.account.bind { [weak self] account in
             guard let account = account,
                   let self = self
