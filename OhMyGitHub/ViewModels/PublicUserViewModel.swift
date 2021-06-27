@@ -137,12 +137,12 @@ extension PublicUserViewModel {
               let token = appSessionManager.token?.accessToken else { return }
         
         let endpoint: Endpoint
-        
         if presentedUserIsFolloweByAppUser.value {
             endpoint = EndpointCases.unfollowUser(login: userLogin, token: token)
         } else {
             endpoint = EndpointCases.followUser(login: userLogin, token: token)
         }
+        presentedUserIsFolloweByAppUser.value.toggle()
         
         networkManager.toggleFollowingUser(endpoint) { [weak self] result in
             guard let self = self else { return }
@@ -152,7 +152,6 @@ extension PublicUserViewModel {
                 print("DEBUG: error -> \(error.description)")
             case .success(let statusCode):
                 print(statusCode)
-                self.checkIfAppUserFollowsPresentedUser()
             }
         }
     }
