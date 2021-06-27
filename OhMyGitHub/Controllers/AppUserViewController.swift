@@ -37,12 +37,6 @@ class AppUserViewController: UIViewController {
         return label
     }()
     
-    private let followButton: UIButton = {
-        let button = AppUI.actionButton(withText: "FollowUnfollow")
-        button.addTarget(self, action: #selector(handleButtonTap), for: .touchUpInside)
-        return button
-    }()
-    
     private let followersButton: UIButton = {
         let button = AppUI.attributedButton("Number of followers:", "0")
         button.addTarget(self, action: #selector(handleFollowersTap), for: .touchUpInside)
@@ -157,8 +151,8 @@ class AppUserViewController: UIViewController {
     private func configureUI() {
         userProfileImage.setDimensions(width: 100, height: 100)
         let stack = UIStackView(arrangedSubviews:
-                                [userProfileImage, userFullName, userName, followButton,
-                                 followersButton, followingButton, personalReposButton, starredReposButton])
+                                [userProfileImage, userFullName, userName, followersButton,
+                                 followingButton, personalReposButton, starredReposButton])
         stack.axis = .vertical
         stack.spacing = 20
 //        stack.distribution = .fill
