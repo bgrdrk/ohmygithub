@@ -19,7 +19,8 @@ class ViewControllersFactory: DependencyContainer {
     }
     
     func makeAccountsViewController(coordinator: MainCoordinator, accounts: [GitHubAccount]) -> UsersViewController {
-        let vc = UsersViewController(accounts: accounts)
+        let viewModel = UsersViewModel(accounts: accounts, networkManager: networkManager)
+        let vc = UsersViewController(viewModel: viewModel)
         vc.coordinator = coordinator
         return vc
     }

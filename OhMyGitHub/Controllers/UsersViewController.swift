@@ -3,15 +3,13 @@ import UIKit
 class UsersViewController: UIViewController {
     
     // MARK: - Properties
-
+    
+    private let viewModel: UsersViewModel
+    private let tableView = UITableView()
     weak var coordinator: MainCoordinator?
     
-    var accounts: [GitHubAccount] = []
-    
-    private let tableView = UITableView()
-    
-    init(accounts: [GitHubAccount]) {
-        self.accounts = accounts
+    init(viewModel: UsersViewModel) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -31,6 +29,7 @@ class UsersViewController: UIViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         
         configureUI()
+        bindViewModel()
     }
     
     // MARK: - UI Configuration
@@ -39,23 +38,29 @@ class UsersViewController: UIViewController {
         view.addSubview(tableView)
         tableView.addConstraintsToFillView(view)
     }
+    
+    private func bindViewModel() {
+        viewModel.accounts.bind { [weak self] _ in
+            guard let self = self else { return }
+            self.tableView.reloadData()
+        }
+    }
 }
-
 
 extension UsersViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        accounts.count
+        viewModel.accounts.value.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as UITableViewCell? else { return UITableViewCell() }
-        cell.textLabel?.text = accounts[indexPath.row].login
+        cell.textLabel?.text = viewModel.accounts.value[indexPath.row].login
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView.deselectRow(at: indexPath, animated: true)
-        coordinator?.presentPublicGitHubUserViewController(for: accounts[indexPath.row])
+        coordinator?.presentPublicGitHubUserViewController(for: viewModel.accounts.value[indexPath.row])
     }
 }
