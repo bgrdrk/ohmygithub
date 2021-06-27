@@ -21,9 +21,10 @@ class AppUserViewController: UIViewController {
     private let userProfileImage: UIImageView = {
         let image = UIImage(named: "github_avatar")!
         let imageView = UIImageView(image: image)
-        imageView.layer.cornerRadius = 16
-        imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFit
+//        imageView.layer.cornerRadius = 16
+//        imageView.clipsToBounds = true
+//        imageView.backgroundColor = .red
         return imageView
     }()
     
@@ -101,6 +102,11 @@ class AppUserViewController: UIViewController {
             self?.starredReposButton.updateAttributtedTitle("Starred repositories:", "\(starred.count)")
         }
 
+        viewModel.profileImage.bind { [weak self] image in
+            guard let self = self,
+                  let image = image else { return }
+            self.userProfileImage.image = image.roundedImage
+        }
     }
     
     // MARK: - Selectors

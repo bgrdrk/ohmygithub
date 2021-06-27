@@ -139,4 +139,15 @@ final class NetworkManager {
         let dataTask = makeDataTaskWithNoBodyComingBack(with: request, completion: completion)
         dataTask.resume()
     }
+    
+    func downloadImageData(urlString: String,  _ completion: @escaping (Result<Data, AppError>) -> ()) {
+        guard let url = URL(string: urlString) else { return }
+        let task = session.dataTask(with: url) { data, response, error in
+            if error != nil { return }
+            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else { return }
+            guard let imageData = data else { return }
+            completion(.success(imageData))
+        }
+        task.resume()
+    }
 }

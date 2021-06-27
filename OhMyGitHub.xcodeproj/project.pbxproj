@@ -18,6 +18,7 @@
 		3D607C4226867A3400340CC3 /* RepositoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D607C4126867A3400340CC3 /* RepositoryViewController.swift */; };
 		3D607C4426867B6C00340CC3 /* RepositoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D607C4326867B6C00340CC3 /* RepositoryViewModel.swift */; };
 		3D607C4626867DAD00340CC3 /* RepositoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D607C4526867DAD00340CC3 /* RepositoriesViewController.swift */; };
+		3D607C482688EC6D00340CC3 /* UIImage+Rounded.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D607C472688EC6C00340CC3 /* UIImage+Rounded.swift */; };
 		3D76CEC52677EE14006E5AB5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76CEC42677EE14006E5AB5 /* AppDelegate.swift */; };
 		3D76CEC72677EE14006E5AB5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76CEC62677EE14006E5AB5 /* SceneDelegate.swift */; };
 		3D76CECE2677EE33006E5AB5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3D76CECD2677EE33006E5AB5 /* Assets.xcassets */; };
@@ -74,6 +75,7 @@
 		3D607C4126867A3400340CC3 /* RepositoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryViewController.swift; sourceTree = "<group>"; };
 		3D607C4326867B6C00340CC3 /* RepositoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryViewModel.swift; sourceTree = "<group>"; };
 		3D607C4526867DAD00340CC3 /* RepositoriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoriesViewController.swift; sourceTree = "<group>"; };
+		3D607C472688EC6C00340CC3 /* UIImage+Rounded.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Rounded.swift"; sourceTree = "<group>"; };
 		3D76CEC12677EE14006E5AB5 /* OhMyGitHub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OhMyGitHub.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D76CEC42677EE14006E5AB5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3D76CEC62677EE14006E5AB5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -213,6 +215,7 @@
 			isa = PBXGroup;
 			children = (
 				3D76CEF526788AD4006E5AB5 /* UIView+Constraints.swift */,
+				3D607C472688EC6C00340CC3 /* UIImage+Rounded.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -460,6 +463,7 @@
 				3D76CEC52677EE14006E5AB5 /* AppDelegate.swift in Sources */,
 				3D76CEC72677EE14006E5AB5 /* SceneDelegate.swift in Sources */,
 				3D76CF20267A670B006E5AB5 /* PersistanceManager.swift in Sources */,
+				3D607C482688EC6D00340CC3 /* UIImage+Rounded.swift in Sources */,
 				3D76CF22267B403F006E5AB5 /* KeychainSwift.swift in Sources */,
 				3D607C3E2686447300340CC3 /* LoginViewModel.swift in Sources */,
 				3D607C3026827DB100340CC3 /* Endpoint.swift in Sources */,

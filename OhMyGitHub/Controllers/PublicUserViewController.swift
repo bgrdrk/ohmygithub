@@ -22,9 +22,9 @@ class PublicUserViewController: UIViewController {
     private let userProfileImage: UIImageView = {
         let image = UIImage(named: "github_avatar")!
         let imageView = UIImageView(image: image)
-        imageView.layer.cornerRadius = 16
-        imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFit
+//        imageView.layer.cornerRadius = 16
+//        imageView.clipsToBounds = true
         return imageView
     }()
     

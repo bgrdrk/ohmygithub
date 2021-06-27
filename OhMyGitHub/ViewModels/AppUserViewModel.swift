@@ -1,4 +1,4 @@
-import Foundation
+import UIKit
 
 class AppUserViewModel {
     private let appSessionManager: AppSessionManager!
@@ -9,10 +9,9 @@ class AppUserViewModel {
     var following = Observable([GitHubAccount]())
     var publicRepos = Observable([Repository]())
     var starredRepos = Observable([Repository]())
+    var profileImage = Observable<UIImage?>(nil)
     
     var onError: ((String?) -> Void)?
-    var onShowLogin: (() -> Void)?
-    var onDismiss: (() -> Void)?
     
     init(appSessionManager: AppSessionManager, networkManager: NetworkManager)
     {
@@ -22,6 +21,7 @@ class AppUserViewModel {
     
     func start() {
         appUser.value = appSessionManager.appUser
+        setProfileImage()
         fetchFollowers()
         fetchFollowedAccounts()
         fetchUsersPublicRepos()
@@ -35,7 +35,7 @@ class AppUserViewModel {
     }
 }
 
-    // MARK: - Network calls
+// MARK: - Network calls
 
 private extension AppUserViewModel {
     
@@ -110,5 +110,23 @@ private extension AppUserViewModel {
             }
         }
     }
+    
+    private func setProfileImage() {
+        guard let avatarUrl = appUser.value?.avatarUrl else { return }
+        networkManager.downloadImageData(urlString: avatarUrl) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .failure(let error):
+                // TODO: Handle error swiftly
+                print("DEBUG: error -> \(error.description)")
+            case .success(let imageData):
+                guard let image = UIImage(data: imageData) else { return }
+                DispatchQueue.main.async {
+                    self.profileImage.value = image                    
+                }
+            }
+        }
+    }
+    
 }
 
