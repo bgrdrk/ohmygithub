@@ -31,7 +31,7 @@ class ViewControllersFactory: DependencyContainer {
     }
     
     func makeRepositoryViewController(coordinator: MainCoordinator, repository: Repository) -> RepositoryViewController {
-        let viewModel = RepositoryViewModel(repository: repository, networkManager: networkManager)
+        let viewModel = RepositoryViewModel(repository: repository, networkManager: networkManager, appSessionManager: appSessionManager)
         let vc = RepositoryViewController(viewModel: viewModel)
         vc.coordinator = coordinator
         return vc

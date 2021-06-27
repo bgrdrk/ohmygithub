@@ -39,6 +39,13 @@ class RepositoryViewController: UIViewController {
         return label
     }()
     
+    private let starRepositoryButton: UIButton = {
+        let button = AppUI.attributedButton("Star", "")
+        button.addTarget(self, action: #selector(handleStarRepositoryTap), for: .touchUpInside)
+        button.backgroundColor = .systemYellow
+        return button
+    }()
+    
     private let starsButton: UIButton = {
         let button = AppUI.attributedButton("Stars count:", "0")
         button.addTarget(self, action: #selector(handleStarTap), for: .touchUpInside)
@@ -86,6 +93,11 @@ class RepositoryViewController: UIViewController {
             self.programmingLanguage.text = repository.language ?? "No language specified"
             self.starsButton.updateAttributtedTitle("Stars count", "\(repository.stargazersCount)")
         }
+        
+        viewModel.presentedRepoIsStarredByAppUser.bind { [weak self] isStarred in
+            let buttonName = isStarred ? "Repository is Starred" : "Star repository"
+            self?.starRepositoryButton.updateAttributtedTitle(buttonName, "")
+        }
     }
 
     // MARK: - Selectors
@@ -103,6 +115,10 @@ class RepositoryViewController: UIViewController {
         coordinator?.presentAccountsViewController(accounts: viewModel.contributors.value)
     }
     
+    @objc private func handleStarRepositoryTap() {
+        viewModel.toggleRepositoryStar()
+    }
+    
     @objc private func handleStarTap() {
         print((#function))
     }
@@ -113,7 +129,7 @@ class RepositoryViewController: UIViewController {
     private func configureUI() {
         
         let stack = UIStackView(arrangedSubviews: [ownerNameButton, repositoryName, repositoryDescription,
-                                                   programmingLanguage, starsButton, contributorsButton])
+                                                   programmingLanguage, starRepositoryButton, starsButton, contributorsButton])
         stack.axis = .vertical
         stack.spacing = 20
         
