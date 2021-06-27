@@ -28,23 +28,23 @@ extension LoginViewModel {
                 print("DEBUG: error -> \(error.description)")
             case .success(let accessTokenData):
                 self.appSessionManager.saveTokenData(accessTokenData)
-                self.fetchLoggedInUserData()
+                self.fetchAndSetAuthorizedUser()
             }
         }
     }
     
-    private func fetchLoggedInUserData() {
-        let endpoint = EndpointCases.getUser(token: appSessionManager.token!.accessToken)
+    private func fetchAndSetAuthorizedUser() {
+        let endpoint = EndpointCases.getAuthorizedUser(token: appSessionManager.token!.accessToken)
         networkManager.getGitHubUser(endpoint) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .failure(let error):
                 // TODO: Handle error swiftly
                 print("DEBUG: error -> \(error.description)")
-            case .success(let gitHubUserData):
-                self.appSessionManager.saveUserData(gitHubUserData)
+            case .success(let authorizedUserData):
+                self.appSessionManager.saveUserData(authorizedUserData)
                 DispatchQueue.main.async {
-                    self.onLogin!()
+                    self.onLogin?()
                 }
             }
         }

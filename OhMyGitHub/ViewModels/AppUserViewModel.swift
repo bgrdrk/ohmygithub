@@ -98,6 +98,7 @@ private extension AppUserViewModel {
     
     private func fetchStarredRepos() {
         let userLogin = appSessionManager.appUser?.login
+        // TODO: Get rid of force unwrapping
         let endpoint = EndpointCases.getUsersStarredRepos(login: userLogin!)
         networkManager.getUsersRepos(endpoint) { [weak self] result in
             guard let self = self else { return }

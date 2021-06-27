@@ -53,7 +53,7 @@ extension PublicUserViewModel {
             return
         }
         let endpoint = EndpointCases.getPublicUser(login: account.login)
-        networkManager.getPublicGitHubUser(endpoint) { [weak self] result in
+        networkManager.getGitHubUser(endpoint) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .failure(let error):

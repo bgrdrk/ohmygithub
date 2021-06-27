@@ -2,7 +2,7 @@ enum EndpointCases: Endpoint {
     
     case authorization
     case getAccessToken(code: String)
-    case getUser(token: String)
+    case getAuthorizedUser(token: String)
     case getPublicUser(login: String)
     case getUsersPublicRepos(login: String)
     case getUsersStarredRepos(login: String)
@@ -22,7 +22,7 @@ enum EndpointCases: Endpoint {
     var httpMethod: String {
         switch self {
         case .authorization,
-             .getUser,
+             .getAuthorizedUser,
              .getPublicUser,
              .getUsersPublicRepos,
              .getUsersStarredRepos,
@@ -45,7 +45,7 @@ enum EndpointCases: Endpoint {
         switch self {
         case .authorization, .getAccessToken:
             return "https://github.com/login/oauth/"
-        case .getUser,
+        case .getAuthorizedUser,
              .getPublicUser,
              .getUsersPublicRepos,
              .getUsersStarredRepos,
@@ -68,7 +68,7 @@ enum EndpointCases: Endpoint {
             return "authorize"
         case .getAccessToken:
             return "access_token"
-        case .getUser:
+        case .getAuthorizedUser:
             return "user"
         case .getPublicUser(let login):
             return "users/\(login)"
@@ -106,7 +106,7 @@ enum EndpointCases: Endpoint {
              .getRepositoryContributors,
              .checkIfAppUserFollowsUserWith:
             return ["Accept": "application/vnd.github.v3+json"]
-        case .getUser(let token),
+        case .getAuthorizedUser(let token),
              .followUser(_, let token),
              .unfollowUser(_, let token),
              .starRepository(_, _, let token),
@@ -126,7 +126,7 @@ enum EndpointCases: Endpoint {
             return ["client_id": Secrets.clientId,
                     "client_secret": Secrets.clientSecret,
                     "code": code]
-        case .getUser,
+        case .getAuthorizedUser,
              .getPublicUser,
              .getUsersPublicRepos,
              .getUsersStarredRepos,
@@ -146,7 +146,7 @@ enum EndpointCases: Endpoint {
         switch self {
         case .authorization,
              .getAccessToken,
-             .getUser,
+             .getAuthorizedUser,
              .getPublicUser,
              .getUsersPublicRepos,
              .getUsersStarredRepos,
