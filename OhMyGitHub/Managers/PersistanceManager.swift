@@ -1,6 +1,12 @@
 import Foundation
 
-final class PersistanceManager {
+protocol PersistanceCoordinator {
+    func save<T: Codable>(_ data: T, title: String) throws
+    func load<T: Codable>(title: String) throws -> T
+    func deletePersistedUserData()
+}
+
+final class PersistanceManager: PersistanceCoordinator {
     
     private let decoder = JSONDecoder()
     private let encoder = JSONEncoder()

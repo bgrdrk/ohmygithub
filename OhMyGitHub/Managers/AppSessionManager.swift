@@ -2,12 +2,12 @@ import Foundation
 
 final class AppSessionManager {
     
-    let persistanceManager: PersistanceManager!
+    let persistanceManager: PersistanceCoordinator!
     
     private(set) var token: AccessTokenResponse?
     private(set) var appUser: PublicGitHubUser?
     
-    init(persistanceManager: PersistanceManager) {
+    init(persistanceManager: PersistanceCoordinator) {
         self.persistanceManager = persistanceManager
         loadUserData()
         loadTokenData()
