@@ -1,7 +1,7 @@
 import Foundation
 
 class UsersViewModel {
-    private let networkManager: NetworkManager!
+    let networkManager: NetworkManager!
     
     private(set) var accounts = Observable([GitHubAccount]())
     

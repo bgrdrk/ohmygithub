@@ -46,6 +46,9 @@
 		3D76CF22267B403F006E5AB5 /* KeychainSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76CF21267B403F006E5AB5 /* KeychainSwift.swift */; };
 		3D76CF242681271D006E5AB5 /* RepositoryResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76CF232681271A006E5AB5 /* RepositoryResponse.swift */; };
 		3D76CF2626813204006E5AB5 /* GitHubAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76CF2526813204006E5AB5 /* GitHubAccount.swift */; };
+		3DC409DD268F948B00899E47 /* UserCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC409DC268F948B00899E47 /* UserCellView.swift */; };
+		3DC409E0268F9BEF00899E47 /* UserCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC409DF268F9BEF00899E47 /* UserCellTableViewCell.swift */; };
+		3DC409E2268FAF8B00899E47 /* UserCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC409E1268FAF8B00899E47 /* UserCellViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -111,6 +114,9 @@
 		3D76CF21267B403F006E5AB5 /* KeychainSwift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainSwift.swift; sourceTree = "<group>"; };
 		3D76CF232681271A006E5AB5 /* RepositoryResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryResponse.swift; sourceTree = "<group>"; };
 		3D76CF2526813204006E5AB5 /* GitHubAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubAccount.swift; sourceTree = "<group>"; };
+		3DC409DC268F948B00899E47 /* UserCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCellView.swift; sourceTree = "<group>"; };
+		3DC409DF268F9BEF00899E47 /* UserCellTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCellTableViewCell.swift; sourceTree = "<group>"; };
+		3DC409E1268FAF8B00899E47 /* UserCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCellViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,6 +164,7 @@
 				3D607C4326867B6C00340CC3 /* RepositoryViewModel.swift */,
 				3D607C492689061700340CC3 /* UsersViewModel.swift */,
 				3D607C4B268F655500340CC3 /* RepositoriesViewModel.swift */,
+				3DC409E1268FAF8B00899E47 /* UserCellViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -238,6 +245,7 @@
 		3D76CEF826789CA9006E5AB5 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				3DC409DE268F9B6600899E47 /* Cells */,
 				3D76CF0D26790BEA006E5AB5 /* AppUserViewController.swift */,
 				3D76CF162679FD9C006E5AB5 /* HomeViewController.swift */,
 				3D76CEFE2678AD11006E5AB5 /* LoginViewController.swift */,
@@ -273,6 +281,7 @@
 			children = (
 				3D76CF032678B017006E5AB5 /* AppUI.swift */,
 				3D76CECF2677EE33006E5AB5 /* LaunchScreen.storyboard */,
+				3DC409DC268F948B00899E47 /* UserCellView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -315,6 +324,14 @@
 				3D76CF1B267A073F006E5AB5 /* ViewControllersFactory.swift */,
 			);
 			path = Factories;
+			sourceTree = "<group>";
+		};
+		3DC409DE268F9B6600899E47 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				3DC409DF268F9BEF00899E47 /* UserCellTableViewCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -449,10 +466,12 @@
 				3D607C4426867B6C00340CC3 /* RepositoryViewModel.swift in Sources */,
 				3D607C3A2683D89A00340CC3 /* Observable.swift in Sources */,
 				3D76CF042678B017006E5AB5 /* AppUI.swift in Sources */,
+				3DC409E0268F9BEF00899E47 /* UserCellTableViewCell.swift in Sources */,
 				3D607C4C268F655500340CC3 /* RepositoriesViewModel.swift in Sources */,
 				3D76CF152679EA49006E5AB5 /* MainCoordinator.swift in Sources */,
 				3D607C4626867DAD00340CC3 /* RepositoriesViewController.swift in Sources */,
 				3D607C372683D6FF00340CC3 /* PublicUserViewController.swift in Sources */,
+				3DC409DD268F948B00899E47 /* UserCellView.swift in Sources */,
 				3D607C4226867A3400340CC3 /* RepositoryViewController.swift in Sources */,
 				3D76CF1E267A4F2F006E5AB5 /* AppSessionManager.swift in Sources */,
 				3D607C2E26824B9900340CC3 /* UsersViewController.swift in Sources */,
@@ -463,6 +482,7 @@
 				3D607C402686543600340CC3 /* AppUserViewModel.swift in Sources */,
 				3D76CF092678DE5A006E5AB5 /* AppError.swift in Sources */,
 				3D76CF172679FD9C006E5AB5 /* HomeViewController.swift in Sources */,
+				3DC409E2268FAF8B00899E47 /* UserCellViewModel.swift in Sources */,
 				3D76CF19267A0076006E5AB5 /* DependencyContainer.swift in Sources */,
 				3D76CEFD2678A342006E5AB5 /* Secrets.swift in Sources */,
 				3D76CF242681271D006E5AB5 /* RepositoryResponse.swift in Sources */,

@@ -39,6 +39,14 @@ extension UIView {
         }
     }
     
+    func anchor(allSidesPadding: CGFloat = 0, inView view: UIView) {
+        translatesAutoresizingMaskIntoConstraints = false
+        topAnchor.constraint(equalTo: view.topAnchor, constant: allSidesPadding).isActive = true
+        leftAnchor.constraint(equalTo: view.leftAnchor, constant: allSidesPadding).isActive = true
+        bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -allSidesPadding).isActive = true
+        rightAnchor.constraint(equalTo: view.rightAnchor, constant: -allSidesPadding).isActive = true
+    }
+    
     func center(inView view: UIView, yConstant: CGFloat? = 0) {
         translatesAutoresizingMaskIntoConstraints = false
         centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -67,6 +75,11 @@ extension UIView {
     func setDimensions(width: CGFloat, height: CGFloat) {
         translatesAutoresizingMaskIntoConstraints = false
         widthAnchor.constraint(equalToConstant: width).isActive = true
+        heightAnchor.constraint(equalToConstant: height).isActive = true
+    }
+    
+    func setDimensions(height: CGFloat) {
+        translatesAutoresizingMaskIntoConstraints = false
         heightAnchor.constraint(equalToConstant: height).isActive = true
     }
     
