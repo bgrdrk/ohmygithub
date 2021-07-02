@@ -5,13 +5,11 @@ class RepositoriesViewController: UIViewController {
     // MARK: - Properties
 
     weak var coordinator: MainCoordinator?
-    
-    var repositories: [Repository] = []
-    
     private let tableView = UITableView()
+    private let viewModel: RepositoriesViewModel
     
-    init(repositories: [Repository]) {
-        self.repositories = repositories
+    init(viewModel: RepositoriesViewModel) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -31,6 +29,7 @@ class RepositoriesViewController: UIViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         
         configureUI()
+        bindViewModel()
     }
     
     // MARK: - UI Configuration
@@ -39,23 +38,30 @@ class RepositoriesViewController: UIViewController {
         view.addSubview(tableView)
         tableView.addConstraintsToFillView(view)
     }
+    
+    private func bindViewModel() {
+        viewModel.repositories.bind { [weak self] _ in
+            guard let self = self else { return }
+            self.tableView.reloadData()
+        }
+    }
 }
 
 extension RepositoriesViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        repositories.count
+        viewModel.repositories.value.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as UITableViewCell? else { return UITableViewCell() }
-        cell.textLabel?.text = repositories[indexPath.row].name
+        cell.textLabel?.text = viewModel.repositories.value[indexPath.row].name
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView.deselectRow(at: indexPath, animated: true)
-        coordinator?.presentRepositoryViewController(for: repositories[indexPath.row])
+        coordinator?.presentRepositoryViewController(for: viewModel.repositories.value[indexPath.row])
     }
 }
 

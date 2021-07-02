@@ -26,7 +26,8 @@ class ViewControllersFactory: DependencyContainer {
     }
     
     func makeRepositoriesViewController(coordinator: MainCoordinator, repositories: [Repository]) -> RepositoriesViewController {
-        let vc = RepositoriesViewController(repositories: repositories)
+        let viewModel = RepositoriesViewModel(repositories: repositories, networkManager: networkManager)
+        let vc = RepositoriesViewController(viewModel: viewModel)
         vc.coordinator = coordinator
         return vc
     }
