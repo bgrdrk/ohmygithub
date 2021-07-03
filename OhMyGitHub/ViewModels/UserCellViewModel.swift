@@ -34,10 +34,10 @@ class UserCellViewModel {
                 // TODO: Handle error swiftly
                 print("DEBUG: error -> \(error.description)")
             case .success(let imageData):
-                guard let image = UIImage(data: imageData) else { return }
-                self.networkManager.persistanceManager.cache.setObject(image, forKey: imageCacheKey)
+                guard let compressedImage = UIImage(data: imageData)?.compressedImage else { return }
+                self.networkManager.persistanceManager.cache.setObject(compressedImage, forKey: imageCacheKey)
                 DispatchQueue.main.async {
-                    self.profileImage.value = image
+                    self.profileImage.value = compressedImage
                 }
             }
         }

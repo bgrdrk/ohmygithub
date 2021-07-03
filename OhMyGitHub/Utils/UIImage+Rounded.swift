@@ -10,4 +10,8 @@ extension UIImage {
         return UIGraphicsGetImageFromCurrentImageContext()!
     }
     
+    var compressedImage: UIImage {
+        UIImage(data: jpegData(compressionQuality: 0.2)!)!
+    }
+    
 }

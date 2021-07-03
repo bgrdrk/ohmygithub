@@ -33,6 +33,7 @@ final class AppSessionManager {
     func logUserOut() {
         persistanceManager.deletePersistedUserData()
         persistanceManager.deletePersistedTokenData()
+        persistanceManager.cache.removeAllObjects()
         appUser = nil
     }
 }
