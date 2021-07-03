@@ -15,6 +15,8 @@ class UserCellViewModel {
     
     func start() {
         setProfileImage()
+        setFollowersCount()
+        username.value = account.login
     }
     
     private func setProfileImage() {
@@ -29,6 +31,20 @@ class UserCellViewModel {
                 DispatchQueue.main.async {
                     self.profileImage.value = image
                 }
+            }
+        }
+    }
+    
+    private func setFollowersCount() {
+        let endpoint = EndpointCases.getPublicUser(login: account.login)
+        networkManager.getGitHubUser(endpoint) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .failure(let error):
+                // TODO: Handle error swiftly
+                print("DEBUG: error -> \(error.description)")
+            case .success(let user):
+                self.followers.value = user.followers
             }
         }
     }

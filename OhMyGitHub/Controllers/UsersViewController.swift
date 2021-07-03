@@ -26,7 +26,7 @@ class UsersViewController: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(UserCellTableViewCell.self, forCellReuseIdentifier: "userCell")
+        tableView.register(UserCell.self, forCellReuseIdentifier: "userCell")
         
         configureUI()
         bindViewModel()
@@ -54,7 +54,7 @@ extension UsersViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "userCell", for: indexPath) as? UserCellTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "userCell", for: indexPath) as? UserCell
         let viewModel = UserCellViewModel(networkManager: viewModel.networkManager,
                                           account: viewModel.accounts.value[indexPath.row])
         cell?.configureCell(with: viewModel)

@@ -1,9 +1,9 @@
 import UIKit
 
-class UserCellTableViewCell: UITableViewCell {
+class UserCell: UITableViewCell {
     
     private let userCellView = UserCellView()
-    private var viewModel: UserCellViewModel?
+    private var viewModel: UserCellViewModel!
     
     // MARK: - Lifecycle
     
@@ -19,8 +19,7 @@ class UserCellTableViewCell: UITableViewCell {
     
     func configureCell(with viewModel: UserCellViewModel) {
         self.viewModel = viewModel
-        self.viewModel?.start()
-        userCellView.configure()
+        self.viewModel.start()
         setupUI()
         bindViewModel()
     }
@@ -31,8 +30,16 @@ class UserCellTableViewCell: UITableViewCell {
     }
     
     private func bindViewModel() {
-        viewModel!.profileImage.bind { [weak self] image in
+        viewModel.profileImage.bind { [weak self] image in
             self?.userCellView.setImage(image: image)
+        }
+        
+        viewModel.username.bind { [weak self] username in
+            self?.userCellView.setUsername(username)
+        }
+        
+        viewModel.followers.bind { [weak self] followersCount in
+            self?.userCellView.setFollowersCount(followersCount)
         }
     }
 }
