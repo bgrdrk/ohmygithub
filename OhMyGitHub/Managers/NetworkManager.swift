@@ -6,8 +6,13 @@ final class NetworkManager {
     
     // MARK: - Properties
     
-    static let shared = NetworkManager()
-    private init () {}
+    let persistanceManager: PersistanceCoordinator!
+    private var accessToken: String!
+    
+    init (persistanceManager: PersistanceCoordinator) {
+        self.persistanceManager = persistanceManager
+        loadTokenData()
+    }
     
     private var session: URLSession {
         let configuration = URLSessionConfiguration.default
@@ -17,11 +22,23 @@ final class NetworkManager {
     
     // MARK: - Helpers
     
+    private func loadTokenData() {
+        guard let tokenData: AccessTokenResponse = try? persistanceManager.load(title: "Token Data") else {
+            return
+        }
+        accessToken = tokenData.accessToken
+    }
+    
+    func saveTokenData(_ tokenData: AccessTokenResponse) {
+        try! persistanceManager.save(tokenData, title: "Token Data")
+        accessToken = tokenData.accessToken
+    }
+    
     private func makeRequest(_ endpoint: Endpoint) -> URLRequest {
         let url = endpoint.urlWithComponents
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = endpoint.httpMethod
-        urlRequest = endpoint.setHeaders(urlRequest)
+        urlRequest = endpoint.setHeadersAndAccessToken(urlRequest, accessToken: accessToken)
         return urlRequest
     }
     
@@ -74,7 +91,26 @@ final class NetworkManager {
     
     // MARK: - GET tasks
     
-    func getAccessToken(endpoint: Endpoint, _ completion: @escaping (Result<AccessTokenResponse, AppError>) -> ()) {
+    func getAccessTokenAndFetchAppUserData(with code: String, _ completion: @escaping (Result<PublicGitHubUser, AppError>) -> ()) {
+        let endpoint = EndpointCases.getAccessToken(code: code)
+        let request = makeRequest(endpoint)
+        let dataTask = makeDataTask(with: request) { [weak self] (result: Result<AccessTokenResponse, AppError>) in
+            guard let self = self else { return }
+            switch result {
+            case .failure(let error):
+                // TODO: Handle error swiftly
+                completion(.failure(error))
+            case .success(let accessTokenResponse):
+                self.accessToken = accessTokenResponse.accessToken
+                self.saveTokenData(accessTokenResponse)
+                self.getAppUser(completion)
+            }
+        }
+        dataTask.resume()
+    }
+    
+    private func getAppUser(_ completion: @escaping (Result<PublicGitHubUser, AppError>) -> ()) {
+        let endpoint = EndpointCases.getAuthorizedUser
         let request = makeRequest(endpoint)
         let dataTask = makeDataTask(with: request, completion: completion)
         dataTask.resume()
@@ -98,7 +134,8 @@ final class NetworkManager {
         dataTask.resume()
     }
     
-    func getFollowers(_ endpoint: Endpoint, _ completion: @escaping (Result<[GitHubAccount], AppError>) -> ()) {
+    func getFollowers(of userName: String, _ completion: @escaping (Result<[GitHubAccount], AppError>) -> ()) {
+        let endpoint = EndpointCases.getUsersFollowers(login: userName)
         let request = makeRequest(endpoint)
         let dataTask = makeDataTask(with: request, completion: completion)
         dataTask.resume()

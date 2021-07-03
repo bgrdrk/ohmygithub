@@ -26,12 +26,15 @@ extension Endpoint {
         return urlComponent.url!
     }
     
-    func setHeaders(_ urlRequest: URLRequest) -> URLRequest {
+    func setHeadersAndAccessToken(_ urlRequest: URLRequest, accessToken: String?) -> URLRequest {
         var urlRequest = urlRequest
-        self.headers?.forEach({ header in
-            urlRequest.setValue(header.value,
-                                forHTTPHeaderField: header.key)
-        })
+        self.headers?.forEach { header in
+            if header.key == "Authorization", let accessToken = accessToken {
+                urlRequest.setValue(header.value.appending(accessToken), forHTTPHeaderField: header.key)
+            } else {
+                urlRequest.setValue(header.value, forHTTPHeaderField: header.key)
+            }
+        }
         return urlRequest
     }
 }

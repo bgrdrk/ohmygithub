@@ -45,8 +45,7 @@ private extension AppUserViewModel {
             print("DEBUG: appUser in session manager is nil. This must not happen here")
             return
         }
-        let endpoint = EndpointCases.getUsersFollowers(login: userLogin)
-        networkManager.getFollowers(endpoint) { [weak self] result in
+        networkManager.getFollowers(of: userLogin) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .failure(let error):

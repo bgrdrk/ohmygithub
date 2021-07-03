@@ -47,16 +47,14 @@ extension RepositoryViewModel {
     }
     
     private func checkIfAppUserStarredThisRepository() {
-        guard let repository  = repository.value,
-              let token = appSessionManager.token?.accessToken else {
+        guard let repository  = repository.value else {
             // TODO: Handle error swiftly
             print("DEBUG: Repository must not be nil here")
             return
         }
         
         let endpoint = EndpointCases.checkIfAppUserStarredThisRepository(login: repository.owner.login,
-                                                                         repoName: repository.name,
-                                                                         token: token)
+                                                                         repoName: repository.name)
         
         networkManager.checkIfAppUserStarredThisRepository(endpoint) { [weak self] result in
             guard let self = self else { return }
@@ -73,8 +71,7 @@ extension RepositoryViewModel {
     func toggleRepositoryStar() {
         
         guard let login  = repository.value?.owner.login,
-              let repoName  = repository.value?.name,
-              let token = appSessionManager.token?.accessToken else {
+              let repoName  = repository.value?.name else {
             // TODO: Handle error swiftly
             print("DEBUG: Repository must not be nil here")
             return
@@ -82,9 +79,9 @@ extension RepositoryViewModel {
         
         let endpoint: Endpoint
         if presentedRepoIsStarredByAppUser.value {
-            endpoint = EndpointCases.unstarRepository(login: login, repoName: repoName, token: token)
+            endpoint = EndpointCases.unstarRepository(login: login, repoName: repoName)
         } else {
-            endpoint = EndpointCases.starRepository(login: login, repoName: repoName, token: token)
+            endpoint = EndpointCases.starRepository(login: login, repoName: repoName)
         }
         presentedRepoIsStarredByAppUser.value.toggle()
         

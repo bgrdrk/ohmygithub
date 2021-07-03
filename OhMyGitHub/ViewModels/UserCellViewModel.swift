@@ -9,8 +9,8 @@ class UserCellViewModel {
     var followers = Observable(Int(0))
     
     init(networkManager: NetworkManager, account: GitHubAccount) {
-        self.account = account
         self.networkManager = networkManager
+        self.account = account
     }
     
     func start() {
@@ -20,6 +20,13 @@ class UserCellViewModel {
     }
     
     private func setProfileImage() {
+        
+        let imageCacheKey = NSString(string: account.avatarUrl)
+        if let image = networkManager.persistanceManager.cache.object(forKey: imageCacheKey) {
+            self.profileImage.value = image
+            return
+        }
+        
         networkManager.downloadImageData(urlString: account.avatarUrl) { [weak self] result in
             guard let self = self else { return }
             switch result {
@@ -28,6 +35,7 @@ class UserCellViewModel {
                 print("DEBUG: error -> \(error.description)")
             case .success(let imageData):
                 guard let image = UIImage(data: imageData) else { return }
+                self.networkManager.persistanceManager.cache.setObject(image, forKey: imageCacheKey)
                 DispatchQueue.main.async {
                     self.profileImage.value = image
                 }

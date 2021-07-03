@@ -1,13 +1,16 @@
-import Foundation
+import UIKit
 
 protocol PersistanceCoordinator {
+    var cache: NSCache<NSString, UIImage> { get }
     func save<T: Codable>(_ data: T, title: String) throws
     func load<T: Codable>(title: String) throws -> T
     func deletePersistedUserData()
+    func deletePersistedTokenData()
 }
 
 final class PersistanceManager: PersistanceCoordinator {
     
+    let cache = NSCache<NSString, UIImage>()
     private let decoder = JSONDecoder()
     private let encoder = JSONEncoder()
     private let userDefaults = UserDefaults.standard
@@ -29,7 +32,10 @@ final class PersistanceManager: PersistanceCoordinator {
     
     public func deletePersistedUserData() {
         userDefaults.removeObject(forKey: "User Data")
-        userDefaults.removeObject(forKey: "Token Data")
+    }
+    
+    public func deletePersistedTokenData() {
+        userDefaults.removeObject(forKey: "User Data")
     }
     
     enum Error: Swift.Error {

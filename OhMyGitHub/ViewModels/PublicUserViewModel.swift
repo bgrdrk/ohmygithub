@@ -71,8 +71,7 @@ extension PublicUserViewModel {
             print("DEBUG: Account must not be nil here")
             return
         }
-        let endpoint = EndpointCases.getUsersFollowers(login: account.login)
-        networkManager.getFollowers(endpoint) { [weak self] result in
+        networkManager.getFollowers(of: account.login) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .failure(let error):
@@ -142,14 +141,13 @@ extension PublicUserViewModel {
     }
     
     func followUnfollowUser() {
-        guard let userLogin = account.value?.login.lowercased(),
-              let token = appSessionManager.token?.accessToken else { return }
+        guard let userLogin = account.value?.login.lowercased() else { return }
         
         let endpoint: Endpoint
         if presentedUserIsFolloweByAppUser.value {
-            endpoint = EndpointCases.unfollowUser(login: userLogin, token: token)
+            endpoint = EndpointCases.unfollowUser(login: userLogin)
         } else {
-            endpoint = EndpointCases.followUser(login: userLogin, token: token)
+            endpoint = EndpointCases.followUser(login: userLogin)
         }
         presentedUserIsFolloweByAppUser.value.toggle()
         
