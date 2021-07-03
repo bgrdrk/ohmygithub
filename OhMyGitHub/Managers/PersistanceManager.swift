@@ -2,8 +2,9 @@ import UIKit
 
 protocol PersistanceCoordinator {
     var cache: NSCache<NSString, UIImage> { get }
-    func save<T: Codable>(_ data: T, title: String) throws
+    func save<T: Codable>(_ data: T, title: String)
     func load<T: Codable>(title: String) throws -> T
+    func deleteAllPersistedData()
     func deletePersistedUserData()
     func deletePersistedTokenData()
 }
@@ -16,9 +17,13 @@ final class PersistanceManager: PersistanceCoordinator {
     private let userDefaults = UserDefaults.standard
     private let keychain = KeychainSwift()
     
-    public func save<T: Codable>(_ data: T, title: String) throws {
-        let data = try encoder.encode(data)
-        userDefaults.set(data, forKey: title)
+    public func save<T: Codable>(_ data: T, title: String) {
+        do {
+            let data = try encoder.encode(data)
+            userDefaults.set(data, forKey: title)
+        } catch (let error) {
+            print(error.localizedDescription)
+        }
     }
     
     public func load<T: Codable>(title: String) throws -> T {
@@ -36,6 +41,13 @@ final class PersistanceManager: PersistanceCoordinator {
     
     public func deletePersistedTokenData() {
         userDefaults.removeObject(forKey: "User Data")
+    }
+    
+    public func deleteAllPersistedData() {
+        let domain = Bundle.main.bundleIdentifier!
+        userDefaults.removePersistentDomain(forName: domain)
+        userDefaults.synchronize()
+        print(Array(UserDefaults.standard.dictionaryRepresentation().keys).count)
     }
     
     enum Error: Swift.Error {

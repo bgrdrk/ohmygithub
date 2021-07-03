@@ -21,7 +21,7 @@ final class AppSessionManager {
     }
     
     func saveUserData(_ userData: PublicGitHubUser) {
-        try! persistanceManager.save(userData, title: "User Data")
+        persistanceManager.save(userData, title: "User Data")
         appUser = userData
     }
     
@@ -33,6 +33,7 @@ final class AppSessionManager {
     func logUserOut() {
         persistanceManager.deletePersistedUserData()
         persistanceManager.deletePersistedTokenData()
+        persistanceManager.deleteAllPersistedData()
         persistanceManager.cache.removeAllObjects()
         appUser = nil
     }

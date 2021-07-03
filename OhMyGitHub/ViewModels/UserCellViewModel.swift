@@ -4,6 +4,7 @@ class UserCellViewModel {
     private let networkManager: NetworkManager!
     
     var account: GitHubAccount
+    var user = Observable<PublicGitHubUser?>(nil)
     var profileImage = Observable(UIImage())
     var username = Observable("")
     var followers = Observable(Int(0))
@@ -37,24 +38,31 @@ class UserCellViewModel {
                 guard let compressedImage = UIImage(data: imageData)?.compressedImage else { return }
                 self.networkManager.persistanceManager.cache.setObject(compressedImage, forKey: imageCacheKey)
                 DispatchQueue.main.async {
-                    self.profileImage.value = compressedImage
+                    self.profileImage.value = compressedImage.roundedImage
                 }
             }
         }
     }
     
     private func setFollowersCount() {
-        followers.value = 12345
-//        let endpoint = EndpointCases.getPublicUser(login: account.login)
-//        networkManager.getGitHubUser(endpoint) { [weak self] result in
-//            guard let self = self else { return }
-//            switch result {
-//            case .failure(let error):
-//                // TODO: Handle error swiftly
-//                print("DEBUG: error -> \(error.description)")
-//            case .success(let user):
-//                self.followers.value = user.followers
-//            }
-//        }
+        
+        if let loadedUser = try? networkManager.persistanceManager.load(title: account.login) as PublicGitHubUser {
+            user.value = loadedUser
+            followers.value = loadedUser.followers
+            return
+        }
+        
+        networkManager.getGitHubUser(with: account.login) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .failure(let error):
+                // TODO: Handle error swiftly
+                print("DEBUG: error -> \(error.description)")
+            case .success(let user):
+                self.user.value = user
+                self.followers.value = user.followers
+                self.networkManager.persistanceManager.save(user, title: user.login)
+            }
+        }
     }
 }

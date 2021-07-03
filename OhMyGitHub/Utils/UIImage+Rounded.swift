@@ -11,7 +11,7 @@ extension UIImage {
     }
     
     var compressedImage: UIImage {
-        UIImage(data: jpegData(compressionQuality: 0.2)!)!
+        UIImage(data: jpegData(compressionQuality: 0.05)!)!
     }
     
 }

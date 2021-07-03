@@ -50,7 +50,7 @@ class MainCoordinator: CoordinatorProtocol {
     // MARK: - Controlling the Navigation Stack
     
     func presentAccountsViewController(accounts: [GitHubAccount]) {
-        let vc = viewControllersFactory.makeAccountsViewController(coordinator: self, accounts: accounts)
+        let vc = viewControllersFactory.makeUsersViewController(coordinator: self, accounts: accounts)
         navigationController.pushViewController(vc, animated: true)
     }
     

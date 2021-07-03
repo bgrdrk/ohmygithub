@@ -33,9 +33,7 @@ final class UserCellView: UIView {
     
     private func configure() {
         setupConstraints()
-        profileImageView.backgroundColor = .systemRed
-        usernameLabel.text = "Username"
-        followersLabel.text = "Followers count: *"
+        profileImageView.backgroundColor = .systemGray6
     }
     
     private func setupConstraints() {

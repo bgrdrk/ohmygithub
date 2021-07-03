@@ -30,7 +30,7 @@ final class NetworkManager {
     }
     
     func saveTokenData(_ tokenData: AccessTokenResponse) {
-        try! persistanceManager.save(tokenData, title: "Token Data")
+        persistanceManager.save(tokenData, title: "Token Data")
         accessToken = tokenData.accessToken
     }
     
@@ -116,7 +116,8 @@ final class NetworkManager {
         dataTask.resume()
     }
     
-    func getGitHubUser(_ endpoint: Endpoint, _ completion: @escaping (Result<PublicGitHubUser, AppError>) -> ()) {
+    func getGitHubUser(with loginName: String, _ completion: @escaping (Result<PublicGitHubUser, AppError>) -> ()) {
+        let endpoint = EndpointCases.getPublicUser(login: loginName)
         let request = makeRequest(endpoint)
         let dataTask = makeDataTask(with: request, completion: completion)
         dataTask.resume()

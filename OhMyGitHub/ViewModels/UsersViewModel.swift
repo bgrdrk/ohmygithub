@@ -1,9 +1,8 @@
 import Foundation
 
 class UsersViewModel {
-    let networkManager: NetworkManager!
-    
     private(set) var accounts = Observable([GitHubAccount]())
+    private(set) var networkManager: NetworkManager
     
     init(accounts: [GitHubAccount], networkManager: NetworkManager)
     {
@@ -11,11 +10,8 @@ class UsersViewModel {
         self.networkManager = networkManager
     }
     
+    // TODO: Refactor here
     func start() {
         
     }
-    
-    
-    // MARK: - Helpers
-    
 }

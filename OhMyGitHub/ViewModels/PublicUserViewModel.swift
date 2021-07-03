@@ -56,13 +56,19 @@ class PublicUserViewModel {
 extension PublicUserViewModel {
     
     private func fetchUserData() {
+
         guard let account  = account.value else {
             // TODO: Handle error swiftly
             print("DEBUG: Account must not be nil here")
             return
         }
-        let endpoint = EndpointCases.getPublicUser(login: account.login)
-        networkManager.getGitHubUser(endpoint) { [weak self] result in
+        
+        if let loadedUser = try? networkManager.persistanceManager.load(title: account.login) as PublicGitHubUser {
+            user.value = loadedUser
+            return
+        }
+        
+        networkManager.getGitHubUser(with: account.login) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .failure(let error):
