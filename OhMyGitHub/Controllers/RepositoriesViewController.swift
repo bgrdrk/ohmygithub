@@ -26,7 +26,7 @@ class RepositoriesViewController: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(RepositoryCell.self, forCellReuseIdentifier: "repositoryCell")
         
         configureUI()
         bindViewModel()
@@ -54,9 +54,10 @@ extension RepositoriesViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as UITableViewCell? else { return UITableViewCell() }
-        cell.textLabel?.text = viewModel.repositories.value[indexPath.row].name
-        return cell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "repositoryCell", for: indexPath) as? RepositoryCell
+        let viewModel = RepositoryCellViewModel(repository: viewModel.repositories.value[indexPath.row])
+        cell?.configureCell(with: viewModel)
+        return cell!
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
