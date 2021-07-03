@@ -77,7 +77,7 @@ class PublicUserViewController: UIViewController {
         
         view.backgroundColor = .white
         navigationItem.title = "Public GitHub User"
-        
+        viewModel.start()
         configureUI()
         bindViewModel()
     }
@@ -87,14 +87,14 @@ class PublicUserViewController: UIViewController {
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        viewModel.start()
-    }
-    
     // MARK: - Helpers
     
     private func bindViewModel() {
+        
+        viewModel.profileImage.bind { [weak self] image in
+            guard let self = self else { return }
+            self.userProfileImage.image = image
+        }
         
         viewModel.onUserIsAppUser = { [weak self] isAppUser in
             guard let self = self else { return }

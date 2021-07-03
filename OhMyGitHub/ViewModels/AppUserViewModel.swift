@@ -113,6 +113,14 @@ private extension AppUserViewModel {
     
     private func setProfileImage() {
         guard let avatarUrl = appUser.value?.avatarUrl else { return }
+        
+        // TODO: Move to network manager
+        let imageCacheKey = NSString(string: avatarUrl)
+        if let image = networkManager.persistanceManager.cache.object(forKey: imageCacheKey) {
+            self.profileImage.value = image
+            return
+        }
+        
         networkManager.downloadImageData(urlString: avatarUrl) { [weak self] result in
             guard let self = self else { return }
             switch result {
@@ -121,6 +129,7 @@ private extension AppUserViewModel {
                 print("DEBUG: error -> \(error.description)")
             case .success(let imageData):
                 guard let image = UIImage(data: imageData) else { return }
+                self.networkManager.persistanceManager.cache.setObject(image, forKey: imageCacheKey)
                 DispatchQueue.main.async {
                     self.profileImage.value = image                    
                 }

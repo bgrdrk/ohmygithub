@@ -23,7 +23,7 @@ class UserCellViewModel {
         
         let imageCacheKey = NSString(string: account.avatarUrl)
         if let image = networkManager.persistanceManager.cache.object(forKey: imageCacheKey) {
-            self.profileImage.value = image
+            self.profileImage.value = image.roundedImage
             return
         }
         

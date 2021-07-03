@@ -1,9 +1,10 @@
-import Foundation
+import UIKit
 
 class PublicUserViewModel {
     private let networkManager: NetworkManager!
     private let appSessionManager: AppSessionManager!
     
+    private(set) var profileImage = Observable<UIImage>(UIImage(named: "github_avatar")!)
     private(set) var account = Observable<GitHubAccount?>(nil)
     private(set) var user = Observable<PublicGitHubUser?>(nil)
     private(set) var followers = Observable([GitHubAccount]())
@@ -25,6 +26,7 @@ class PublicUserViewModel {
     
     func start() {
         checkIfPresentedUserIsAppUser()
+        setProfileImage()
         fetchUserData()
         fetchFollowers()
         fetchFollowedAccounts()
@@ -35,6 +37,13 @@ class PublicUserViewModel {
     
     // MARK: - Helpers
     
+    private func setProfileImage() {
+        let imageCacheKey = NSString(string: account.value!.avatarUrl)
+        if let image = networkManager.persistanceManager.cache.object(forKey: imageCacheKey) {
+            self.profileImage.value = image.roundedImage
+        }
+    }
+    
     private func checkIfPresentedUserIsAppUser() {
         if account.value?.login == appSessionManager.appUser?.login {
             onUserIsAppUser?(true)            
@@ -42,7 +51,7 @@ class PublicUserViewModel {
     }
 }
 
-    // MARK: - Netwark calls
+    // MARK: - Network calls
 
 extension PublicUserViewModel {
     
