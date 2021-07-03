@@ -19,23 +19,7 @@ class LoginViewModel {
 extension LoginViewModel {
     
     func getAccessTokenAndContinueAuth(using code: String) {
-        let getAccessEndpoint = EndpointCases.getAccessToken(code: code)
-        self.networkManager.getAccessToken(endpoint: getAccessEndpoint) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .failure(let error):
-                // TODO: Handle error swiftly
-                print("DEBUG: error -> \(error.description)")
-            case .success(let accessTokenData):
-                self.appSessionManager.saveTokenData(accessTokenData)
-                self.fetchAndSetAuthorizedUser()
-            }
-        }
-    }
-    
-    private func fetchAndSetAuthorizedUser() {
-        let endpoint = EndpointCases.getAuthorizedUser(token: appSessionManager.token!.accessToken)
-        networkManager.getGitHubUser(endpoint) { [weak self] result in
+        self.networkManager.getAccessTokenAndFetchAppUserData(with: code) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .failure(let error):
