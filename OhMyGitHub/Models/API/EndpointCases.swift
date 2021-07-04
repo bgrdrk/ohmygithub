@@ -154,6 +154,7 @@ enum EndpointCases: Endpoint {
         switch self {
         case .updateUser(let data):
             let encoder = JSONEncoder()
+            encoder.keyEncodingStrategy = .convertToSnakeCase
             let encodedData = try? encoder.encode(data)
             return encodedData
         case .authorization,

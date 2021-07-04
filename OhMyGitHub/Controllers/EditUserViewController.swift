@@ -68,7 +68,6 @@ class EditUserViewController: UIViewController {
     // MARK: - Selectors
         
     @objc private func handleTap() {
-        print("tapped....")
         viewModel.handleUserUpdate()
     }
     

@@ -19,8 +19,8 @@ class EditUserViewModel {
     
     // MARK: - Helpers
     
-    func handleUserUpdate() {
-        let newData = UpdatedUser(name: "Remigijus Klimovas", hireable: true)
+    func handleUserUpdate(_ newData: UpdatedUser) {
+        
         networkManager.updateAppUser(newData) { [weak self] result in
             guard let self = self else { return }
             switch result {
