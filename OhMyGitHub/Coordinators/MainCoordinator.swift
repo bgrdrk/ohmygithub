@@ -69,6 +69,11 @@ class MainCoordinator: CoordinatorProtocol {
         navigationController.pushViewController(vc, animated: true)
     }
     
+    func presentEditUserViewController() {
+        let vc = viewControllersFactory.makeEditUserViewController(coordinator: self)
+        navigationController.pushViewController(vc, animated: true)
+    }
+    
     func popToHomeViewController() {
         navigationController.popToRootViewController(animated: true)
     }

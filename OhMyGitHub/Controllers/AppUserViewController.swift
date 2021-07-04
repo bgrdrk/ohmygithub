@@ -104,17 +104,13 @@ class AppUserViewController: UIViewController {
     
     // MARK: - Selectors
     
-    @objc private func handleButtonPress() {
-        print("DEBUG: Button just got pressed")
-    }
-    
     @objc private func handleLogout() {
         viewModel.logUserOut()
         coordinator?.restart()
     }
     
     @objc private func handleEdit() {
-        print("DEBUG: Will edit profile from here")
+        coordinator?.presentEditUserViewController()
     }
     
     @objc private func handleButtonTap() {

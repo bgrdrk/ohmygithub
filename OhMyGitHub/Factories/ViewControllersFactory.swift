@@ -45,4 +45,11 @@ class ViewControllersFactory: DependencyContainer {
         vc.coordinator = coordinator
         return vc
     }
+    
+    func makeEditUserViewController(coordinator: MainCoordinator) -> EditUserViewController {
+        let viewModel = EditUserViewModel(networkManager: networkManager, appSessionManager: appSessionManager)
+        let vc = EditUserViewController(viewModel: viewModel)
+        vc.coordinator = coordinator
+        return vc
+    }
 }
