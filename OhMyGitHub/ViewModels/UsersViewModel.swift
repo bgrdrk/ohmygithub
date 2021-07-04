@@ -16,6 +16,8 @@ class UsersViewModel {
         sortAccountsByUsernameAscending()
     }
     
+    // MARK: - Helpers
+    
     func sortAccountsByUsernameAscending() {
         sortedAccounts.value = accounts.sorted { $0.login.lowercased() < $1.login.lowercased() }
     }

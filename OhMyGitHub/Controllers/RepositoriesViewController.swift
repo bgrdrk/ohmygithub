@@ -17,6 +17,20 @@ class RepositoriesViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private let sortLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Sort repositories by:"
+        return label
+    }()
+    
+    private let sortPicker: UISegmentedControl = {
+        let items = ["Name", "Stars count"]
+        let segmentedControl = UISegmentedControl(items: items)
+        segmentedControl.selectedSegmentIndex = 0
+        segmentedControl.addTarget(self, action: #selector(sortingTypeDidChange), for: .valueChanged)
+        return segmentedControl
+    }()
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,18 +43,42 @@ class RepositoriesViewController: UIViewController {
         tableView.register(RepositoryCell.self, forCellReuseIdentifier: "repositoryCell")
         
         configureUI()
+        viewModel.start()
         bindViewModel()
+    }
+    
+    // MARK: - Selectors
+    
+    @objc private func sortingTypeDidChange(_ segmentedControl: UISegmentedControl) {
+        switch segmentedControl.selectedSegmentIndex {
+        case 0:
+            viewModel.sortRepositoriesByName()
+        case 1:
+            viewModel.sortRepositoriesByStarsCount()
+        default:
+            print("This will never be reached.")
+        }
     }
     
     // MARK: - UI Configuration
     
     private func configureUI() {
+        tableView.tableFooterView = UIView()
+        
+        let sortStack = UIStackView(arrangedSubviews: [sortLabel, sortPicker])
+        sortStack.axis = .vertical
+        sortStack.distribution = .fillProportionally
+        sortStack.spacing = 5
+        
+        view.addSubview(sortStack)
         view.addSubview(tableView)
-        tableView.addConstraintsToFillView(view)
+        sortStack.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingRight: 10)
+        sortStack.setDimensions(height: 60)
+        tableView.anchor(top: sortStack.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 10)
     }
     
     private func bindViewModel() {
-        viewModel.repositories.bind { [weak self] _ in
+        viewModel.sortedRepositories.bind { [weak self] _ in
             guard let self = self else { return }
             self.tableView.reloadData()
         }
@@ -50,19 +88,19 @@ class RepositoriesViewController: UIViewController {
 extension RepositoriesViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.repositories.value.count
+        viewModel.sortedRepositories.value.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "repositoryCell", for: indexPath) as? RepositoryCell
-        let viewModel = RepositoryCellViewModel(repository: viewModel.repositories.value[indexPath.row])
+        let viewModel = RepositoryCellViewModel(repository: viewModel.sortedRepositories.value[indexPath.row])
         cell?.configureCell(with: viewModel)
         return cell!
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView.deselectRow(at: indexPath, animated: true)
-        coordinator?.presentRepositoryViewController(for: viewModel.repositories.value[indexPath.row])
+        coordinator?.presentRepositoryViewController(for: viewModel.sortedRepositories.value[indexPath.row])
     }
 }
 

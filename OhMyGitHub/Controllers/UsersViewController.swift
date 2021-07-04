@@ -63,7 +63,7 @@ class UsersViewController: UIViewController {
     // MARK: - UI Configuration
     
     private func configureUI() {
-//        tableView.tableFooterView = UIView()
+        tableView.tableFooterView = UIView()
         
         let sortStack = UIStackView(arrangedSubviews: [sortLabel, sortPicker])
         sortStack.axis = .vertical
