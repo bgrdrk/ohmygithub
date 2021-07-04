@@ -13,7 +13,9 @@ class ViewControllersFactory: DependencyContainer {
     
     func makeAppUserViewController(coordinator: MainCoordinator) -> AppUserViewController {
         let viewModel = AppUserViewModel(appSessionManager: appSessionManager, networkManager: networkManager)
-        let vc = AppUserViewController(viewModel: viewModel)
+        let searchViewModel = SearchViewModel(networkManager: networkManager)
+        let searchVC = SearchViewController(viewModel: searchViewModel)
+        let vc = AppUserViewController(viewModel: viewModel, searchVC: searchVC)
         vc.coordinator = coordinator
         return vc
     }

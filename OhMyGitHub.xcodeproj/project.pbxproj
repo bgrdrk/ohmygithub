@@ -52,6 +52,8 @@
 		3DC409E42690EC4500899E47 /* RepositoryCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC409E32690EC4500899E47 /* RepositoryCellView.swift */; };
 		3DC409E62690EDDF00899E47 /* RepositoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC409E52690EDDF00899E47 /* RepositoryCell.swift */; };
 		3DC409E82690EED600899E47 /* RepositoryCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC409E72690EED600899E47 /* RepositoryCellViewModel.swift */; };
+		3DC409EA2692340E00899E47 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC409E92692340E00899E47 /* SearchViewController.swift */; };
+		3DC409EC2692345200899E47 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC409EB2692345200899E47 /* SearchViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -123,6 +125,8 @@
 		3DC409E32690EC4500899E47 /* RepositoryCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryCellView.swift; sourceTree = "<group>"; };
 		3DC409E52690EDDF00899E47 /* RepositoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryCell.swift; sourceTree = "<group>"; };
 		3DC409E72690EED600899E47 /* RepositoryCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryCellViewModel.swift; sourceTree = "<group>"; };
+		3DC409E92692340E00899E47 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		3DC409EB2692345200899E47 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,6 +176,7 @@
 				3D607C4B268F655500340CC3 /* RepositoriesViewModel.swift */,
 				3DC409E1268FAF8B00899E47 /* UserCellViewModel.swift */,
 				3DC409E72690EED600899E47 /* RepositoryCellViewModel.swift */,
+				3DC409EB2692345200899E47 /* SearchViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -260,6 +265,7 @@
 				3D607C2D26824B9800340CC3 /* UsersViewController.swift */,
 				3D607C4126867A3400340CC3 /* RepositoryViewController.swift */,
 				3D607C4526867DAD00340CC3 /* RepositoriesViewController.swift */,
+				3DC409E92692340E00899E47 /* SearchViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -503,11 +509,13 @@
 				3D76CEC72677EE14006E5AB5 /* SceneDelegate.swift in Sources */,
 				3D76CF20267A670B006E5AB5 /* PersistanceManager.swift in Sources */,
 				3D607C482688EC6D00340CC3 /* UIImage+Rounded.swift in Sources */,
+				3DC409EC2692345200899E47 /* SearchViewModel.swift in Sources */,
 				3D76CF22267B403F006E5AB5 /* KeychainSwift.swift in Sources */,
 				3D607C4A2689061700340CC3 /* UsersViewModel.swift in Sources */,
 				3D607C3E2686447300340CC3 /* LoginViewModel.swift in Sources */,
 				3D607C3026827DB100340CC3 /* Endpoint.swift in Sources */,
 				3D76CF2626813204006E5AB5 /* GitHubAccount.swift in Sources */,
+				3DC409EA2692340E00899E47 /* SearchViewController.swift in Sources */,
 				3D76CF1026790D07006E5AB5 /* PublicGitHubUser.swift in Sources */,
 				3D76CEF626788AD4006E5AB5 /* UIView+Constraints.swift in Sources */,
 				3D76CF0C2678F5EE006E5AB5 /* AccessTokenResponse.swift in Sources */,

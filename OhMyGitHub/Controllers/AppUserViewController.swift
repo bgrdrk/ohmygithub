@@ -5,10 +5,12 @@ class AppUserViewController: UIViewController {
     // MARK: - Properties
     
     private let viewModel: AppUserViewModel
+    private let searchVC: SearchViewController
     weak var coordinator: MainCoordinator?
     
-    init(viewModel: AppUserViewModel) {
+    init(viewModel: AppUserViewModel, searchVC: SearchViewController) {
         self.viewModel = viewModel
+        self.searchVC = searchVC
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -17,6 +19,15 @@ class AppUserViewController: UIViewController {
     }
     
     // MARK: - UI Elements
+    
+    private lazy var searchController = UISearchController()
+
+    private lazy var searchBar: UISearchBar = {
+        let searchBar = searchController.searchBar
+        searchBar.backgroundImage = UIImage()
+        searchBar.placeholder = "Search Github"
+        return searchBar
+    }()
     
     private let userProfileImage: UIImageView = {
         let image = UIImage(named: "github_avatar")!
@@ -65,6 +76,11 @@ class AppUserViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        searchController = UISearchController(searchResultsController: searchVC)
+        searchController.obscuresBackgroundDuringPresentation = false
+        definesPresentationContext = true
+        
         configureUI()
         configureNavigationBar()
         bindViewModel()
@@ -74,6 +90,8 @@ class AppUserViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: true)
+        navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = true
     }
     
     // MARK: - Helpers
@@ -141,6 +159,7 @@ class AppUserViewController: UIViewController {
     // MARK: - UI Configuration
     
     private func configureNavigationBar() {
+        searchBar.delegate = self
         view.backgroundColor = .white
         navigationItem.title = "GitHub User Home"
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(handleLogout))
@@ -161,4 +180,16 @@ class AppUserViewController: UIViewController {
                      paddingLeft: 40, paddingRight: 40)
         stack.center(inView: view)
     }
+}
+
+extension AppUserViewController: UISearchBarDelegate {
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        print(searchText)
+    }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        print("pradedam")
+    }
+    
 }

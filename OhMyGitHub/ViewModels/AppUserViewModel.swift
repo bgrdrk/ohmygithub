@@ -1,8 +1,8 @@
 import UIKit
 
 class AppUserViewModel {
-    private let appSessionManager: AppSessionManager!
-    private let networkManager: NetworkManager!
+    private(set) var appSessionManager: AppSessionManager!
+    private(set) var networkManager: NetworkManager!
     
     var appUser = Observable<PublicGitHubUser?>(nil)
     var followers = Observable([GitHubAccount]())
