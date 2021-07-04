@@ -17,6 +17,20 @@ class UsersViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private let sortLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Sort users by: "
+        return label
+    }()
+    
+    private let sortPicker: UISegmentedControl = {
+        let items = ["Username", "Followers count"]
+        let segmentedControl = UISegmentedControl(items: items)
+        segmentedControl.selectedSegmentIndex = 0
+        segmentedControl.addTarget(self, action: #selector(sortingTypeDidChange), for: .valueChanged)
+        return segmentedControl
+    }()
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,11 +46,34 @@ class UsersViewController: UIViewController {
         bindViewModel()
     }
     
+    // MARK: - Selectors
+    
+    @objc private func sortingTypeDidChange(_ segmentedControl: UISegmentedControl) {
+        switch segmentedControl.selectedSegmentIndex {
+        case 0:
+            print("Alphabet...")
+        case 1:
+            print("Followers...")
+        default:
+            print("This will never be reached.")
+        }
+    }
+    
     // MARK: - UI Configuration
     
     private func configureUI() {
+        tableView.tableFooterView = UIView()
+        
+        let sortStack = UIStackView(arrangedSubviews: [sortLabel, sortPicker])
+        sortStack.axis = .vertical
+        sortStack.distribution = .fillProportionally
+        sortStack.spacing = 5
+        
+        view.addSubview(sortStack)
         view.addSubview(tableView)
-        tableView.addConstraintsToFillView(view)
+        sortStack.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingRight: 10)
+        sortStack.setDimensions(height: 60)
+        tableView.anchor(top: sortStack.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 10)
     }
     
     private func bindViewModel() {

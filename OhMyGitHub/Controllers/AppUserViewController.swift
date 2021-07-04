@@ -22,9 +22,6 @@ class AppUserViewController: UIViewController {
         let image = UIImage(named: "github_avatar")!
         let imageView = UIImageView(image: image)
         imageView.contentMode = .scaleAspectFit
-//        imageView.layer.cornerRadius = 16
-//        imageView.clipsToBounds = true
-//        imageView.backgroundColor = .red
         return imageView
     }()
     
@@ -71,10 +68,6 @@ class AppUserViewController: UIViewController {
         configureUI()
         configureNavigationBar()
         bindViewModel()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
         viewModel.start()
     }
     
