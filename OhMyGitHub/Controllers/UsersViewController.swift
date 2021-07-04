@@ -19,12 +19,12 @@ class UsersViewController: UIViewController {
     
     private let sortLabel: UILabel = {
         let label = UILabel()
-        label.text = "Sort users by: "
+        label.text = "Sort users by username: "
         return label
     }()
     
     private let sortPicker: UISegmentedControl = {
-        let items = ["Username", "Followers count"]
+        let items = ["Ascending", "Descending"]
         let segmentedControl = UISegmentedControl(items: items)
         segmentedControl.selectedSegmentIndex = 0
         segmentedControl.addTarget(self, action: #selector(sortingTypeDidChange), for: .valueChanged)
@@ -43,6 +43,7 @@ class UsersViewController: UIViewController {
         tableView.register(UserCell.self, forCellReuseIdentifier: "userCell")
         
         configureUI()
+        viewModel.start()
         bindViewModel()
     }
     
@@ -51,9 +52,9 @@ class UsersViewController: UIViewController {
     @objc private func sortingTypeDidChange(_ segmentedControl: UISegmentedControl) {
         switch segmentedControl.selectedSegmentIndex {
         case 0:
-            print("Alphabet...")
+            viewModel.sortAccountsByUsernameAscending()
         case 1:
-            print("Followers...")
+            viewModel.sortAccountsByUsernameDescending()
         default:
             print("This will never be reached.")
         }
@@ -62,7 +63,7 @@ class UsersViewController: UIViewController {
     // MARK: - UI Configuration
     
     private func configureUI() {
-        tableView.tableFooterView = UIView()
+//        tableView.tableFooterView = UIView()
         
         let sortStack = UIStackView(arrangedSubviews: [sortLabel, sortPicker])
         sortStack.axis = .vertical
@@ -77,7 +78,7 @@ class UsersViewController: UIViewController {
     }
     
     private func bindViewModel() {
-        viewModel.accounts.bind { [weak self] _ in
+        viewModel.sortedAccounts.bind { [weak self] _ in
             guard let self = self else { return }
             self.tableView.reloadData()
         }
@@ -87,20 +88,20 @@ class UsersViewController: UIViewController {
 extension UsersViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.accounts.value.count
+        viewModel.sortedAccounts.value.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "userCell", for: indexPath) as? UserCell
         
         let viewModel = UserCellViewModel(networkManager: viewModel.networkManager,
-                                          account: viewModel.accounts.value[indexPath.row])
+                                          account: viewModel.sortedAccounts.value[indexPath.row])
         cell?.configureCell(with: viewModel)
         return cell!
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView.deselectRow(at: indexPath, animated: true)
-        coordinator?.presentPublicGitHubUserViewController(for: viewModel.accounts.value[indexPath.row])
+        coordinator?.presentPublicGitHubUserViewController(for: viewModel.sortedAccounts.value[indexPath.row])
     }
 }
