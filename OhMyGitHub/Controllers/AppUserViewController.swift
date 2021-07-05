@@ -106,7 +106,7 @@ class AppUserViewController: UIViewController {
     
     @objc private func handleLogout() {
         viewModel.logUserOut()
-        coordinator?.restart()
+        coordinator?.start()
     }
     
     @objc private func handleEdit() {

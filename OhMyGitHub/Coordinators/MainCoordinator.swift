@@ -20,11 +20,6 @@ class MainCoordinator: CoordinatorProtocol {
         }
     }
     
-    func restart() {
-        popToHomeViewController()
-        start()
-    }
-    
     func restartFromUserVC() {
         dissmisCurrentVC()
         start()
