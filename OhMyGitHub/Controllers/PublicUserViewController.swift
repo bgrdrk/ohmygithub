@@ -77,9 +77,9 @@ class PublicUserViewController: UIViewController {
         
         view.backgroundColor = .white
         navigationItem.title = "Public GitHub User"
-        viewModel.start()
         configureUI()
         bindViewModel()
+        viewModel.start()
     }
     
     override func viewWillAppear(_ animated: Bool) {
