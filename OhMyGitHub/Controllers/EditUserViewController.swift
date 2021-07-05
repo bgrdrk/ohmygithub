@@ -5,7 +5,6 @@ class EditUserViewController: UIViewController {
     // MARK: - Properties
     
     private let viewModel: EditUserViewModel
-    
     weak var coordinator: MainCoordinator?
     
     init(viewModel: EditUserViewModel) {
@@ -18,24 +17,21 @@ class EditUserViewController: UIViewController {
     }
     
     // MARK: - UI Elements
+    private lazy var nameTextField = AppUI.inputField(placeholder: "Enter new name")
+    private lazy var companyTextField = AppUI.inputField(placeholder: "Company name")
+    private lazy var locationTextField = AppUI.inputField(placeholder: "Current location")
+    private lazy var twitterUsernameTextField = AppUI.inputField(placeholder: "Twitter account username")
     
-    private let nameTextField: UITextField = {
-        let field = UITextField()
-        field.placeholder = "New name"
-        return field
-    }()
-    
-    private let companyTextField: UITextField = {
-        let field = UITextField()
-        field.placeholder = "New company name"
-        return field
-    }()
+    private lazy var nameContainer = AppUI.containerView(with: nameTextField)
+    private lazy var companyContainer = AppUI.containerView(with: companyTextField)
+    private lazy var locationContainer = AppUI.containerView(with: locationTextField)
+    private lazy var twitterContainer = AppUI.containerView(with: twitterUsernameTextField)
     
     private let submitButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .systemYellow
         button.setTitle("Submit", for: .normal)
-        button.addTarget(self, action: #selector(handleTap), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleSubmitTap), for: .touchUpInside)
         return button
     }()
  
@@ -46,7 +42,7 @@ class EditUserViewController: UIViewController {
         
         view.backgroundColor = .white
         navigationItem.title = "Edit User Data"
-        viewModel.start()
+
         configureUI()
         bindViewModel()
     }
@@ -61,14 +57,27 @@ class EditUserViewController: UIViewController {
     private func bindViewModel() {
         viewModel.onUserUpdate = { [weak self] in
             guard let self = self else { return }
-            self.coordinator?.restart()
+//            TODO: - update app user data
+//            self.coordinator?.updateAppUser()
+            self.navigationController?.popViewController(animated: true)
         }
     }
 
     // MARK: - Selectors
         
-    @objc private func handleTap() {
-        viewModel.handleUserUpdate()
+    @objc private func handleSubmitTap() {
+        
+        let name = nameTextField.text!.isEmpty ? nil : nameTextField.text!
+        let company = companyTextField.text!.isEmpty ? nil : companyTextField.text!
+        let location = locationTextField.text!.isEmpty ? nil : locationTextField.text!
+        let twitterUsername = twitterUsernameTextField.text!.isEmpty ? nil : twitterUsernameTextField.text!
+        
+        let newUserData = UpdatedUser(name: name,
+                                      company: company,
+                                      location: location,
+                                      twitterUsername: twitterUsername)
+        
+        viewModel.handleUserUpdate(newUserData)
     }
     
     
@@ -76,13 +85,18 @@ class EditUserViewController: UIViewController {
     
     private func configureUI() {
         
-        let stack = UIStackView(arrangedSubviews: [nameTextField, companyTextField, submitButton])
+        let stack = UIStackView(arrangedSubviews: [nameContainer, companyContainer,
+                                                   locationContainer, twitterContainer, submitButton])
         stack.axis = .vertical
-        stack.spacing = 20
+        stack.spacing = 10
         
         view.addSubview(stack)
-        stack.anchor(left: view.leftAnchor, right: view.rightAnchor, paddingLeft: 30, paddingRight: 30)
-        stack.center(inView: view)
+        stack.anchor(top: view.safeAreaLayoutGuide.topAnchor,
+                     left: view.leftAnchor,
+                     right: view.rightAnchor,
+                     paddingTop: 10,
+                     paddingLeft: 30,
+                     paddingRight: 30)
     }
 }
 

@@ -8,6 +8,10 @@ struct AppUI {
     static let buttonHeight: CGFloat = 60
     static let buttonFontSize: CGFloat = 20
     
+    // MARK: - Colors
+    
+    static let appLightGreyColor: UIColor = .systemGray2
+    
     // MARK: - App Style Buttons
     
     static func actionButton(withText text: String) -> UIButton {
@@ -48,8 +52,37 @@ struct AppUI {
         label.textColor = .black
         return label
     }
+    
+    // MARK: - Text Fields
+    
+    static func inputField(placeholder: String) -> UITextField {
+        let textField = UITextField()
+        textField.placeholder = placeholder
+        textField.clearButtonMode = .whileEditing
+        textField.autocorrectionType = .no
+        return textField
+    }
+    
+    // MARK: - Views
+    
+    static func containerView(with texfield: UITextField) -> UIView {
+        let view = UIView()
+        let dividerView = UIView()
+
+        dividerView.backgroundColor = appLightGreyColor
+        
+        view.addSubview(texfield)
+        view.addSubview(dividerView)
+        
+        view.setDimensions(height: 40)
+        texfield.anchor(allSidesPadding: 10, inView: view)
+        dividerView.anchor(top: view.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, height: 0.75)
+        
+        return view
+    }
 }
 
+    // MARK: - UIKit Extensions
 
 extension UIButton {
     func makeAttributtedString(_ firstPart: String, _ secondPart: String) -> NSMutableAttributedString {

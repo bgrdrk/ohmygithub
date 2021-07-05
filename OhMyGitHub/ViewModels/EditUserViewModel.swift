@@ -4,7 +4,6 @@ class EditUserViewModel {
     private let networkManager: NetworkManager!
     private let appSessionManager: AppSessionManager!
     
-    private(set) var testas = Observable("Labas")
     var onUserUpdate: (() -> Void)?
     
     init(networkManager: NetworkManager, appSessionManager: AppSessionManager)
@@ -14,7 +13,7 @@ class EditUserViewModel {
     }
     
     func start() {
-        print("Starting EditUserVM")
+        
     }
     
     // MARK: - Helpers
