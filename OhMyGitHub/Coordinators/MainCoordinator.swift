@@ -20,11 +20,6 @@ class MainCoordinator: CoordinatorProtocol {
         }
     }
     
-    func restart() {
-        popToHomeViewController()
-        start()
-    }
-    
     func restartFromUserVC() {
         dissmisCurrentVC()
         start()
@@ -66,6 +61,11 @@ class MainCoordinator: CoordinatorProtocol {
     
     func presentPublicGitHubUserViewController(for account: GitHubAccount) {
         let vc = viewControllersFactory.makePublicGitHubUserViewController(coordinator: self, account: account)
+        navigationController.pushViewController(vc, animated: true)
+    }
+    
+    func presentEditUserViewController() {
+        let vc = viewControllersFactory.makeEditUserViewController(coordinator: self)
         navigationController.pushViewController(vc, animated: true)
     }
     

@@ -6,7 +6,7 @@ protocol Endpoint {
     var path: String { get }
     var headers: [String: String]? { get }
     var query: [String: String]? { get }
-    var body: [String: String]? { get }
+    var body: Data? { get }
 }
 
 extension Endpoint {

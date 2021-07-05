@@ -52,7 +52,7 @@ class LoginViewController: UIViewController {
     private func bindViewModel() {
         viewModel.onLogin = { [weak self] in
             guard let self = self else { return }
-            self.coordinator?.restart()
+            self.coordinator?.start()
         }
     }
     

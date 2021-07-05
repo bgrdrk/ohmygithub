@@ -1,8 +1,11 @@
+import Foundation
+
 enum EndpointCases: Endpoint {
     
     case authorization
     case getAccessToken(code: String)
     case getAuthorizedUser
+    case updateUser(_ userData: UpdatedUser)
     case getPublicUser(login: String)
     case getUsersPublicRepos(login: String)
     case getUsersStarredRepos(login: String)
@@ -38,6 +41,8 @@ enum EndpointCases: Endpoint {
             return "PUT"
         case .unfollowUser, .unstarRepository:
             return "DELETE"
+        case .updateUser:
+            return "PATCH"
         }
     }
     
@@ -46,6 +51,7 @@ enum EndpointCases: Endpoint {
         case .authorization, .getAccessToken:
             return "https://github.com/login/oauth/"
         case .getAuthorizedUser,
+             .updateUser,
              .getPublicUser,
              .getUsersPublicRepos,
              .getUsersStarredRepos,
@@ -68,7 +74,7 @@ enum EndpointCases: Endpoint {
             return "authorize"
         case .getAccessToken:
             return "access_token"
-        case .getAuthorizedUser:
+        case .getAuthorizedUser, .updateUser:
             return "user"
         case .getPublicUser(let login):
             return "users/\(login)"
@@ -99,7 +105,8 @@ enum EndpointCases: Endpoint {
         case .authorization,
              .getAccessToken:
             return ["Accept": "application/vnd.github.v3+json"]
-        case .getPublicUser,
+        case .updateUser,
+             .getPublicUser,
              .getUsersPublicRepos,
              .getUsersStarredRepos,
              .getUsersFollowers,
@@ -127,6 +134,7 @@ enum EndpointCases: Endpoint {
                     "client_secret": Secrets.clientSecret,
                     "code": code]
         case .getAuthorizedUser,
+             .updateUser,
              .getPublicUser,
              .getUsersPublicRepos,
              .getUsersStarredRepos,
@@ -142,8 +150,13 @@ enum EndpointCases: Endpoint {
         }
     }
     
-    var body: [String : String]? {
+    var body: Data? {
         switch self {
+        case .updateUser(let data):
+            let encoder = JSONEncoder()
+            encoder.keyEncodingStrategy = .convertToSnakeCase
+            let encodedData = try? encoder.encode(data)
+            return encodedData
         case .authorization,
              .getAccessToken,
              .getAuthorizedUser,

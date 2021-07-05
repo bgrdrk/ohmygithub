@@ -38,6 +38,7 @@ final class NetworkManager {
         let url = endpoint.urlWithComponents
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = endpoint.httpMethod
+        urlRequest.httpBody = endpoint.body
         urlRequest = endpoint.setHeadersAndAccessToken(urlRequest, accessToken: accessToken)
         return urlRequest
     }
@@ -111,6 +112,13 @@ final class NetworkManager {
     
     private func getAppUser(_ completion: @escaping (Result<PublicGitHubUser, AppError>) -> ()) {
         let endpoint = EndpointCases.getAuthorizedUser
+        let request = makeRequest(endpoint)
+        let dataTask = makeDataTask(with: request, completion: completion)
+        dataTask.resume()
+    }
+    
+    func updateAppUser(_ userData: UpdatedUser, _ completion: @escaping (Result<PublicGitHubUser, AppError>) -> ()) {
+        let endpoint = EndpointCases.updateUser(userData)
         let request = makeRequest(endpoint)
         let dataTask = makeDataTask(with: request, completion: completion)
         dataTask.resume()
