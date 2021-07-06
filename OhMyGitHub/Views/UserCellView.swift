@@ -2,7 +2,8 @@ import UIKit
 
 final class UserCellView: UIView {
     private let profileImageView = UIImageView()
-    private let usernameLabel = UILabel()
+    private let nameLabel = UILabel().nameLabel
+    private let usernameLabel = UILabel().usernameLabel
     private let followersLabel = UILabel()
     
     init() {
@@ -21,6 +22,10 @@ final class UserCellView: UIView {
         profileImageView.contentMode = .scaleAspectFit
     }
     
+    func setName(_ name: String) {
+        nameLabel.text = name
+    }
+    
     func setUsername(_ username: String) {
         usernameLabel.text = username
     }
@@ -33,26 +38,36 @@ final class UserCellView: UIView {
     
     private func configure() {
         setupConstraints()
-        profileImageView.backgroundColor = .systemGray6
+        self.layer.cornerRadius = 10
+        self.backgroundColor = .white
     }
     
     private func setupConstraints() {
         
+        self.addSubview(profileImageView)
+        self.addSubview(nameLabel)
+        self.addSubview(usernameLabel)
+        self.addSubview(followersLabel)
+        
         profileImageView.setDimensions(width: 80, height: 80)
+        profileImageView.anchor(top: self.topAnchor,
+                                left: self.leftAnchor,
+                                bottom: self.bottomAnchor,
+                                paddingTop: 10,
+                                paddingLeft: 10,
+                                paddingBottom: 10)
         
-        let labelsStack = UIStackView(arrangedSubviews: [usernameLabel, followersLabel])
-        labelsStack.axis = .vertical
-        labelsStack.spacing = 5
-        labelsStack.distribution = .fillEqually
+        nameLabel.anchor(top: profileImageView.topAnchor,
+                         left: profileImageView.rightAnchor,
+                         paddingLeft: 10)
         
-        let mainStack = UIStackView(arrangedSubviews: [profileImageView, labelsStack])
-        mainStack.axis = .horizontal
-        mainStack.spacing = 10
-        mainStack.distribution = .fillProportionally
-
-        self.addSubview(mainStack)
+        usernameLabel.anchor(top: nameLabel.bottomAnchor,
+                             left: nameLabel.leftAnchor,
+                             paddingTop: 10)
         
-        mainStack.addConstraintsToFillView(self)
+        followersLabel.anchor(top: usernameLabel.bottomAnchor,
+                             left: usernameLabel.leftAnchor,
+                             paddingTop: 10)
     }
     
 }

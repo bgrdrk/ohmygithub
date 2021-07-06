@@ -18,22 +18,7 @@ class AppUserViewController: UIViewController {
     
     // MARK: - UI Elements
     
-    private let userProfileImage: UIImageView = {
-        let image = UIImage(named: "github_avatar")!
-        let imageView = UIImageView(image: image)
-        imageView.contentMode = .scaleAspectFit
-        return imageView
-    }()
-    
-    private let userFullName: UILabel = {
-        let label = AppUI.h1Label(withText: "userFullName")
-        return label
-    }()
-    
-    private let userName: UILabel = {
-        let label = AppUI.h1Label(withText: "username")
-        return label
-    }()
+    private let userCell = UserCellView()
     
     private let followersButton: UIButton = {
         let button = AppUI.attributedButton("Number of followers:", "0")
@@ -68,7 +53,7 @@ class AppUserViewController: UIViewController {
         configureUI()
         configureNavigationBar()
         bindViewModel()
-        viewModel.start()
+//        viewModel.start()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -84,11 +69,11 @@ class AppUserViewController: UIViewController {
             guard let user = user,
                   let self = self
             else { return }
-            self.userFullName.text = user.name ?? ""
-            self.userName.text = user.login
             self.followersButton.updateAttributtedTitle("Followers:", "\(user.followers)")
             self.followingButton.updateAttributtedTitle("Following:", "\(user.following)")
             self.personalReposButton.updateAttributtedTitle("Personal repos:", "\(user.publicRepos)")
+            self.userCell.setName(user.name ?? "")
+            self.userCell.setUsername(user.login)
         }
         
         viewModel.starredRepos.bind { [weak self] starred in
@@ -98,7 +83,7 @@ class AppUserViewController: UIViewController {
         viewModel.profileImage.bind { [weak self] image in
             guard let self = self,
                   let image = image else { return }
-            self.userProfileImage.image = image.roundedImage
+            self.userCell.setImage(image: image.roundedImage)
         }
     }
     
@@ -137,24 +122,21 @@ class AppUserViewController: UIViewController {
     // MARK: - UI Configuration
     
     private func configureNavigationBar() {
-        view.backgroundColor = .white
         navigationItem.title = "GitHub User Home"
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(handleLogout))
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(handleEdit))
     }
     
     private func configureUI() {
-        userProfileImage.setDimensions(width: 100, height: 100)
-        let stack = UIStackView(arrangedSubviews:
-                                [userProfileImage, userFullName, userName, followersButton,
-                                 followingButton, personalReposButton, starredReposButton])
+        view.backgroundColor = AppUI.appLightGreyColor
+        let stack = UIStackView(arrangedSubviews: [userCell, followersButton, followingButton,
+                                                   personalReposButton, starredReposButton])
         stack.axis = .vertical
-        stack.spacing = 20
-//        stack.distribution = .fill
+        stack.spacing = AppUI.spacing
+        stack.distribution = .fillProportionally
         
         view.addSubview(stack)
-        stack.anchor(left: view.leftAnchor, right: view.rightAnchor,
-                     paddingLeft: 40, paddingRight: 40)
-        stack.center(inView: view)
+        stack.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor,
+                     paddingTop: AppUI.spacing, paddingLeft: AppUI.spacing, paddingRight: AppUI.spacing)
     }
 }
