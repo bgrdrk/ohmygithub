@@ -6,6 +6,7 @@ class UserCellViewModel {
     var account: GitHubAccount
     var user = Observable<PublicGitHubUser?>(nil)
     var profileImage = Observable(UIImage())
+    var name = Observable("")
     var username = Observable("")
     var followers = Observable(Int(0))
     
@@ -49,6 +50,7 @@ class UserCellViewModel {
         if let loadedUser = try? networkManager.persistanceManager.load(title: account.login) as PublicGitHubUser {
             user.value = loadedUser
             followers.value = loadedUser.followers
+            name.value = loadedUser.name ?? ""
             return
         }
         

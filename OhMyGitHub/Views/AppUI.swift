@@ -161,7 +161,12 @@ extension UILabel {
     
     var usernameLabel: UILabel {
         self.font = UIFont.systemFont(ofSize: AppUI.smallFontSize)
-        self.numberOfLines = 0
+        self.textColor = AppUI.appColor(.darkGrey)
+        return self
+    }
+    
+    var followersLabel: UILabel {
+        self.font = UIFont.systemFont(ofSize: AppUI.smallFontSize)
         self.textColor = AppUI.appColor(.darkGrey)
         return self
     }

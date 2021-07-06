@@ -34,6 +34,10 @@ class UserCell: UITableViewCell {
             self?.userCellView.setImage(image: image)
         }
         
+        viewModel.name.bind { [weak self] name in
+            self?.userCellView.setName(name)
+        }
+        
         viewModel.username.bind { [weak self] username in
             self?.userCellView.setUsername(username)
         }

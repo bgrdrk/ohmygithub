@@ -5,7 +5,7 @@ final class UserCellView: UIView {
     private let profileImageView = UIImageView()
     private let nameLabel = UILabel().nameLabel
     private let usernameLabel = UILabel().usernameLabel
-    private let followersLabel = UILabel()
+    private let followersLabel = UILabel().followersLabel
     
     init() {
         super.init(frame: .zero)
@@ -32,7 +32,7 @@ final class UserCellView: UIView {
     }
     
     func setFollowersCount(_ count: Int) {
-        followersLabel.text = "Followers count: \(count)"
+        followersLabel.text = "Followers: \(count)"
     }
     
     // MARK: - Configuration
@@ -65,12 +65,11 @@ final class UserCellView: UIView {
                          paddingRight: AppUI.spacing)
         
         usernameLabel.anchor(top: nameLabel.bottomAnchor,
-                             left: nameLabel.leftAnchor,
-                             paddingTop: AppUI.spacing)
+                             left: nameLabel.leftAnchor)
         
-        followersLabel.anchor(top: usernameLabel.bottomAnchor,
-                             left: usernameLabel.leftAnchor,
-                             paddingTop: AppUI.spacing)
+        followersLabel.anchor(left: usernameLabel.leftAnchor,
+                              bottom: profileImageView.bottomAnchor,
+                              paddingTop: AppUI.spacing)
     }
     
 }
