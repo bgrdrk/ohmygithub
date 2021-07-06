@@ -1,6 +1,7 @@
 import UIKit
 
 final class UserCellView: UIView {
+    
     private let profileImageView = UIImageView()
     private let nameLabel = UILabel().nameLabel
     private let usernameLabel = UILabel().usernameLabel
@@ -38,8 +39,8 @@ final class UserCellView: UIView {
     
     private func configure() {
         setupConstraints()
-        self.layer.cornerRadius = 10
-        self.backgroundColor = .white
+        self.layer.cornerRadius = AppUI.cornerRadius
+        self.backgroundColor = AppUI.appColor(.customWhite)
     }
     
     private func setupConstraints() {
@@ -49,25 +50,27 @@ final class UserCellView: UIView {
         self.addSubview(usernameLabel)
         self.addSubview(followersLabel)
         
-        profileImageView.setDimensions(width: 80, height: 80)
+        profileImageView.setDimensions(width: AppUI.heightOfLargeContainers, height: AppUI.heightOfLargeContainers)
         profileImageView.anchor(top: self.topAnchor,
                                 left: self.leftAnchor,
                                 bottom: self.bottomAnchor,
-                                paddingTop: 10,
-                                paddingLeft: 10,
-                                paddingBottom: 10)
+                                paddingTop: AppUI.spacing,
+                                paddingLeft: AppUI.spacing,
+                                paddingBottom: AppUI.spacing)
         
         nameLabel.anchor(top: profileImageView.topAnchor,
                          left: profileImageView.rightAnchor,
-                         paddingLeft: 10)
+                         right: self.rightAnchor,
+                         paddingLeft: AppUI.spacing,
+                         paddingRight: AppUI.spacing)
         
         usernameLabel.anchor(top: nameLabel.bottomAnchor,
                              left: nameLabel.leftAnchor,
-                             paddingTop: 10)
+                             paddingTop: AppUI.spacing)
         
         followersLabel.anchor(top: usernameLabel.bottomAnchor,
                              left: usernameLabel.leftAnchor,
-                             paddingTop: 10)
+                             paddingTop: AppUI.spacing)
     }
     
 }

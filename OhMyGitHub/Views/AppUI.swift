@@ -4,18 +4,39 @@ struct AppUI {
     
     // MARK: - UI Constants
     
-    static let boldedFontSize: CGFloat = 20
-    static let smallFontSize: CGFloat = 16
+    static let titleFontSize: CGFloat = 25
+    static let boldedFontSize: CGFloat = 22
+    static let smallFontSize: CGFloat = 18
+    static let buttonFontSize: CGFloat = 20
+    static let customButtonTitleFontSize: CGFloat = 70
     
     static let cornerRadius: CGFloat = 8
     static let spacing: CGFloat = 10
     static let buttonHeight: CGFloat = 60
-    static let buttonFontSize: CGFloat = 20
+    static let sectionTitleHeight: CGFloat = 40
+    static let heightOfLargeContainers: CGFloat = 100
     
     // MARK: - Colors
     
-    static let appLightGreyColor: UIColor = .systemGray5
-    static let appDarkerGreyColor: UIColor = .systemGray4
+    enum AppColors {
+        case customWhite
+        case customBlack
+        case lightGrey
+        case darkGrey
+    }
+    
+    static func appColor(_ color: AppColors) -> UIColor {
+        switch color {
+        case .customWhite:
+            return .white
+        case .customBlack:
+            return .black
+        case .lightGrey:
+            return .systemGray6
+        case .darkGrey:
+            return .systemGray2
+        }
+    }
     
     // MARK: - App Style Buttons
     
@@ -32,7 +53,7 @@ struct AppUI {
     
     static func attributedButton(_ firstPart: String, _ secondPart: String) -> UIButton {
         let button = UIButton(type: .system)
-        button.backgroundColor = .systemTeal
+        button.backgroundColor = AppUI.appColor(.customWhite)
         button.heightAnchor.constraint(equalToConstant: buttonHeight).isActive = true
         button.layer.cornerRadius = cornerRadius
         let attributedString = button.makeAttributtedString(firstPart, secondPart)
@@ -70,11 +91,11 @@ struct AppUI {
     
     // MARK: - Views
     
-    static func containerView(with texfield: UITextField) -> UIView {
+    static func inputFieldContainerView(with texfield: UITextField) -> UIView {
         let view = UIView()
         let dividerView = UIView()
 
-        dividerView.backgroundColor = appLightGreyColor
+        dividerView.backgroundColor = AppUI.appColor(.lightGrey)
         
         view.addSubview(texfield)
         view.addSubview(dividerView)
@@ -87,16 +108,21 @@ struct AppUI {
     }
 }
 
-    // MARK: - UIKit Extensions
+    // MARK: - Buttons
 
 extension UIButton {
     func makeAttributtedString(_ firstPart: String, _ secondPart: String) -> NSMutableAttributedString {
-        let attributedString = NSMutableAttributedString(string: firstPart, attributes:
-                                                            [NSAttributedString.Key.font: UIFont.systemFont(ofSize: AppUI.buttonFontSize),
-                                                             NSAttributedString.Key.foregroundColor: UIColor.black])
-        attributedString.append(NSAttributedString(string: " \(secondPart)", attributes:
-                                                    [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: AppUI.buttonFontSize),
-                                                     NSAttributedString.Key.foregroundColor: UIColor.black]))
+        let attributedString =
+            NSMutableAttributedString(string: firstPart,
+                                      attributes:
+                                        [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: AppUI.buttonFontSize),
+                                        NSAttributedString.Key.foregroundColor: UIColor.black])
+
+        attributedString
+            .append(NSAttributedString(string: " \(secondPart)",
+                                       attributes:
+                                        [NSAttributedString.Key.font: UIFont.systemFont(ofSize: AppUI.buttonFontSize),
+                                        NSAttributedString.Key.foregroundColor: AppUI.appColor(.darkGrey)]))
         return attributedString
     }
     
@@ -106,20 +132,64 @@ extension UIButton {
     }
 }
 
+    // MARK: - Labels
+
 extension UILabel {
+    
+    func titleLabel(with title: String) -> UILabel {
+        self.text = title
+        self.font = UIFont.boldSystemFont(ofSize: AppUI.titleFontSize)
+        self.numberOfLines = 0
+        self.textColor = AppUI.appColor(.customBlack)
+        return self
+    }
+    
+    var titleLabel: UILabel {
+        self.font = UIFont.boldSystemFont(ofSize: AppUI.titleFontSize)
+        self.numberOfLines = 0
+        self.textColor = AppUI.appColor(.customBlack)
+        return self
+    }
     
     var nameLabel: UILabel {
         self.font = UIFont.boldSystemFont(ofSize: AppUI.boldedFontSize)
         self.numberOfLines = 0
-        self.textColor = .black
+        self.lineBreakMode = .byWordWrapping
+        self.textColor = AppUI.appColor(.customBlack)
         return self
     }
     
     var usernameLabel: UILabel {
         self.font = UIFont.systemFont(ofSize: AppUI.smallFontSize)
         self.numberOfLines = 0
-        self.textColor = AppUI.appDarkerGreyColor
+        self.textColor = AppUI.appColor(.darkGrey)
         return self
     }
     
+    var customButtonTitleLabel: UILabel {
+        self.font = UIFont.boldSystemFont(ofSize: AppUI.customButtonTitleFontSize)
+        self.textColor = AppUI.appColor(.customBlack)
+        return self
+    }
+}
+
+// MARK: - Views
+
+extension UIView {
+    
+    func iconView(withImage image: UIImage) -> UIView {
+        let view = UIView()
+        let iv = UIImageView()
+                
+        iv.image = image
+        iv.tintColor = AppUI.appColor(.darkGrey)
+        view.addSubview(iv)
+        iv.center(inView: view)
+        iv.setDimensions(width: 30, height: 30)
+
+        view.layer.cornerRadius = AppUI.cornerRadius
+        view.backgroundColor = .white
+        view.setDimensions(width: 50, height: 50)
+        return view
+    }
 }

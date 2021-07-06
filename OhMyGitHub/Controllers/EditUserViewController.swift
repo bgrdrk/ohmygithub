@@ -22,10 +22,10 @@ class EditUserViewController: UIViewController {
     private lazy var locationTextField = AppUI.inputField(placeholder: "Current location")
     private lazy var twitterUsernameTextField = AppUI.inputField(placeholder: "Twitter account username")
     
-    private lazy var nameContainer = AppUI.containerView(with: nameTextField)
-    private lazy var companyContainer = AppUI.containerView(with: companyTextField)
-    private lazy var locationContainer = AppUI.containerView(with: locationTextField)
-    private lazy var twitterContainer = AppUI.containerView(with: twitterUsernameTextField)
+    private lazy var nameContainer = AppUI.inputFieldContainerView(with: nameTextField)
+    private lazy var companyContainer = AppUI.inputFieldContainerView(with: companyTextField)
+    private lazy var locationContainer = AppUI.inputFieldContainerView(with: locationTextField)
+    private lazy var twitterContainer = AppUI.inputFieldContainerView(with: twitterUsernameTextField)
     
     private let submitButton: UIButton = {
         let button = UIButton()

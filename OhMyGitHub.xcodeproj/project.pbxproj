@@ -55,6 +55,9 @@
 		3DC409EE26923B0D00899E47 /* EditUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC409ED26923B0D00899E47 /* EditUserViewController.swift */; };
 		3DC409F026923B6800899E47 /* EditUserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC409EF26923B6800899E47 /* EditUserViewModel.swift */; };
 		3DC409F2269240D400899E47 /* UpdatedUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC409F1269240D400899E47 /* UpdatedUser.swift */; };
+		3DC70E092694CC4100331B92 /* SectionTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC70E082694CC4100331B92 /* SectionTitleView.swift */; };
+		3DC70E0C2694E06A00331B92 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC70E0B2694E06A00331B92 /* CustomButton.swift */; };
+		3DC70E0E2694E0B300331B92 /* CustomButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC70E0D2694E0B300331B92 /* CustomButtonView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -129,6 +132,9 @@
 		3DC409ED26923B0D00899E47 /* EditUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditUserViewController.swift; sourceTree = "<group>"; };
 		3DC409EF26923B6800899E47 /* EditUserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditUserViewModel.swift; sourceTree = "<group>"; };
 		3DC409F1269240D400899E47 /* UpdatedUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatedUser.swift; sourceTree = "<group>"; };
+		3DC70E082694CC4100331B92 /* SectionTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionTitleView.swift; sourceTree = "<group>"; };
+		3DC70E0B2694E06A00331B92 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
+		3DC70E0D2694E0B300331B92 /* CustomButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButtonView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -295,10 +301,12 @@
 		3D76CEFB26789CBF006E5AB5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				3DC70E0A2694E03C00331B92 /* CustomUIControl */,
 				3D76CF032678B017006E5AB5 /* AppUI.swift */,
 				3D76CECF2677EE33006E5AB5 /* LaunchScreen.storyboard */,
 				3DC409DC268F948B00899E47 /* UserCellView.swift */,
 				3DC409E32690EC4500899E47 /* RepositoryCellView.swift */,
+				3DC70E082694CC4100331B92 /* SectionTitleView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -350,6 +358,15 @@
 				3DC409E52690EDDF00899E47 /* RepositoryCell.swift */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		3DC70E0A2694E03C00331B92 /* CustomUIControl */ = {
+			isa = PBXGroup;
+			children = (
+				3DC70E0B2694E06A00331B92 /* CustomButton.swift */,
+				3DC70E0D2694E0B300331B92 /* CustomButtonView.swift */,
+			);
+			path = CustomUIControl;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -492,6 +509,7 @@
 				3D607C4626867DAD00340CC3 /* RepositoriesViewController.swift in Sources */,
 				3D607C372683D6FF00340CC3 /* PublicUserViewController.swift in Sources */,
 				3DC409DD268F948B00899E47 /* UserCellView.swift in Sources */,
+				3DC70E0E2694E0B300331B92 /* CustomButtonView.swift in Sources */,
 				3D607C4226867A3400340CC3 /* RepositoryViewController.swift in Sources */,
 				3D76CF1E267A4F2F006E5AB5 /* AppSessionManager.swift in Sources */,
 				3D607C2E26824B9900340CC3 /* UsersViewController.swift in Sources */,
@@ -504,6 +522,7 @@
 				3D607C402686543600340CC3 /* AppUserViewModel.swift in Sources */,
 				3DC409F026923B6800899E47 /* EditUserViewModel.swift in Sources */,
 				3D76CF092678DE5A006E5AB5 /* AppError.swift in Sources */,
+				3DC70E092694CC4100331B92 /* SectionTitleView.swift in Sources */,
 				3D76CF172679FD9C006E5AB5 /* HomeViewController.swift in Sources */,
 				3DC409E2268FAF8B00899E47 /* UserCellViewModel.swift in Sources */,
 				3D76CF19267A0076006E5AB5 /* DependencyContainer.swift in Sources */,
@@ -520,6 +539,7 @@
 				3D607C3E2686447300340CC3 /* LoginViewModel.swift in Sources */,
 				3D607C3026827DB100340CC3 /* Endpoint.swift in Sources */,
 				3D76CF2626813204006E5AB5 /* GitHubAccount.swift in Sources */,
+				3DC70E0C2694E06A00331B92 /* CustomButton.swift in Sources */,
 				3D76CF1026790D07006E5AB5 /* PublicGitHubUser.swift in Sources */,
 				3D76CEF626788AD4006E5AB5 /* UIView+Constraints.swift in Sources */,
 				3D76CF0C2678F5EE006E5AB5 /* AccessTokenResponse.swift in Sources */,

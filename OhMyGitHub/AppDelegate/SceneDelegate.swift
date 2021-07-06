@@ -8,9 +8,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
-        let vc = HomeViewController()
-//        let nc = UINavigationController(rootViewController: vc)
         let nc = UINavigationController()
+        nc.navigationBar.tintColor = AppUI.appColor(.customBlack)
         coordinator = MainCoordinator(navigationController: nc)
         coordinator?.start()
         

@@ -19,31 +19,35 @@ class AppUserViewController: UIViewController {
     // MARK: - UI Elements
     
     private let userCell = UserCellView()
+    private let followersTitle = SectionTitleView(icon: UIImage(systemName: "person.2.circle")!, title: "Followers")
+    private let repositoriesTitle = SectionTitleView(icon: UIImage(systemName: "folder.circle")!, title: "Repositories")
     
-    private let followersButton: UIButton = {
-        let button = AppUI.attributedButton("Number of followers:", "0")
-        button.addTarget(self, action: #selector(handleFollowersTap), for: .touchUpInside)
-        return button
+    private let followersButton: CustomButtonView = {
+        let buttonView = CustomButtonView(frame: .zero)
+        buttonView.configure(title: "0", description: "followers")
+        buttonView.addTarget(self, action: #selector(handleFollowersTap), for: .touchUpInside)
+        return buttonView
     }()
     
-    private let followingButton: UIButton = {
-        let button = AppUI.attributedButton("Following:", "0")
-        button.addTarget(self, action: #selector(handleFollowingTap), for: .touchUpInside)
-        return button
+    private let followingButton: CustomButtonView = {
+        let buttonView = CustomButtonView(frame: .zero)
+        buttonView.configure(title: "0", description: "following")
+        buttonView.addTarget(self, action: #selector(handleFollowingTap), for: .touchUpInside)
+        return buttonView
     }()
     
-    private let personalReposButton: UIButton = {
-        let button = AppUI.attributedButton("Personal repositories:", "0")
-        button.addTarget(self, action: #selector(handlePersonalReposTap), for: .touchUpInside)
-        button.backgroundColor = .systemGreen
-        return button
+    private let personalReposButton: CustomButtonView = {
+        let buttonView = CustomButtonView(frame: .zero)
+        buttonView.configure(title: "0", description: "personal")
+        buttonView.addTarget(self, action: #selector(handlePersonalReposTap), for: .touchUpInside)
+        return buttonView
     }()
     
-    private let starredReposButton: UIButton = {
-        let button = AppUI.attributedButton("Starred repositories:", "0")
-        button.addTarget(self, action: #selector(handleStarredReposTap), for: .touchUpInside)
-        button.backgroundColor = .systemGreen
-        return button
+    private let starredReposButton: CustomButtonView = {
+        let buttonView = CustomButtonView(frame: .zero)
+        buttonView.configure(title: "0", description: "starred")
+        buttonView.addTarget(self, action: #selector(handleStarredReposTap), for: .touchUpInside)
+        return buttonView
     }()
     
     // MARK: - Lifecycle
@@ -53,7 +57,7 @@ class AppUserViewController: UIViewController {
         configureUI()
         configureNavigationBar()
         bindViewModel()
-//        viewModel.start()
+        viewModel.start()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -69,15 +73,15 @@ class AppUserViewController: UIViewController {
             guard let user = user,
                   let self = self
             else { return }
-            self.followersButton.updateAttributtedTitle("Followers:", "\(user.followers)")
-            self.followingButton.updateAttributtedTitle("Following:", "\(user.following)")
-            self.personalReposButton.updateAttributtedTitle("Personal repos:", "\(user.publicRepos)")
+            self.followersButton.changeTitle(to: "\(user.followers)")
+            self.followingButton.changeTitle(to: "\(user.following)")
+            self.personalReposButton.changeTitle(to: "\(user.publicRepos)")
             self.userCell.setName(user.name ?? "")
             self.userCell.setUsername(user.login)
         }
         
         viewModel.starredRepos.bind { [weak self] starred in
-            self?.starredReposButton.updateAttributtedTitle("Starred repositories:", "\(starred.count)")
+            self?.starredReposButton.changeTitle(to: "\(starred.count)")
         }
 
         viewModel.profileImage.bind { [weak self] image in
@@ -96,10 +100,6 @@ class AppUserViewController: UIViewController {
     
     @objc private func handleEdit() {
         coordinator?.presentEditUserViewController()
-    }
-    
-    @objc private func handleButtonTap() {
-        print((#function))
     }
     
     @objc private func handleFollowersTap() {
@@ -122,21 +122,43 @@ class AppUserViewController: UIViewController {
     // MARK: - UI Configuration
     
     private func configureNavigationBar() {
-        navigationItem.title = "GitHub User Home"
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(handleLogout))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(handleEdit))
+        let logoutIcon = UIImage(systemName: "xmark.circle")!
+        let logoutBarButtonItem = UIBarButtonItem(image: logoutIcon,
+                                                  style: .plain,
+                                                  target: self,
+                                                  action: #selector(handleLogout))
+        
+        navigationItem.leftBarButtonItem = logoutBarButtonItem
+        
+        let settingsIcon = UIImage(systemName: "gearshape.fill")!
+        let settingsBarButtonItem = UIBarButtonItem(image: settingsIcon,
+                                                    style: .plain,
+                                                    target: self,
+                                                    action: #selector(handleEdit))
+        
+        navigationItem.rightBarButtonItem = settingsBarButtonItem
     }
     
     private func configureUI() {
-        view.backgroundColor = AppUI.appLightGreyColor
-        let stack = UIStackView(arrangedSubviews: [userCell, followersButton, followingButton,
-                                                   personalReposButton, starredReposButton])
+        view.backgroundColor = AppUI.appColor(.lightGrey)
+        
+        let followersStack = UIStackView(arrangedSubviews: [followersButton, followingButton])
+        followersStack.axis = .horizontal
+        followersStack.spacing = AppUI.spacing
+        followersStack.distribution = .fillEqually
+        
+        let reposStack = UIStackView(arrangedSubviews: [personalReposButton, starredReposButton])
+        reposStack.axis = .horizontal
+        reposStack.spacing = AppUI.spacing
+        reposStack.distribution = .fillEqually
+        
+        let stack = UIStackView(arrangedSubviews: [userCell, followersTitle, followersStack,
+                                                   repositoriesTitle, reposStack])
         stack.axis = .vertical
         stack.spacing = AppUI.spacing
-        stack.distribution = .fillProportionally
         
         view.addSubview(stack)
         stack.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor,
-                     paddingTop: AppUI.spacing, paddingLeft: AppUI.spacing, paddingRight: AppUI.spacing)
+                     paddingTop: AppUI.spacing + 10, paddingLeft: AppUI.spacing + 10, paddingRight: AppUI.spacing + 10)
     }
 }
