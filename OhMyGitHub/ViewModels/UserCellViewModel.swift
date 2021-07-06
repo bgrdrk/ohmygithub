@@ -63,6 +63,7 @@ class UserCellViewModel {
             case .success(let user):
                 self.user.value = user
                 self.followers.value = user.followers
+                self.name.value = user.name ?? ""
                 self.networkManager.persistanceManager.save(user, title: user.login)
             }
         }

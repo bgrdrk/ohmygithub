@@ -41,6 +41,9 @@ class UsersViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UserCell.self, forCellReuseIdentifier: "userCell")
+        view.backgroundColor = AppUI.appColor(.lightGrey)
+        tableView.backgroundView?.backgroundColor = .clear
+        tableView.separatorStyle = .none
         
         configureUI()
         viewModel.start()
