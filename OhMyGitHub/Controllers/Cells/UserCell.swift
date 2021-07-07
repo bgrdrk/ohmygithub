@@ -25,6 +25,8 @@ class UserCell: UITableViewCell {
     }
     
     private func setupUI() {
+        self.backgroundColor = AppUI.appColor(.lightGrey)
+        self.selectionStyle = .none
         self.addSubview(userCellView)
         userCellView.anchor(allSidesPadding: 5, inView: self)
     }

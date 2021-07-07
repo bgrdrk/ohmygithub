@@ -34,17 +34,7 @@ class UsersViewController: UIViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        view.backgroundColor = .white
-        navigationItem.title = "Users List"
-        
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(UserCell.self, forCellReuseIdentifier: "userCell")
-        view.backgroundColor = AppUI.appColor(.lightGrey)
-        tableView.backgroundView?.backgroundColor = .clear
-        tableView.separatorStyle = .none
-        
+        configureTableView()
         configureUI()
         viewModel.start()
         bindViewModel()
@@ -64,6 +54,15 @@ class UsersViewController: UIViewController {
     }
     
     // MARK: - UI Configuration
+
+    private func configureTableView() {
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(UserCell.self, forCellReuseIdentifier: "userCell")
+        view.backgroundColor = AppUI.appColor(.lightGrey)
+        tableView.backgroundColor = AppUI.appColor(.lightGrey)
+        tableView.separatorStyle = .none
+    }
     
     private func configureUI() {
         tableView.tableFooterView = UIView()
@@ -71,13 +70,22 @@ class UsersViewController: UIViewController {
         let sortStack = UIStackView(arrangedSubviews: [sortLabel, sortPicker])
         sortStack.axis = .vertical
         sortStack.distribution = .fillProportionally
-        sortStack.spacing = 5
-        
-        view.addSubview(sortStack)
-        view.addSubview(tableView)
-        sortStack.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingRight: 10)
+        sortStack.spacing = AppUI.spacing
+
+        let mainStack = UIStackView(arrangedSubviews: [sortStack, tableView])
+        mainStack.axis = .vertical
+        mainStack.distribution = .fill
+        mainStack.spacing = AppUI.spacing
+
+        view.addSubview(mainStack)
         sortStack.setDimensions(height: 60)
-        tableView.anchor(top: sortStack.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 10)
+        mainStack.anchor(top: view.safeAreaLayoutGuide.topAnchor,
+                         left: view.leftAnchor,
+                         bottom: view.bottomAnchor,
+                         right: view.rightAnchor,
+                         paddingTop: AppUI.spacing,
+                         paddingLeft: AppUI.spacing,
+                         paddingRight: AppUI.spacing)
     }
     
     private func bindViewModel() {
