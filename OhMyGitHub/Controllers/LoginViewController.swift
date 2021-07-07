@@ -68,7 +68,6 @@ class LoginViewController: UIViewController {
             guard let self = self else { return }
             
             if let error = error {
-                // TODO: Handle error swiftly
                 print("DEBUG: error -> \(error.localizedDescription)")
                 return
             }
@@ -77,8 +76,7 @@ class LoginViewController: UIViewController {
                 let callbackURL = callbackURL,
                 let code = self.viewModel.getQueryStringParameter(url: callbackURL, param: "code")
             else {
-                // TODO: Handle error swiftly
-                print("DEBUG: error, callbackURL is nil or has no code? -> \(#function)")
+                self.coordinator?.presentAlert(title: "Login error", message: "Pleasy try again.")
                 return
             }
             

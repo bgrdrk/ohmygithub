@@ -76,4 +76,10 @@ class MainCoordinator: CoordinatorProtocol {
     func dissmisCurrentVC() {
         navigationController.popViewController(animated: true)
     }
+    
+    func presentAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+        navigationController.present(alert, animated: true, completion: nil)
+    }
 }
