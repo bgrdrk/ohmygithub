@@ -21,6 +21,7 @@ final class IndicatorView: UIView {
 
     private func configure() {
         background.backgroundColor = AppUI.appColor(.customBlack)
+        background.isUserInteractionEnabled = true
         background.alpha = 0.15
         setupConstraints()
     }

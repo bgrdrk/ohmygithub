@@ -31,9 +31,8 @@ final class CustomButtonView: CustomButton {
         self.addSubview(textLabel)
         
         numberLabel.centerX(inView: self)
-        numberLabel.anchor(top: self.topAnchor, paddingTop: AppUI.spacing)
+        numberLabel.anchor(top: self.topAnchor, left: self.leftAnchor, right: self.rightAnchor, paddingTop: AppUI.spacing, paddingLeft: 10, paddingRight: 10)
         numberLabel.setDimensions(height: AppUI.customButtonTitleFontSize - 10)
-        numberLabel.isUserInteractionEnabled = false
         
         textLabel.centerX(inView: self)
         textLabel.anchor(top: numberLabel.bottomAnchor, paddingTop: AppUI.spacing)

@@ -30,6 +30,7 @@ class UserCell: UITableViewCell {
         selectionStyle = .none
         addSubview(userCellView)
         addSubview(indicator)
+        isUserInteractionEnabled = false
         userCellView.anchor(allSidesPadding: 5, inView: self)
         indicator.addConstraintsToFillView(userCellView)
         indicator.layer.cornerRadius = AppUI.cornerRadius
@@ -54,7 +55,9 @@ class UserCell: UITableViewCell {
         }
 
         viewModel.dataFetchCounter.bind { [weak self] count in
-            self?.indicator.isHidden = count == 2
+            let flag = count == 2
+            self?.indicator.isHidden = flag
+            self?.isUserInteractionEnabled = flag
         }
     }
 }

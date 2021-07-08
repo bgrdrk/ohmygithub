@@ -174,6 +174,9 @@ extension UILabel {
     var customButtonTitleLabel: UILabel {
         self.font = UIFont.boldSystemFont(ofSize: AppUI.customButtonTitleFontSize)
         self.textColor = AppUI.appColor(.customBlack)
+        self.textAlignment = .center
+        isUserInteractionEnabled = false
+        adjustsFontSizeToFitWidth = true
         return self
     }
 }

@@ -164,10 +164,11 @@ extension PublicUserViewModel {
     }
     
     func followUnfollowUser() {
-        guard let userLogin = account.value?.login.lowercased() else { return }
+        guard let userLogin = account.value?.login.lowercased(),
+              let userIsFolloweByAppUser = presentedUserIsFolloweByAppUser.value else { return }
         
         let endpoint: Endpoint
-        if let _ = presentedUserIsFolloweByAppUser.value {
+        if userIsFolloweByAppUser {
             endpoint = EndpointCases.unfollowUser(login: userLogin)
         } else {
             endpoint = EndpointCases.followUser(login: userLogin)
