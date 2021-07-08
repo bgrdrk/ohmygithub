@@ -13,6 +13,8 @@ class LoginViewController: UIViewController {
         button.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
         return button
     }()
+
+    private let indicator = UIActivityIndicatorView(style: .large)
     
     init(viewModel: LoginViewModel) {
         self.viewModel = viewModel
@@ -30,6 +32,12 @@ class LoginViewController: UIViewController {
         configureUI()
         bindViewModel()
     }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        indicator.stopAnimating()
+        indicator.isHidden = true
+    }
     
     //MARK: - Selectors
     
@@ -40,13 +48,17 @@ class LoginViewController: UIViewController {
     //MARK: - Helpers
     
     private func configureUI() {
-        view.backgroundColor = .systemTeal
+        view.backgroundColor = AppUI.appColor(.lightGrey)
         navigationController?.navigationBar.isHidden = true
         
         view.addSubview(loginButton)
+        view.addSubview(indicator)
+        indicator.isHidden = true
         
         loginButton.center(inView: view)
         loginButton.anchor(left: view.leftAnchor, right: view.rightAnchor, paddingLeft: 20, paddingRight: 20)
+        indicator.centerX(inView: view)
+        indicator.anchor(bottom: loginButton.topAnchor, paddingBottom: AppUI.spacing)
     }
     
     private func bindViewModel() {
@@ -79,7 +91,9 @@ class LoginViewController: UIViewController {
                 self.coordinator?.presentAlert(title: "Login error", message: "Pleasy try again.")
                 return
             }
-            
+            self.loginButton.isHidden = true
+            self.indicator.isHidden = false
+            self.indicator.startAnimating()
             self.viewModel.getAccessTokenAndContinueAuth(using: code)
         }
         

@@ -58,6 +58,7 @@
 		3DC70E092694CC4100331B92 /* SectionTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC70E082694CC4100331B92 /* SectionTitleView.swift */; };
 		3DC70E0C2694E06A00331B92 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC70E0B2694E06A00331B92 /* CustomButton.swift */; };
 		3DC70E0E2694E0B300331B92 /* CustomButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC70E0D2694E0B300331B92 /* CustomButtonView.swift */; };
+		3DC70E122697893800331B92 /* IndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC70E112697893700331B92 /* IndicatorView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -135,6 +136,7 @@
 		3DC70E082694CC4100331B92 /* SectionTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionTitleView.swift; sourceTree = "<group>"; };
 		3DC70E0B2694E06A00331B92 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		3DC70E0D2694E0B300331B92 /* CustomButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButtonView.swift; sourceTree = "<group>"; };
+		3DC70E112697893700331B92 /* IndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndicatorView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -307,6 +309,7 @@
 				3DC409DC268F948B00899E47 /* UserCellView.swift */,
 				3DC409E32690EC4500899E47 /* RepositoryCellView.swift */,
 				3DC70E082694CC4100331B92 /* SectionTitleView.swift */,
+				3DC70E112697893700331B92 /* IndicatorView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -520,6 +523,7 @@
 				3D76CF132679E97E006E5AB5 /* CoordinatorProtocol.swift in Sources */,
 				3D607C3C2683D9B300340CC3 /* PublicUserViewModel.swift in Sources */,
 				3D607C402686543600340CC3 /* AppUserViewModel.swift in Sources */,
+				3DC70E122697893800331B92 /* IndicatorView.swift in Sources */,
 				3DC409F026923B6800899E47 /* EditUserViewModel.swift in Sources */,
 				3D76CF092678DE5A006E5AB5 /* AppError.swift in Sources */,
 				3DC70E092694CC4100331B92 /* SectionTitleView.swift in Sources */,

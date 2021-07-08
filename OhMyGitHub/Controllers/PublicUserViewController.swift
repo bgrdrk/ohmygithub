@@ -5,7 +5,6 @@ class PublicUserViewController: UIViewController {
     // MARK: - Properties
     
     private let viewModel: PublicUserViewModel
-    
     weak var coordinator: MainCoordinator?
     
     init(viewModel: PublicUserViewModel) {
@@ -18,13 +17,14 @@ class PublicUserViewController: UIViewController {
     }
     
     // MARK: - UI Elements
-    
+
+    private let indicator = IndicatorView()
     private let userCell = UserCellView()
     private let followersTitle = SectionTitleView(icon: UIImage(systemName: "person.2.circle")!, title: "Followers")
     private let repositoriesTitle = SectionTitleView(icon: UIImage(systemName: "folder.circle")!, title: "Repositories")
     
     private let followButton: UIButton = {
-        let button = AppUI.actionButton(withText: "FollowUnfollow")
+        let button = AppUI.actionButton(withText: "")
         button.addTarget(self, action: #selector(handleFollowTap), for: .touchUpInside)
         return button
     }()
@@ -101,8 +101,15 @@ class PublicUserViewController: UIViewController {
         }
         
         viewModel.presentedUserIsFolloweByAppUser.bind { [weak self] isFollowed in
-            let buttonName = isFollowed ? "Unfollow" : "Follow"
+            var buttonName = ""
+            if let isFollowed = isFollowed {
+                buttonName = isFollowed ? "Unfollow" : "Follow"
+            } 
             self?.followButton.updateAttributtedTitle(buttonName, "")
+        }
+
+        viewModel.dataFetchCounter.bind { [weak self] count in
+            self?.indicator.isHidden = count == 5
         }
     }
 
@@ -132,6 +139,7 @@ class PublicUserViewController: UIViewController {
     // MARK: - UI Configuration
     
     private func configureUI() {
+        indicator.start()
         view.backgroundColor = AppUI.appColor(.lightGrey)
         let followersStack = UIStackView(arrangedSubviews: [followersButton, followingButton])
         followersStack.axis = .horizontal
@@ -143,7 +151,7 @@ class PublicUserViewController: UIViewController {
         reposStack.spacing = AppUI.spacing
         reposStack.distribution = .fillEqually
         
-        let stack = UIStackView(arrangedSubviews: [userCell, followersTitle, followersStack,
+        let stack = UIStackView(arrangedSubviews: [userCell, followButton, followersTitle, followersStack,
                                                    repositoriesTitle, reposStack])
         stack.axis = .vertical
         stack.spacing = AppUI.spacing
@@ -151,5 +159,8 @@ class PublicUserViewController: UIViewController {
         view.addSubview(stack)
         stack.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor,
                      paddingTop: AppUI.spacing + 10, paddingLeft: AppUI.spacing + 10, paddingRight: AppUI.spacing + 10)
+
+        view.addSubview(indicator)
+        indicator.addConstraintsToFillView(view)
     }
 }

@@ -17,7 +17,8 @@ class AppUserViewController: UIViewController {
     }
     
     // MARK: - UI Elements
-    
+
+    private let indicator = IndicatorView()
     private let userCell = UserCellView()
     private let followersTitle = SectionTitleView(icon: UIImage(systemName: "person.2.circle")!, title: "Followers")
     private let repositoriesTitle = SectionTitleView(icon: UIImage(systemName: "folder.circle")!, title: "Repositories")
@@ -89,6 +90,10 @@ class AppUserViewController: UIViewController {
                   let image = image else { return }
             self.userCell.setImage(image: image.roundedImage)
         }
+
+        viewModel.dataFetchCounter.bind { [weak self] count in
+            self?.indicator.isHidden = count == 5
+        }
     }
     
     // MARK: - Selectors
@@ -140,6 +145,7 @@ class AppUserViewController: UIViewController {
     }
     
     private func configureUI() {
+        indicator.start()
         view.backgroundColor = AppUI.appColor(.lightGrey)
         
         let followersStack = UIStackView(arrangedSubviews: [followersButton, followingButton])
@@ -160,5 +166,8 @@ class AppUserViewController: UIViewController {
         view.addSubview(stack)
         stack.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor,
                      paddingTop: AppUI.spacing + 10, paddingLeft: AppUI.spacing + 10, paddingRight: AppUI.spacing + 10)
+
+        view.addSubview(indicator)
+        indicator.addConstraintsToFillView(view)
     }
 }

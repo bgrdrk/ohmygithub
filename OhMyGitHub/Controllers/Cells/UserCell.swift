@@ -1,7 +1,8 @@
 import UIKit
 
 class UserCell: UITableViewCell {
-    
+
+    private let indicator = IndicatorView()
     private let userCellView = UserCellView()
     private var viewModel: UserCellViewModel!
     
@@ -25,10 +26,14 @@ class UserCell: UITableViewCell {
     }
     
     private func setupUI() {
-        self.backgroundColor = AppUI.appColor(.lightGrey)
-        self.selectionStyle = .none
-        self.addSubview(userCellView)
+        backgroundColor = AppUI.appColor(.lightGrey)
+        selectionStyle = .none
+        addSubview(userCellView)
+        addSubview(indicator)
         userCellView.anchor(allSidesPadding: 5, inView: self)
+        indicator.addConstraintsToFillView(userCellView)
+        indicator.layer.cornerRadius = AppUI.cornerRadius
+        indicator.start()
     }
     
     private func bindViewModel() {
@@ -46,6 +51,10 @@ class UserCell: UITableViewCell {
         
         viewModel.followers.bind { [weak self] followersCount in
             self?.userCellView.setFollowersCount(followersCount)
+        }
+
+        viewModel.dataFetchCounter.bind { [weak self] count in
+            self?.indicator.isHidden = count == 2
         }
     }
 }

@@ -10,6 +10,7 @@ class AppUserViewModel {
     var publicRepos = Observable([Repository]())
     var starredRepos = Observable([Repository]())
     var profileImage = Observable<UIImage?>(nil)
+    var dataFetchCounter = Observable(0)
     
     var onError: ((String?) -> Void)?
     
@@ -53,6 +54,7 @@ private extension AppUserViewModel {
                 print("DEBUG: error -> \(error.description)")
             case .success(let followers):
                 self.followers.value = followers
+                self.dataFetchCounter.value += 1
             }
         }
     }
@@ -72,6 +74,7 @@ private extension AppUserViewModel {
                 print("DEBUG: error -> \(error.description)")
             case .success(let followedAccounts):
                 self.following.value = followedAccounts
+                self.dataFetchCounter.value += 1
             }
         }
     }
@@ -91,6 +94,7 @@ private extension AppUserViewModel {
                 print("DEBUG: error -> \(error.description)")
             case .success(let repos):
                 self.publicRepos.value = repos
+                self.dataFetchCounter.value += 1
             }
         }
     }
@@ -107,6 +111,7 @@ private extension AppUserViewModel {
                 print("DEBUG: error -> \(error.description)")
             case .success(let repos):
                 self.starredRepos.value = repos
+                self.dataFetchCounter.value += 1
             }
         }
     }
@@ -118,6 +123,7 @@ private extension AppUserViewModel {
         let imageCacheKey = NSString(string: avatarUrl)
         if let image = networkManager.persistanceManager.cache.object(forKey: imageCacheKey) {
             self.profileImage.value = image
+            self.dataFetchCounter.value += 1
             return
         }
         
@@ -131,7 +137,8 @@ private extension AppUserViewModel {
                 guard let image = UIImage(data: imageData) else { return }
                 self.networkManager.persistanceManager.cache.setObject(image, forKey: imageCacheKey)
                 DispatchQueue.main.async {
-                    self.profileImage.value = image                    
+                    self.profileImage.value = image
+                    self.dataFetchCounter.value += 1
                 }
             }
         }

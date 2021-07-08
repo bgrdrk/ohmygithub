@@ -12,7 +12,7 @@ struct AppUI {
     
     static let cornerRadius: CGFloat = 8
     static let spacing: CGFloat = 10
-    static let buttonHeight: CGFloat = 60
+    static let buttonHeight: CGFloat = 40
     static let sectionTitleHeight: CGFloat = 40
     static let heightOfLargeContainers: CGFloat = 100
     
@@ -45,7 +45,7 @@ struct AppUI {
         button.setTitle(text, for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.titleLabel?.font = button.titleLabel?.font.withSize(buttonFontSize)
-        button.backgroundColor = .systemOrange
+        button.backgroundColor = AppUI.appColor(.customWhite)
         button.heightAnchor.constraint(equalToConstant: buttonHeight).isActive = true
         button.layer.cornerRadius = cornerRadius
         return button

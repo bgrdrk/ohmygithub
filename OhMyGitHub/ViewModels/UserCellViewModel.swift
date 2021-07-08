@@ -9,6 +9,7 @@ class UserCellViewModel {
     var name = Observable("")
     var username = Observable("")
     var followers = Observable(Int(0))
+    var dataFetchCounter = Observable(0)
     
     init(networkManager: NetworkManager, account: GitHubAccount) {
         self.networkManager = networkManager
@@ -26,6 +27,7 @@ class UserCellViewModel {
         let imageCacheKey = NSString(string: account.avatarUrl)
         if let image = networkManager.persistanceManager.cache.object(forKey: imageCacheKey) {
             self.profileImage.value = image.roundedImage
+            self.dataFetchCounter.value += 1
             return
         }
         
@@ -38,6 +40,7 @@ class UserCellViewModel {
             case .success(let imageData):
                 guard let compressedImage = UIImage(data: imageData)?.compressedImage else { return }
                 self.networkManager.persistanceManager.cache.setObject(compressedImage, forKey: imageCacheKey)
+                self.dataFetchCounter.value += 1
                 DispatchQueue.main.async {
                     self.profileImage.value = compressedImage.roundedImage
                 }
@@ -51,6 +54,7 @@ class UserCellViewModel {
             user.value = loadedUser
             followers.value = loadedUser.followers
             name.value = loadedUser.name ?? ""
+            self.dataFetchCounter.value += 1
             return
         }
         
@@ -65,6 +69,7 @@ class UserCellViewModel {
                 self.followers.value = user.followers
                 self.name.value = user.name ?? ""
                 self.networkManager.persistanceManager.save(user, title: user.login)
+                self.dataFetchCounter.value += 1
             }
         }
     }

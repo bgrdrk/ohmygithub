@@ -11,7 +11,9 @@ class PublicUserViewModel {
     private(set) var following = Observable([GitHubAccount]())
     private(set) var publicRepos = Observable([Repository]())
     private(set) var starredRepos = Observable([Repository]())
-    private(set) var presentedUserIsFolloweByAppUser = Observable(false)
+
+    private(set) var dataFetchCounter = Observable(0)
+    private(set) var presentedUserIsFolloweByAppUser = Observable<Bool?>(nil)
     
     var onError: ((String?) -> Void)?
     var onUserIsAppUser: ((Bool) -> Void)?
@@ -41,6 +43,7 @@ class PublicUserViewModel {
         let imageCacheKey = NSString(string: account.value!.avatarUrl)
         if let image = networkManager.persistanceManager.cache.object(forKey: imageCacheKey) {
             self.profileImage.value = image.roundedImage
+            self.dataFetchCounter.value += 1
         }
     }
     
@@ -76,6 +79,7 @@ extension PublicUserViewModel {
                 print("DEBUG: error -> \(error.description)")
             case .success(let user):
                 self.user.value = user
+                self.dataFetchCounter.value += 1
             }
         }
     }
@@ -94,6 +98,7 @@ extension PublicUserViewModel {
                 print("DEBUG: error -> \(error.description)")
             case .success(let followers):
                 self.followers.value = followers
+                self.dataFetchCounter.value += 1
             }
         }
     }
@@ -113,6 +118,7 @@ extension PublicUserViewModel {
                 print("DEBUG: error -> \(error.description)")
             case .success(let followedAccounts):
                 self.following.value = followedAccounts
+                self.dataFetchCounter.value += 1
             }
         }
     }
@@ -132,6 +138,7 @@ extension PublicUserViewModel {
                 print("DEBUG: error -> \(error.description)")
             case .success(let repos):
                 self.publicRepos.value = repos
+                self.dataFetchCounter.value += 1
             }
         }
     }
@@ -151,6 +158,7 @@ extension PublicUserViewModel {
                 print("DEBUG: error -> \(error.description)")
             case .success(let repos):
                 self.starredRepos.value = repos
+                self.dataFetchCounter.value += 1
             }
         }
     }
@@ -159,15 +167,14 @@ extension PublicUserViewModel {
         guard let userLogin = account.value?.login.lowercased() else { return }
         
         let endpoint: Endpoint
-        if presentedUserIsFolloweByAppUser.value {
+        if let _ = presentedUserIsFolloweByAppUser.value {
             endpoint = EndpointCases.unfollowUser(login: userLogin)
         } else {
             endpoint = EndpointCases.followUser(login: userLogin)
         }
-        presentedUserIsFolloweByAppUser.value.toggle()
+        presentedUserIsFolloweByAppUser.value?.toggle()
         
-        networkManager.toggleFollowingUser(endpoint) { [weak self] result in
-            guard let self = self else { return }
+        networkManager.toggleFollowingUser(endpoint) { result in
             switch result {
             case .failure(let error):
                 // TODO: Handle error swiftly

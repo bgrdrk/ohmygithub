@@ -1,7 +1,7 @@
 import UIKit
 
 final class UserCellView: UIView {
-    
+
     private let profileImageView = UIImageView()
     private let nameLabel = UILabel().nameLabel
     private let usernameLabel = UILabel().usernameLabel

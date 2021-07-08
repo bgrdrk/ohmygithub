@@ -4,7 +4,6 @@ class LoginViewModel {
     private let appSessionManager: AppSessionManager!
     private let networkManager: NetworkManager!
     
-    var onError: ((String?) -> Void)?
     var onLogin: (() -> Void)?
     
     init(appSessionManager: AppSessionManager, networkManager: NetworkManager)

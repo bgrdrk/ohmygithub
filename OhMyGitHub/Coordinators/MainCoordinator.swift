@@ -35,11 +35,11 @@ class MainCoordinator: CoordinatorProtocol {
     // MARK: - Authentication Flow
     
     func startAuthenticationFlow() {
-        guard navigationController.viewControllers.first is LoginViewController else {
+
             let vc = viewControllersFactory.makeLoginViewController(coordinator: self)
             navigationController.pushViewController(vc, animated: true)
-            return
-        }
+            
+
     }
     
     // MARK: - Controlling the Navigation Stack
