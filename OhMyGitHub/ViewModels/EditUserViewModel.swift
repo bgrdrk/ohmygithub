@@ -34,7 +34,6 @@ class EditUserViewModel {
             }
         }
     }
-
 }
 
     // MARK: - Network calls

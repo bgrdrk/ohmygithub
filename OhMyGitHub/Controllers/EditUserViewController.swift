@@ -6,6 +6,13 @@ class EditUserViewController: UIViewController {
     
     private let viewModel: EditUserViewModel
     weak var coordinator: MainCoordinator?
+
+    private var allFieldsAreEmpty: Bool {
+        nameTextField.text!.isEmpty
+        && companyTextField.text!.isEmpty
+        && nameTextField.text!.isEmpty
+        && twitterUsernameTextField.text!.isEmpty
+    }
     
     init(viewModel: EditUserViewModel) {
         self.viewModel = viewModel
@@ -28,9 +35,7 @@ class EditUserViewController: UIViewController {
     private lazy var twitterContainer = AppUI.inputFieldContainerView(with: twitterUsernameTextField)
     
     private let submitButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .systemYellow
-        button.setTitle("Submit", for: .normal)
+        let button = AppUI.actionButton(withText: "Submit")
         button.addTarget(self, action: #selector(handleSubmitTap), for: .touchUpInside)
         return button
     }()
@@ -66,6 +71,11 @@ class EditUserViewController: UIViewController {
     // MARK: - Selectors
         
     @objc private func handleSubmitTap() {
+
+        guard !allFieldsAreEmpty else {
+            coordinator?.presentAlert(title: "All fields are empty", message: "Please fill at least one property to update")
+            return
+        }
         
         let name = nameTextField.text!.isEmpty ? nil : nameTextField.text!
         let company = companyTextField.text!.isEmpty ? nil : companyTextField.text!
@@ -84,19 +94,28 @@ class EditUserViewController: UIViewController {
     // MARK: - UI Configuration
     
     private func configureUI() {
-        
+        let spacing = AppUI.spacing + 10
+        view.backgroundColor = AppUI.appColor(.lightGrey)
         let stack = UIStackView(arrangedSubviews: [nameContainer, companyContainer,
-                                                   locationContainer, twitterContainer, submitButton])
+                                                   locationContainer, twitterContainer])
         stack.axis = .vertical
         stack.spacing = 10
+        stack.backgroundColor = .white
+        stack.layer.cornerRadius = AppUI.cornerRadius
         
         view.addSubview(stack)
         stack.anchor(top: view.safeAreaLayoutGuide.topAnchor,
                      left: view.leftAnchor,
                      right: view.rightAnchor,
-                     paddingTop: 10,
-                     paddingLeft: 30,
-                     paddingRight: 30)
+                     paddingTop: spacing,
+                     paddingLeft: spacing,
+                     paddingRight: spacing)
+
+        view.addSubview(submitButton)
+        submitButton.anchor(top: stack.bottomAnchor,
+                            left: stack.leftAnchor,
+                            right: stack.rightAnchor,
+                            paddingTop: spacing)
     }
 }
 
