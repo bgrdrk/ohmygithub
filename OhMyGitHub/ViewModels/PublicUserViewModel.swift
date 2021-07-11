@@ -5,7 +5,7 @@ class PublicUserViewModel {
     private let appSessionManager: AppSessionManager!
     
     private(set) var profileImage = Observable<UIImage>(UIImage(named: "github_avatar")!)
-    private(set) var account = Observable<GitHubAccount?>(nil)
+    private(set) var account: GitHubAccount!
     private(set) var user = Observable<PublicGitHubUser?>(nil)
     private(set) var followers = Observable([GitHubAccount]())
     private(set) var following = Observable([GitHubAccount]())
@@ -21,7 +21,7 @@ class PublicUserViewModel {
     
     init(account: GitHubAccount, networkManager: NetworkManager, appSessionManager: AppSessionManager)
     {
-        self.account.value = account
+        self.account = account
         self.networkManager = networkManager
         self.appSessionManager = appSessionManager
     }
@@ -40,7 +40,7 @@ class PublicUserViewModel {
     // MARK: - Helpers
     
     private func setProfileImage() {
-        let imageCacheKey = NSString(string: account.value!.avatarUrl)
+        let imageCacheKey = NSString(string: account.avatarUrl)
         if let image = networkManager.persistanceManager.cache.object(forKey: imageCacheKey) {
             self.profileImage.value = image.roundedImage
             self.dataFetchCounter.value += 1
@@ -48,7 +48,7 @@ class PublicUserViewModel {
     }
     
     private func checkIfPresentedUserIsAppUser() {
-        if account.value?.login == appSessionManager.appUser?.login {
+        if account.login == appSessionManager.appUser?.login {
             onUserIsAppUser?(true)            
         }
     }
@@ -59,12 +59,6 @@ class PublicUserViewModel {
 extension PublicUserViewModel {
     
     private func fetchUserData() {
-
-        guard let account  = account.value else {
-            // TODO: Handle error swiftly
-            print("DEBUG: Account must not be nil here")
-            return
-        }
         
         if let loadedUser = try? networkManager.persistanceManager.load(title: account.login) as PublicGitHubUser {
             user.value = loadedUser
@@ -85,11 +79,7 @@ extension PublicUserViewModel {
     }
     
     private func fetchFollowers() {
-        guard let account  = account.value else {
-            // TODO: Handle error swiftly
-            print("DEBUG: Account must not be nil here")
-            return
-        }
+
         networkManager.getFollowers(of: account.login) { [weak self] result in
             guard let self = self else { return }
             switch result {
@@ -104,11 +94,7 @@ extension PublicUserViewModel {
     }
     
     private func fetchFollowedAccounts() {
-        guard let account  = account.value else {
-            // TODO: Handle error swiftly
-            print("DEBUG: Account must not be nil here")
-            return
-        }
+
         let endpoint = EndpointCases.getUsersFollowedAccounts(login: account.login)
         networkManager.getFollowedAccounts(endpoint) { [weak self] result in
             guard let self = self else { return }
@@ -124,11 +110,7 @@ extension PublicUserViewModel {
     }
     
     private func fetchUsersPublicRepos() {
-        guard let account  = account.value else {
-            // TODO: Handle error swiftly
-            print("DEBUG: Account must not be nil here")
-            return
-        }
+
         let endpoint = EndpointCases.getUsersPublicRepos(login: account.login)
         networkManager.getUsersRepos(endpoint) { [weak self] result in
             guard let self = self else { return }
@@ -144,11 +126,7 @@ extension PublicUserViewModel {
     }
     
     private func fetchStarredRepos() {
-        guard let account  = account.value else {
-            // TODO: Handle error swiftly
-            print("DEBUG: Account must not be nil here")
-            return
-        }
+
         let endpoint = EndpointCases.getUsersStarredRepos(login: account.login)
         networkManager.getUsersRepos(endpoint) { [weak self] result in
             guard let self = self else { return }
@@ -164,9 +142,9 @@ extension PublicUserViewModel {
     }
     
     func followUnfollowUser() {
-        guard let userLogin = account.value?.login.lowercased(),
-              let userIsFolloweByAppUser = presentedUserIsFolloweByAppUser.value else { return }
-        
+        guard let userIsFolloweByAppUser = presentedUserIsFolloweByAppUser.value else { return }
+
+        let userLogin = account.login.lowercased()
         let endpoint: Endpoint
         if userIsFolloweByAppUser {
             endpoint = EndpointCases.unfollowUser(login: userLogin)
@@ -187,8 +165,9 @@ extension PublicUserViewModel {
     }
     
     private func checkIfAppUserFollowsPresentedUser() {
-        guard let userLogin = account.value?.login.lowercased(),
-              let appUserLogin = appSessionManager.appUser?.login.lowercased() else { return }
+        guard let appUserLogin = appSessionManager.appUser?.login.lowercased() else { return }
+
+        let userLogin = account.login.lowercased()
         let endpoint = EndpointCases.checkIfAppUserFollowsUserWith(login: userLogin, appUser: appUserLogin)
         networkManager.checkIfAppUserFollowsAnotherUser(endpoint) { [weak self] result in
             guard let self = self else { return }

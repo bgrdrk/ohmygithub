@@ -33,6 +33,7 @@ class EditUserViewController: UIViewController {
     private lazy var companyContainer = AppUI.inputFieldContainerView(with: companyTextField)
     private lazy var locationContainer = AppUI.inputFieldContainerView(with: locationTextField)
     private lazy var twitterContainer = AppUI.inputFieldContainerView(with: twitterUsernameTextField)
+    private let spacer = UIView()
     
     private let submitButton: UIButton = {
         let button = AppUI.actionButton(withText: "Submit")
@@ -95,9 +96,10 @@ class EditUserViewController: UIViewController {
     
     private func configureUI() {
         let spacing = AppUI.spacing + 10
+        spacer.setDimensions(height: 3)
         view.backgroundColor = AppUI.appColor(.lightGrey)
         let stack = UIStackView(arrangedSubviews: [nameContainer, companyContainer,
-                                                   locationContainer, twitterContainer])
+                                                   locationContainer, twitterContainer, spacer])
         stack.axis = .vertical
         stack.spacing = 10
         stack.backgroundColor = .white

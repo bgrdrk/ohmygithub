@@ -40,7 +40,7 @@ final class PersistanceManager: PersistanceCoordinator {
     }
     
     public func deletePersistedTokenData() {
-        userDefaults.removeObject(forKey: "User Data")
+        userDefaults.removeObject(forKey: "Token Data")
     }
     
     public func deleteAllPersistedData() {
